@@ -9,7 +9,7 @@ Layout = React.createClass({
 Layout.Logo = React.createClass({
 	render: function(){
 		return (
-				<div className="logo">
+				<div className="logo" onClick={()=>{FlowRouter.redirect("/")}}>
 				<span className="logo-circle">
 					<i className="fa fa-cutlery logo-icon"></i>
 				</span>
