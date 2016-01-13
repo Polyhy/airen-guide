@@ -42,7 +42,7 @@ PolyhyComponent.InputAddressAndMap = React.createClass({
 					<input type="text" className="form-control" ref="inputAddress"
 								 name={this.props.name}
 								 placeholder={this.props.placeholder}
-								 onFocus={this.findAddress}/>
+								 onClick={this.findAddress}/>
 					<div ref="mapView" style={{width:"100%", height:this.props.height}}>
 					</div>
 				</div>

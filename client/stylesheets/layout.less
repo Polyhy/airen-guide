@@ -503,15 +503,7 @@ nav a:focus {
 
 //add restaurant form
 
-.add-paired-item .append-item-form,
-.add-paired-item .input-item{
-  display: inline-block;
-  vertical-align: top;
-}
 
-.add-paired-item .append-item-form{
-  width: 40%;
-}
 
 #add-restaurant{
   & label{
@@ -527,40 +519,97 @@ nav a:focus {
     width: 60px;
     display: inline-block;
   }
+
+  #rest-week-day, #rest-date{
+    font-weight: 300;
+    margin-top: 12px;
+    display: inline-block;
+  }
+  
+  #rest-week-day select, #rest-date input{
+    width: 60px;
+    text-align: right;
+    display: inline-block;
+    margin-left: 12px;
+    margin-right: 6px;
+  }
+
+  & .input-item{
+    display: inline-block;
+    vertical-align: top;
+
+    margin-left: 20px;
+    width: 320px;
+    max-height: 126px;
+    overflow: scroll;
+
+    &>p {
+      display: block;
+      padding: 1px 16px;
+      font-size: 16px;
+      font-weight: 300;
+      border-radius: 16px;
+      cursor: pointer;
+      white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
+.add-paired-item{
 
-.add-paired-item .input-item{
-  margin-left: 5%;
-  width: 55%;
-  height: 126px;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  & .append-item-form{
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+
+    & .input-group{
+      margin-bottom: 12px;
+    }
+  }
+
 }
 
-.add-paired-item .append-item-form .input-group{
-  margin-bottom: 12px;
-}
+//.add-paired-item .append-item-form,
+//.add-paired-item
 
-.add-paired-item .input-item>p {
-  display: block;
-  width: auto;
-  /* background-color: skyblue; */
-  padding: 1px 16px;
-  font-size: 16px;
-  font-weight: 300;
-  /* color: #fff; */
-  border-radius: 16px;
-  cursor: pointer;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+//.add-paired-item
 
-.add-paired-item .input-item>p:hover{
-  text-decoration: underline;
-}
+
+//.add-paired-item .input-item{
+//  margin-left: 5%;
+//  width: 55%;
+//  height: 126px;
+//  overflow-x: scroll;
+//  overflow-y: hidden;
+//}
+
+//.add-paired-item .append-item-form .input-group{
+//  margin-bottom: 12px;
+//}
+
+//.add-paired-item .input-item>p {
+//  display: block;
+//  padding: 1px 16px;
+//  font-size: 16px;
+//  font-weight: 300;
+//  border-radius: 16px;
+//  cursor: pointer;
+//  white-space: nowrap;
+//  width: 100%;
+//  overflow: hidden;
+//  text-overflow: ellipsis;
+//}
+
+//.add-paired-item .input-item>p:hover{
+//  text-decoration: underline;
+//}
 
 .btn-file-upload{
   width: 160px;
