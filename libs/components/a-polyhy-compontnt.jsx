@@ -79,19 +79,21 @@ PolyhyComponent.RatingStar = React.createClass({
 		return _.range(count).map((i)=>{
 			return(
 					<span key={"star-"+i}>
-						<input type="radio" name="rating" value={i}></input>
+						<input type="radio" name="rating" value={count-i}></input>
 						<i className="fa fa-star-o"></i>
 					</span>
 			);
 		})
 	},
 	componentDidMount:function(){
+		var inputRatingScore = this.refs.ratingScore;
 		var $parent = $(this.refs.rate);
 		var $targert = $(this.refs.rate).children("span").children("i");
 		$targert.on('click', function(e){
 			$parent.children("span.active").removeClass("active");
 			$(this).parent("span").addClass("active");
 			$(this).prev("input").prop("checked", "true");
+			inputRatingScore.value = $(this).prev("input").val();
 		});
 	},
 	render:function(){
@@ -105,7 +107,7 @@ PolyhyComponent.RatingStar = React.createClass({
 					</div>
 					<input type="text"
 								 className="form-control hide"
-								 name={this.props.name}
+								 name={this.props.name} ref="ratingScore"
 								 disabled/>
 				</div>
 		);
