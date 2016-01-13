@@ -1,2 +1,3 @@
 .meteor/local/*
-.meteor/
+*.DS_Store
+.idea/*
