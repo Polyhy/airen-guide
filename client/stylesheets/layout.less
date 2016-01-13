@@ -1,0 +1,742 @@
+@brand-light: #fff;
+@brand-normal: #645f58;
+@brand-dark: #2f2c27;
+@brand-green: #11bb75;
+@brand-light-blue: #2894de;
+@brand-red: #ba2929;
+@brand-yellow: #ffd508;
+
+.warn {
+  color: lighten(@brand-red, 10%);
+}
+
+html, body, #root, #react-root{
+  height: 100%;
+}
+body{
+  color: @brand-dark;
+  font-weight: 100;
+  font-size: 16px;
+}
+p{
+  margin: 0;
+  vertical-align: text-bottom;
+}
+input{
+  font-size: 16px;
+  font-weight: 200;
+}
+textarea{
+  resize: none;
+  line-height: 18px;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: none;
+  outline-offset: 0;
+}
+
+.form-control:focus{
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+}
+
+.text-title {
+  text-align: center;
+}
+
+.btn,
+.btn:hover,
+.btn:visited,
+.btn:focus,
+.btn:active{
+  color:#fff;
+  font-weight: 700;
+}
+
+.btn-default,
+.btn-default:hover,
+.btn-default:visited,
+.btn-default:focus,
+.btn-default:active{
+  //border:none;
+  color:#666;
+  background-color: #fff;
+}
+
+.btn-ok{
+  background-color: @brand-green;
+  border: solid 1px @brand-green - #222;
+}
+.btn-next{
+  background-color: @brand-light-blue;
+  border: solid 1px @brand-light-blue - #222;
+}
+
+.contents-block {
+  margin-top: 42px;
+}
+
+
+
+//sidebar
+.sidebar--menu{
+  float: left;
+  height: 100%;
+  position: fixed;
+  background: #586064;
+  z-index: 1;
+}
+
+nav{
+  margin-left: 40px;
+}
+
+nav a {
+  font-size: 18px;
+  font-weight: 700;
+  display: block;
+  margin: 8px 0;
+  letter-spacing: .5px;
+  word-spacing: 2px;
+}
+
+nav a,
+nav a:hover,
+nav a:visited,
+nav a:focus {
+  color: @brand-light;
+  text-decoration: none;
+}
+
+
+.btn-show-sidebar{
+  position: fixed;
+  left: -12px;
+  top: 16px;
+  width: 68px;
+  height: 36px;
+  display: inline-block;
+  background-color: #ba2929;
+  color: #fff;
+  font-size: 18px;
+  line-height: 36px;
+  font-weight: 500;
+  padding-left: 4px;
+  cursor: pointer;
+  text-align: right;
+  padding-right: 4px;
+  z-index: 2;
+}
+
+.btn-show-sidebar::after,
+.btn-show-sidebar::before{
+  content: "";
+  position: absolute;
+  left: 68px;
+  border-right: 12px solid transparent;
+}
+
+.btn-show-sidebar::before{
+  border-top: 18px solid @brand-red;
+  border-bottom: 18px solid transparent;
+}
+
+.btn-show-sidebar::after{
+  border-bottom: 18px solid @brand-red;
+  border-top: 18px solid transparent;
+}
+
+
+
+//logo
+.logo{
+  position: relative;
+  margin: 30px 40px 72px;
+}
+.logo-circle{
+  display: table;
+  background-color: #fff768;
+  background: linear-gradient(135deg, #FFF876 50%, #FFE35A 50%);
+  border-radius: 50%;
+  position: relative;
+  z-index: 5;
+}
+
+.logo-icon {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  color: #FFD508;;
+  text-shadow: 2px 0px #FFF876, 0px 2px #FFF876;
+}
+
+.logo-icon::after {
+  content: "Airenguide";
+  position: absolute;
+  letter-spacing: 3px;
+  color: #FFF876;
+  text-shadow: 1px 0px #FFD508, 0px 1px #FFD508, -1px 0px #FFD508, 0px -1px #FFD508;
+}
+
+.logo-ribbon:after,
+.logo-ribbon:before{
+  content: '';
+  position: absolute;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform:    rotate(-90deg);
+  -ms-transform:     rotate(-90deg);
+  -o-transform:      rotate(-90deg);
+}
+.logo-ribbon:before{
+  -webkit-transform: rotate(90deg);
+  -moz-transform:    rotate(90deg);
+  -ms-transform:     rotate(90deg);
+  -o-transform:      rotate(90deg);
+}//logo
+
+//logo-size
+.logo{
+  width: 120px;
+}
+.logo-circle{
+  width: 120px;
+  height: 120px;
+}
+.logo-icon{
+  font-size: 80px;
+}
+.logo-icon::after {
+  font-size: 18px;
+  top: 110px;
+  left: 100px;
+}
+
+.logo-ribbon:after,
+.logo-ribbon:before {
+  border-bottom: 60px solid #D04153;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  bottom: -20px;
+}
+.logo-ribbon:before{
+  left: 15px;
+}
+.logo-ribbon:after {
+  right: 15px;
+}//logo-size
+
+
+
+//profile
+.profile {
+  margin: 0px 0px 36px 40px;
+}
+
+.profile--image {
+  width: 48px;
+  height: 48px;
+  background: @brand-light + #222;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.profile--info {
+  display: inline-block;
+  height: 48px;
+  margin: 0px 0px 0px 12px;
+  vertical-align: super;
+}
+
+.profile--user-name {
+  display: inline-block;
+  color: @brand-light+#222;
+  letter-spacing: 1px;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0px 0px 0px 0px;
+}
+
+.profile--btn-logout {
+  margin-left: 12px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.profile--btn-logout,
+.profile--btn-logout:hover,
+.profile--btn-logout:visited,
+.profile--btn-logout:active,
+.profile--btn-logout:focus{
+  color: @brand-green;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.profile--team-name {
+  color: @brand-light - #111;
+  letter-spacing: 1px;
+  font-weight: 300;
+}//profile
+
+//map
+#team-view {
+  padding-top: 80px;
+}
+
+#team-view #team-view--map-box{
+  width: 65%;
+  height: 300px;
+  display: inline-block;
+  float: left;
+  border-right: solid 3px #fff;
+}
+
+#team-view #team-view--team-info{
+  width: 35%;
+  height: 300px;
+  display: inline-block;
+  float: right;
+  background-color: @brand-green;
+  color: #FFF
+}
+
+#team-view--team-info .title {
+  padding-left: 5%;
+  margin-top: 24px;
+  margin-bottom: 2px;
+  letter-spacing: 1px;
+  font-size: 24px;
+}
+
+#team-view--team-info hr{
+  border: none;
+  border-bottom: solid 3px #FFF;
+  width: 90%;
+  margin: 0 auto;
+}
+
+#team-view--team-info table {
+  font-size: 16px;
+  font-weight: 500;
+  width: 90%;
+  margin: 24px 5% 0px;
+}
+
+#team-view--team-info td {
+  vertical-align: top;
+  padding-bottom: 4px;
+}
+
+#team-view--team-info .key {
+  width: 30%;
+}
+
+#btn-add-restaurant {
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
+}//map
+
+
+
+//login, signup, create team
+.login-account{
+  margin: 0 auto;
+  display: table;
+  height: 100%;
+  width: 364px;
+}
+.login-account--wrapper{
+  display: table-cell;
+  vertical-align: middle;
+}
+.login-account--row{
+  background: #FFF;
+  padding: 60px 15px 30px;
+  border-radius: 4px;
+  position: relative;
+}
+
+#login-account--btn-back{
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  font-size: 32px;
+  cursor: pointer;
+  color: lighten(@brand-light-blue, 10%);
+}
+
+.login-account .text-title{
+  margin: 0px;
+}
+
+.login-account .tip{
+  margin-top: 12px;
+  margin-bottom: 28px;
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: lighten(@brand-dark, 20%)
+}
+
+.login-account .warn {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  word-spacing: 1.5px;
+  height: 18px;
+  padding-left: 2px;
+}
+
+.login-account button,
+.login-account .btn{
+  width: 100%;
+}
+
+#login .divide {
+  width: 100%;
+  margin: 0 auto;
+}
+
+#login .divide>hr {
+  width: 40%;
+  display: inline-block;
+  border-color: #aaa;
+  vertical-align: middle;
+  margin: 30px 0;
+}
+
+#login .divide>span {
+  display: inline-block;
+  margin: 0 5%;
+  width: 10%;
+  font-size: 14px;
+  text-align: center;
+}
+
+#signup #signup-tip,
+#create-team #signup-tip{
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 32px;
+  word-spacing: 1px;
+}
+
+#remember-me{
+  text-align: right;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 400;
+}
+#remember-me *{
+  vertical-align: middle;
+}
+
+#login #signup-tip {
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 28px;
+  word-spacing: 1px;
+}
+
+#login #signup-tip a {
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}//login, signup, create team
+
+
+
+.rating-star{
+  font-size: 32px;
+  position: relative;
+
+  &>fieldset{
+    display: inline-block;
+    border: none;
+
+    & i{
+      float: right;
+      margin-left: 2px;
+      cursor: pointer;
+      color: @brand-yellow;
+      position: relative;
+    }
+
+    & input{
+      position: absolute;
+      top: -9999px;
+      clip: rect(0,0,0,0);
+    }
+
+    &>span{
+      position: relative;
+      display: inline-block;
+      float: right;
+      &:hover>i,
+      &:hover~span>i{
+        color: @brand-yellow;
+        &:before {
+          content: '\f005  ';
+        }
+      }
+
+      &.active{
+        &>i:before,
+        &~span>i:before{
+          content: '\f005';
+        }
+      }
+    }
+  }
+}
+
+
+//add restaurant form
+
+.add-paired-item .append-item-form,
+.add-paired-item .input-item{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.add-paired-item .append-item-form{
+  width: 40%;
+}
+
+#add-restaurant{
+  & label{
+    display: block;
+  }
+
+  & #btn-submit{
+    margin-top: 48px;
+    width: 100%;
+  }
+
+  & input[type=number]{
+    width: 60px;
+    display: inline-block;
+  }
+}
+
+
+.add-paired-item .input-item{
+  margin-left: 5%;
+  width: 55%;
+  height: 126px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.add-paired-item .append-item-form .input-group{
+  margin-bottom: 12px;
+}
+
+.add-paired-item .input-item>p {
+  display: block;
+  width: auto;
+  /* background-color: skyblue; */
+  padding: 1px 16px;
+  font-size: 16px;
+  font-weight: 300;
+  /* color: #fff; */
+  border-radius: 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.add-paired-item .input-item>p:hover{
+  text-decoration: underline;
+}
+
+.btn-file-upload{
+  width: 160px;
+  height: 160px;
+  border: solid 2px @brand-green;
+  cursor: pointer;
+  color: @brand-green;
+  font-size: 64px;
+  line-height: 160px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.polyhy--add-photo input[type="file"] {
+  display: block;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.file-upload-images{
+  display: inline-block;
+  height: 160px;
+  width: 460px;
+  overflow: scroll;
+  padding-top: 8px;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.appended-image {
+  display: inline-block;
+  width: 142px;
+  height: 142px;
+  margin-right: 20px;
+  vertical-align: middle;
+  line-height: 136px;
+  border: dashed 1px #bbb;
+  position: relative;
+  text-align: center;
+  background: #fafbfc;
+  margin-bottom: 8px;
+}
+
+.appended-image> img{
+  max-width: 140px;
+  max-height: 140px;
+  height: auto;
+  width: auto;
+  vertical-align: middle;
+}
+
+.appended-image> span{
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  background: #333;
+  text-align: center;
+  line-height: 76px;
+  color: #fff;
+  font-size: 48px;
+  font-weight: 100;
+  border-radius: 50%;
+  cursor: pointer;
+  left: 34px;
+  top: 34px;
+  opacity: 0.9;
+}
+
+@media only screen and (max-width: 767px) {
+  #team-view #team-view--team-info {
+    width: 100%;
+  }
+  #team-view #team-view--map-box{
+    display: none;
+  }
+  .sidebar--menu{
+    width: 288px;
+    left: -288px;
+  }
+
+  .login-account{
+    width: 100%;
+    float: left;
+  }
+  .login-account--wrapper{
+    vertical-align: top;
+  }
+
+  #add-restaurant{
+    & .title{
+      margin-bottom: 22px;
+    }
+
+    & #add-restaurant-form{
+      width: 100%;
+    }
+  }
+
+  .add-paired-item .append-item-form {
+    width: 50%;
+  }
+
+  .add-paired-item .input-item {
+    margin-left: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .file-upload-images{
+    width: 160px;
+    height: auto;
+  }
+
+}
+
+@media only screen and (min-width: 768px) {
+  #team-view #team-view--team-info {
+    width: 35%;
+  }
+  #team-view #team-view--map-box{
+    display: inline-block;
+    width: 65%;
+  }
+  .sidebar--menu{
+    width: 310px;
+    left: -310px;
+  }
+
+  .login-account{
+    width: 364px;
+  }
+
+  #find-address {
+    position: absolute;
+    border: solid 42px #fff;
+    border-radius: 18px;
+    left: 50%;
+    margin-left: -25%;
+    top: 50%;
+    margin-top: -25%;
+    display: none;
+    background: #fff;
+  }
+
+}
+
+
+@media only screen and  (min-width: 992px) {
+  #team-view #team-view--team-info {
+    width: 25%;
+  }
+  #team-view #team-view--map-box{
+    display: inline-block;
+    width: 75%;
+  }
+
+  .sidebar--menu{
+    width: 324px;
+    left: -324px;
+  }
+
+  #add-restaurant{
+    & .form-group{
+      margin-bottom: 42px;
+    }
+
+    & #add-restaurant-form{
+      width: 660px;
+    }
+  }
+}
+
+//@media only screen and  (min-width: 1024px) {
+//  .sidebar--menu{
+//    width: 243px;
+//    left: -243px;
+//  }
+//}

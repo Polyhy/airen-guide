@@ -1,0 +1,10 @@
+{
+    "redis": "0.8.2",
+    "github": "0.1.8",
+    "react": "0.13.2",
+    "react-tools": "0.13.2",
+    "react-router": "1.0.2",
+    "externalify": "0.1.0",
+	"jsx-to-string": "0.2.8",
+	"jsx-to-html": "1.1.0"
+}
