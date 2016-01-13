@@ -145,9 +145,16 @@ var InputRestDate = React.createClass({
 	}
 });
 
+
+
+
+
 AddRestaurant = React.createClass({
 	componentDidMount: function(){
 		$("#btn-add-restaurant").addClass('hide');
+	},
+	componentWillUnmount: function(){
+		$("#btn-add-restaurant").removeClass('hide');
 	},
 	render: function(){
 		return (
