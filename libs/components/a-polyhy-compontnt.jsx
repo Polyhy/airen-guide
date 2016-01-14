@@ -12,7 +12,8 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 		width: PropTypes.string.isRequired,
 		height: PropTypes.string.isRequired,
 		placeholder: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired
+		name: PropTypes.string.isRequired,
+		detail: PropTypes.bool
 	},
 	componentDidMount: function(){
 		var mapView = this.refs.mapView;
@@ -50,6 +51,9 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 								 name={this.props.name}
 								 placeholder={this.props.placeholder}
 								 onFocus={this.findAddress}/>
+					<input type="text" className={"form-control"+(this.props.detail?"":" hide")}
+								 name={this.props.name+"-detail"}
+								 placeholder="상세주소" style={{marginTop: "6px"}}/>
 					<input type="text" className="form-control hide" ref="inputLat"
 								 name={this.props.name+"-lat"} disabled/>
 					<input type="text" className="form-control hide" ref="inputLng"
