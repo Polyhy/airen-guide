@@ -164,6 +164,17 @@ AddRestaurant = React.createClass({
 						<InputText name={"name"} label={"밥집 이름"}/>
 						<AddPhoto name={"photo"} label={"사진"}/>
 						<InputMenuAndPrice />
+						<div className="form-group">
+							<label>최대 인원</label>
+							<div style={{width: "120px"}}>
+								<div className="input-group">
+									<input type="text" ref="time"
+												 className="form-control"
+												 name="max-member" placeholder=""/>
+									<div className="input-group-addon">명</div>
+								</div>
+							</div>
+						</div>
 						<InputAddressAndMap
 								label={"주소"} name={"address"}
 								placeholder={"Click Me!"}
