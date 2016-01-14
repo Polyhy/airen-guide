@@ -164,20 +164,11 @@ AppLayout = React.createClass({
 	subItem: {},
 	getInitialState: function() {
 		var user = Meteor.user();
-		//var team = null;
-		//if(user){
-		//	this.subItem.team = Meteor.subscribe('teams', user.profile.teamId);
-		//	this.subItem.teamMember = Meteor.subscribe('team-members', user.profile.teamId);
-		//
-		//	team = Teams.findOne({_id: user.profile.teamId});
-		//}
 		return {user: user};
 	},
 	componentWillMount: function(){
 		if(Meteor.isClient && !this.state.user)FlowRouter.redirect('/user/login');
 		this.subItem.team = Meteor.subscribe('teams');
-		//this.subItem.teamMember = Meteor.subscribe('team-members', user.profile.teamId);
-		//if(!this.state.team.latang)FlowRouter.reload();
 	},
 	componentWillUnmount: function(){
 		for(k in this.subItem){
