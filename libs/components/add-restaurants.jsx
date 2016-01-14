@@ -1,5 +1,5 @@
 const {PropTypes} = React;
-const {InputAddressAndMap, InputText, TextArea, AddPhoto, RatingStar, ...polyhyC} = PolyhyComponent;
+const {InputAddressAndMap, InputText, TextArea, UploadPhoto, RatingStar, ...polyhyC} = PolyhyComponent;
 
 var InputMenuAndPrice = React.createClass({
 	appenItem: function(event){
@@ -150,11 +150,17 @@ var InputRestDate = React.createClass({
 
 
 AddRestaurant = React.createClass({
+	getInitialState: function(){
+		return {restaurantImage: []};
+	},
 	componentDidMount: function(){
 		$("#btn-add-restaurant").addClass('hide');
 	},
 	componentWillUnmount: function(){
 		$("#btn-add-restaurant").removeClass('hide');
+	},
+	submitForm: function(){
+		console.log(this.state.restaurantImage)
 	},
 	render: function(){
 		return (
@@ -162,7 +168,8 @@ AddRestaurant = React.createClass({
 					<h1 className="title"><i className="fa fa-map-marker"></i> 새로운 밥집 추가</h1>
 					<form id="add-restaurant-form">
 						<InputText name={"name"} label={"밥집 이름"}/>
-						<AddPhoto name={"photo"} label={"사진"}/>
+						<UploadPhoto name={"photo"} label={"사진"}
+												 count={5} images={this.state.restaurantImage}/>
 						<InputMenuAndPrice />
 						<div className="form-group">
 							<label>최대 인원</label>
@@ -187,7 +194,8 @@ AddRestaurant = React.createClass({
 						<RatingStar name={"rating-star"} label={"별점"} starCount={3}/>
 						<TextArea name={"comment"} label={"아이레너 코멘트"}/>
 						<TextArea name={"tag"} label={"태그 (선택)"}/>
-						<button type="button" id="btn-submit" className="btn btn-ok">등록하기</button>
+						<button type="button" id="btn-submit" className="btn btn-ok"
+										onClick={this.submitForm}>등록하기</button>
 					</form>
 				</div>
 		)

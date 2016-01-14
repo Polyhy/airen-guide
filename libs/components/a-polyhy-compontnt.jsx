@@ -153,30 +153,43 @@ PolyhyComponent.TextArea = React.createClass({
 	}
 });
 
-PolyhyComponent.AddPhoto = React.createClass({
+PolyhyComponent.UploadPhoto = React.createClass({
 	propTypes: {
 		name: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired
+		label: PropTypes.string.isRequired,
+		count: PropTypes.number.isRequired,
+		images: PropTypes.array.isRequired
 	},
-	images: [],
 	readImage: function(event){
 		if (event.target.files && event.target.files[0]) {
-			if(this.images.length > 4){return;}
-			this.imageLength++;
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				var tag = "" +
-						"<div class='appended-image'>" +
+			if(this.props.count==-1 || this.props.images.length < this.props.count){
+				var reader = new FileReader();
+				var arrImages = this.props.images;
+				var $uploadedImages = $(this.refs.uploaded);
+				reader.onload = function(e) {
+					var tag = "" +
+							"<div class='appended-image'>" +
 							"<img src='#'/>" +
 							"<span><i class='fa fa-times'></i></span>" +
-						"</div>";
-				$('.file-upload-images').append(tag);
-				$('.file-upload-images img:last').attr('src', e.target.result);
-				$('.file-upload-images span').on('click', function(e){
-					$(this).parent().remove();
-				})
-			};
-			reader.readAsDataURL(event.target.files[0]);
+							"</div>";
+					arrImages.push(e.target.result);
+					$uploadedImages.append(tag);
+					$uploadedImages.find('img:last').attr('src', e.target.result);
+					$uploadedImages.find('span').on('click', function(e){
+						var $image = $(this).parent();
+						var index = $uploadedImages.children().index($image);
+						if (index>-1){
+							$image.remove();
+							arrImages.splice(index, 1);
+							console.log(arrImages);
+						}
+					});
+				};
+				reader.readAsDataURL(event.target.files[0]);
+			}else{
+				$(this.refs.warning).text("사진은 "+this.props.count+"장 까지 업로드 할 수 있습니다");
+				console.log(this.props.images)
+			}
 		}
 	},
 	render:function(){
@@ -190,7 +203,8 @@ PolyhyComponent.AddPhoto = React.createClass({
 							 onClick={(event)=>{$(this.refs.inputTag).trigger('click')}}>
 						<i className="fa fa-plus-circle"></i>
 					</div>
-					<div className="file-upload-images"/>
+					<div className="file-upload-images" ref="uploaded"/>
+					<p className="warn" ref="warning"></p>
 				</div>
 		)
 	}

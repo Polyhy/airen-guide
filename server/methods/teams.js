@@ -1,6 +1,5 @@
-var TeamController = function(){
-
-	var validateTeam = function(teamInfo, verifyToken){
+var teamController = {
+	validateTeam: (teamInfo, verifyToken)=>{
 		var errors = {};
 		if(!teamInfo.name)
 			errors.teamName = "team name is null";
@@ -12,14 +11,12 @@ var TeamController = function(){
 			errors.teamAdd = "team latlng is null";
 		if(!verifyToken)
 			errors.userId = "verifyToken is null";
+		return errors;
+	},
 
-		return errors
-	};
-
-	this.createTeam = function(teamInfo, verifyToken){
-		var errors = validateTeam(teamInfo, verifyToken);
-		if (Object.keys(errors).length > 0)
-			throw new Meteor.Error('invalid-team', errors);
+	createTeam: function(teamInfo, verifyToken){
+		var errors = this.validateTeam(teamInfo, verifyToken);
+		if (_.keys(errors).length > 0)throw new Meteor.Error('invalid-input', errors);
 
 		check(verifyToken, String);
 		check(teamInfo, {
@@ -34,30 +31,21 @@ var TeamController = function(){
 		var user = Meteor.users.findOne(
 				{"services.email.verificationTokens.token":verifyToken}
 		);
-		//console.log(user._id);
-		//console.log(verifyToken)
 		var team = _.extend(teamInfo, {
 			createdAt: new Date(),
 			createdBy: user._id,
 			votes: []
 		});
-		//console.log(team);
-		var teamId = Teams.insert(team);
-
 		return {
 			status: "success",
 			result: {
-				teamId: teamId,
+				teamId: Teams.insert(team),
 				userId: user._id
 			}
 		}
-
-	};
-
-
-	return this;
+	}
 };
 
 
-Meteor.methods(new TeamController());
+Meteor.methods(teamController);
 
