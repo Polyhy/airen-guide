@@ -507,8 +507,16 @@ nav a:focus {
 
 
 #add-restaurant{
+  & .warn {
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
   & label{
     display: block;
+    &.warn:before {
+      content: "* ";
+    }
   }
 
   & #btn-submit{
@@ -775,7 +783,7 @@ nav a:focus {
 
   #add-restaurant{
     & .form-group{
-      margin-bottom: 42px;
+      margin-bottom: 21px;
     }
 
     & #add-restaurant-form{
