@@ -6,7 +6,7 @@ PolyhyComponent = React.createClass({
 	}
 });
 
-PolyhyComponent.InputAddressAndMap = React.createClass({
+PolyhyComponent.InputAddressWithMap = React.createClass({
 	googleMap: null,
 	propTypes: {
 		width: PropTypes.string.isRequired,
@@ -18,19 +18,26 @@ PolyhyComponent.InputAddressAndMap = React.createClass({
 		var mapView = this.refs.mapView;
 		this.googleMap = GoogleMapBuilder(mapView, 37.5506241, 126.9192726, 18);
 	},
-	findAddress: function(){
+	findAddress: function(event){
 		var googleMap = this.googleMap;
 		var inputAddress = this.refs.inputAddress;
+		var inputLat = this.refs.inputLat;
+		var inputLng = this.refs.inputLng;
 		new daum.Postcode({
 			oncomplete: function(data) {
-				var teamAddress ={
+				event.target.blur();
+				var tempAddress ={
 					address: data.address,
 					addressEnglish: data.addressEnglish,
 					latlng: getLatLng(data.addressEnglish)
 				};
-				if (teamAddress.latlng){
-					googleMap.drawMap(teamAddress.latlng.lat, teamAddress.latlng.lng, 18, true);
+				if (tempAddress.latlng){
 					inputAddress.value = data.address;
+					inputLat.value = tempAddress.latlng.lat;
+					inputLng.value = tempAddress.latlng.lng;
+					googleMap.drawMap(tempAddress.latlng.lat, tempAddress.latlng.lng, 18, true);
+				}else{
+					$(this.refs.warning).text("잘못된 주소입니다");
 				}
 			}
 		}).open();
@@ -42,9 +49,14 @@ PolyhyComponent.InputAddressAndMap = React.createClass({
 					<input type="text" className="form-control" ref="inputAddress"
 								 name={this.props.name}
 								 placeholder={this.props.placeholder}
-								 onClick={this.findAddress}/>
+								 onFocus={this.findAddress}/>
+					<input type="text" className="form-control hide" ref="inputLat"
+								 name={this.props.name+"-lat"} disabled/>
+					<input type="text" className="form-control hide" ref="inputLng"
+								 name={this.props.name+"-lng"} disabled/>
 					<div ref="mapView" style={{width:"100%", height:this.props.height}}>
 					</div>
+					<p className="warn" ref="warning"></p>
 				</div>
 		)
 	}
