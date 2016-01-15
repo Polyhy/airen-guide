@@ -16,7 +16,7 @@ var validateTeam= function(teamInfo, verifyToken){
 
 Meteor.methods({
 	createTeam: function(teamInfo, verifyToken){
-		var errors = this.validateTeam(teamInfo, verifyToken);
+		var errors = validateTeam(teamInfo, verifyToken);
 		if (_.keys(errors).length > 0)throw new Meteor.Error('invalid-input', errors);
 
 		check(verifyToken, String);

@@ -1,6 +1,7 @@
 Teams = new Mongo.Collection("teams");
 Restaurants = new Mongo.Collection("restaurants");
 
+
 RestaurantImages = new FS.Collection("RestaurantImages", {
 	stores: [new FS.Store.GridFS ("RestaurantImages")],
 	filter: {
@@ -16,4 +17,31 @@ RestaurantImages = new FS.Collection("RestaurantImages", {
 		}
 	}
 });
-
+RestaurantImages.deny({
+	insert: function(){
+		return false;
+	},
+	update: function(){
+		return false;
+	},
+	remove: function(){
+		return false;
+	},
+	download: function(){
+		return false;
+	}
+});
+RestaurantImages.allow({
+	insert: function(){
+		return true;
+	},
+	update: function(){
+		return true;
+	},
+	remove: function(){
+		return true;
+	},
+	download: function(){
+		return true;
+	}
+});

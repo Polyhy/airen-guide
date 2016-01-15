@@ -102,12 +102,13 @@ var InputRestDate = React.createClass({
 			});
 		}else{
 			var date = this.refs.inputDate.value;
-			if(date && !isNaN(date) && date > 1 &&date<=31)
-			var e = "<p><i class='fa fa-calendar-o'></i> 매월 "+date+"일</p>";
-			$(this.refs.inputItem).append(e);
-			$(this.refs.inputItem).find('p').on('click', function(e){
-				$(this).remove();
-			});
+			if(date && !isNaN(date) && date > 0 &&date<=31){
+				var e = "<p><i class='fa fa-calendar-o'></i> 매월 "+date+"일</p>";
+				$(this.refs.inputItem).append(e);
+				$(this.refs.inputItem).find('p').on('click', function(e){
+					$(this).remove();
+				});
+			}
 		}
 	},
 	render: function(){
@@ -176,13 +177,6 @@ AddRestaurant = React.createClass({
 			inputRestaurantInfo.name = $addForm.find('[name=name]').val();
 		} else{
 			$addForm.find('[for=name]').addClass('warn');
-			validFlag = false;
-		}
-
-		if(this.state.restaurantImage.length){
-			inputRestaurantInfo.images = this.state.restaurantImage.slice();
-		} else{
-			$addForm.find('[for=photo]').addClass('warn');
 			validFlag = false;
 		}
 
@@ -281,18 +275,30 @@ AddRestaurant = React.createClass({
 			inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
 		}
 
+		var restaurantImages = null;
+		if(this.state.restaurantImage.length){
+			restaurantImages = this.state.restaurantImage.slice();
+		} else{
+			$addForm.find('[for=photo]').addClass('warn');
+			validFlag = false;
+		}
+
 
 		if(validFlag){
-			this.submitForm(inputRestaurantInfo);
+			this.submitForm(inputRestaurantInfo, restaurantImages);
 		}else{
 			$('html, body').stop().animate({
 				'scrollTop': $addForm.find('label.warn').eq(0).offset().top
 			}, 600, 'swing', null);
 		}
 	},
-	submitForm: function(inputRestaurantInfo){
-		Meteor.call("inesrtRestaurnat", inputRestaurantInfo, function(err, res){
-
+	submitForm: function(inputRestaurantInfo, restaurantImages){
+		Meteor.call("inesrtRestaurnat", inputRestaurantInfo, restaurantImages, function(err, res){
+			//console.log(err);
+			//console.log(res);
+			if(!err){
+				FlowRouter.redirect('/restaurant/list');
+			}
 		});
 	},
 	render: function(){

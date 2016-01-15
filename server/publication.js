@@ -10,3 +10,8 @@ Meteor.publish('team-members', function(teamId){
 Meteor.publish('restaurants', function(){
 	return Restaurants.find({});
 });
+Meteor.publish('restaurants-image', function(){
+	return RestaurantImages.find({});
+});
+
+
