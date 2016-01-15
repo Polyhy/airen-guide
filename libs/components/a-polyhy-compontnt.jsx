@@ -92,14 +92,13 @@ PolyhyComponent.Map = React.createClass({
 
 PolyhyComponent.RatingStar = React.createClass({
 	renderStars: function(count){
-		return _.range(count).map((i)=>{
-			return(
+		return _.range(count).map(
+				i=>(
 					<span key={"star-"+i}>
-						<input type="radio" name="rating" value={count-i}></input>
-						<i className="fa fa-star-o"></i>
+						<input type="radio" name="rating" value={count-i}></input><i className="fa fa-star-o"></i>
 					</span>
-			);
-		})
+				)
+		);
 	},
 	componentDidMount:function(){
 		var inputRatingScore = this.refs.ratingScore;

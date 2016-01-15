@@ -64,9 +64,9 @@ Layout.Sidebar = React.createClass({
 	},
 	renderMenus: function () {
 		var i = 0;
-		return this.props.menuItems.map((item)=>{
-			return <a href={item.link} key={"menu" + i++}>{item.label}</a>
-		});
+		return this.props.menuItems.map(
+				item => (<a href={item.link} key={"menu" + i++}>{item.label}</a>)
+		);
 	},
 	render: function(){
 		//if (!this.props.user)return false;

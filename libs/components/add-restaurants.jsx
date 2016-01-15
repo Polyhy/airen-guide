@@ -173,7 +173,7 @@ AddRestaurant = React.createClass({
 		$addForm.find('label.warn').removeClass("warn");
 
 		if($addForm.find('[name=name]').val()){
-			inputRestaurantInfo.name = $addForm.find('input[name=name]').val();
+			inputRestaurantInfo.name = $addForm.find('[name=name]').val();
 		} else{
 			$addForm.find('[for=name]').addClass('warn');
 			validFlag = false;
@@ -189,10 +189,10 @@ AddRestaurant = React.createClass({
 		if($addForm.find('[name=input-menu]').find('p').length){
 			inputRestaurantInfo.menus = [];
 			var $inputMenus = $addForm.find('[name=input-menu]').find('p');
-			for (var i in $inputMenus){
+			for (var i=0; i<$inputMenus.length; i++){
 				inputRestaurantInfo.menus.push({
-					menu: $inputMenus.eq(i).find('.name'),
-					price: $inputMenus.eq(i).find('.price')
+					menu: $inputMenus.eq(i).find('.name').text(),
+					price: $inputMenus.eq(i).find('.price').text()
 				})
 			}
 		}else{
@@ -201,7 +201,7 @@ AddRestaurant = React.createClass({
 		}
 		
 		if($addForm.find('[name=max-member]').val()){
-			inputRestaurantInfo.maxMember = $addForm.find('input[name=max-member]').val();
+			inputRestaurantInfo.maxMember = $addForm.find('[name=max-member]').val();
 		} else{
 			$addForm.find('[for=max-member]').addClass('warn');
 			validFlag = false;
@@ -209,7 +209,7 @@ AddRestaurant = React.createClass({
 		
 		if($addForm.find('[name=address]').val() && $addForm.find('[name=address-detail]').val()
 				&& $addForm.find('[name=address-lat]').val() && $addForm.find('[name=address-lng]').val()){
-			var address = $addForm.find('[name=address]').val() + $addForm.find('[name=address-detail]').val();
+			var address = $addForm.find('[name=address]').val() + " " + $addForm.find('[name=address-detail]').val();
 			inputRestaurantInfo.address = address;
 			inputRestaurantInfo.latlng = {
 				lat: $addForm.find('[name=address-lat]').val(),
@@ -221,21 +221,22 @@ AddRestaurant = React.createClass({
 		}
 		
 		if($addForm.find('[name=time-start]').val() && $addForm.find('[name=time-end]').val()){
-			var $open = $addForm.find('input[name=time-start]');
+			var $open = $addForm.find('[name=time-start]');
 			if($open.data('type')=="PM"){
-				if ($open.val() < 12) inputRestaurantInfo.open = $open.val()+12;
+				if ($open.val() < 12) inputRestaurantInfo.openTime = $open.val()+12;
 			} else if($open.val() == 12){
-				inputRestaurantInfo.open = 0;
+				inputRestaurantInfo.openTime = 0;
 			} else{
-				inputRestaurantInfo.open = $open.val();
+				inputRestaurantInfo.openTime = $open.val();
 			}
-			var $close = $addForm.find('input[name=time-end]');
+
+			var $close = $addForm.find('[name=time-end]');
 			if($close.data('type')=="PM"){
-				if ($close.val() < 12) inputRestaurantInfo.close = $close.val()+12;
+				if ($close.val() < 12) inputRestaurantInfo.closeTime = $close.val()+12;
 			} else if($close.val() == 12){
-				inputRestaurantInfo.close = 0;
+				inputRestaurantInfo.closeTime = 0;
 			} else{
-				inputRestaurantInfo.close = $close.val();
+				inputRestaurantInfo.closeTime = $close.val();
 			}
 		} else{
 			$addForm.find('[for=time-start]').addClass('warn');
@@ -243,14 +244,14 @@ AddRestaurant = React.createClass({
 		}
 
 		if($addForm.find('[name=rating-star]').val()){
-			inputRestaurantInfo.rating = $addForm.find('input[name=rating-star]').val();
+			inputRestaurantInfo.rating = $addForm.find('[name=rating-star]').val();
 		} else{
 			$addForm.find('[for=rating-star]').addClass('warn');
 			validFlag = false;
 		}
 
 		if($addForm.find('[name=comment]').val()){
-			inputRestaurantInfo.comment = $addForm.find('input[name=comment]').val();
+			inputRestaurantInfo.comment = $addForm.find('[name=comment]').val();
 		} else{
 			$addForm.find('[for=comment]').addClass('warn');
 			validFlag = false;
@@ -277,6 +278,7 @@ AddRestaurant = React.createClass({
 				}
 			}
 			inputRestaurantInfo.closingDays = closingDays;
+			inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
 		}
 
 
@@ -289,7 +291,9 @@ AddRestaurant = React.createClass({
 		}
 	},
 	submitForm: function(inputRestaurantInfo){
-		console.log(inputRestaurantInfo);
+		Meteor.call("inesrtRestaurnat", inputRestaurantInfo, function(err, res){
+
+		});
 	},
 	render: function(){
 		return (
