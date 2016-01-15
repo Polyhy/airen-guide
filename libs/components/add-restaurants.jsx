@@ -216,21 +216,21 @@ AddRestaurant = React.createClass({
 		
 		if($addForm.find('[name=time-start]').val() && $addForm.find('[name=time-end]').val()){
 			var $open = $addForm.find('[name=time-start]');
-			if($open.data('type')=="PM"){
-				if ($open.val() < 12) inputRestaurantInfo.openTime = $open.val()+12;
-			} else if($open.val() == 12){
-				inputRestaurantInfo.openTime = 0;
-			} else{
-				inputRestaurantInfo.openTime = $open.val();
+			if ($open.data('type')=="PM"){
+				if ($open.val() == 12) inputRestaurantInfo.openTime = $open.val();
+				else inputRestaurantInfo.openTime = $open.val()+12;
+			} else {
+				if ($open.val() == 12) inputRestaurantInfo.openTime = 0;
+				else inputRestaurantInfo.openTime = $open.val();
 			}
 
 			var $close = $addForm.find('[name=time-end]');
 			if($close.data('type')=="PM"){
-				if ($close.val() < 12) inputRestaurantInfo.closeTime = $close.val()+12;
-			} else if($close.val() == 12){
-				inputRestaurantInfo.closeTime = 0;
-			} else{
-				inputRestaurantInfo.closeTime = $close.val();
+				if ($close.val() == 12) inputRestaurantInfo.closeTime = $close.val();
+				else inputRestaurantInfo.closeTime = $close.val()+12;
+			} else {
+				if ($close.val() == 12) inputRestaurantInfo.closeTime = 0;
+				else inputRestaurantInfo.closeTime = $close.val();
 			}
 		} else{
 			$addForm.find('[for=time-start]').addClass('warn');
