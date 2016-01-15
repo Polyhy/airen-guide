@@ -1,4 +1,4 @@
-var userController =  {
+Meteor.methods({
 	registerAtTeam: function(userId, teamId){
 		var teamName = Teams.findOne({_id: teamId}).name;
 		console.log(teamName);
@@ -7,6 +7,4 @@ var userController =  {
 				{$set: {"profile.teamId": teamId, "profile.teamName": teamName}}
 		)
 	}
-};
-
-Meteor.methods(userController);
+});

@@ -1,19 +1,20 @@
-var teamController = {
-	validateTeam: (teamInfo, verifyToken)=>{
-		var errors = {};
-		if(!teamInfo.name)
-			errors.teamName = "team name is null";
-		else if(Teams.find({name: teamInfo.name}).count() > 0)
-			errors.teamName = "team name \'" + teamInfo.name + "\' is already exist";
-		if(!teamInfo.address)
-			errors.teamAdd = "team address is null";
-		if(!teamInfo.latlng.lat || !teamInfo.latlng.lng)
-			errors.teamAdd = "team latlng is null";
-		if(!verifyToken)
-			errors.userId = "verifyToken is null";
-		return errors;
-	},
+var validateTeam= function(teamInfo, verifyToken){
+	var errors = {};
+	if(!teamInfo.name)
+		errors.teamName = "team name is null";
+	else if(Teams.find({name: teamInfo.name}).count() > 0)
+		errors.teamName = "team name \'" + teamInfo.name + "\' is already exist";
+	if(!teamInfo.address)
+		errors.teamAdd = "team address is null";
+	if(!teamInfo.latlng.lat || !teamInfo.latlng.lng)
+		errors.teamAdd = "team latlng is null";
+	if(!verifyToken)
+		errors.userId = "verifyToken is null";
+	return errors;
+};
 
+
+Meteor.methods({
 	createTeam: function(teamInfo, verifyToken){
 		var errors = this.validateTeam(teamInfo, verifyToken);
 		if (_.keys(errors).length > 0)throw new Meteor.Error('invalid-input', errors);
@@ -44,8 +45,5 @@ var teamController = {
 			}
 		}
 	}
-};
-
-
-Meteor.methods(teamController);
+});
 
