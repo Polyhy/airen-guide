@@ -147,3 +147,14 @@ restaurantRoutes.route('/add', {
 
 	}
 });
+
+restaurantRoutes.route('/list', {
+	action: function(){
+		ReactLayout.render(AppLayout, {
+			components: function() {
+				return <RestaurantList />;
+			}
+		});
+
+	}
+});
