@@ -189,7 +189,7 @@ PolyhyComponent.UploadPhoto = React.createClass({
 							"</div>";
 					arrImages.push(e.target.result);
 					$uploadedImages.append(tag);
-					$uploadedImages.find('img:last').attr('src', e.target.result);
+					$uploadedImages.find('img').last().attr('src', e.target.result);
 					$uploadedImages.find('span').on('click', function(e){
 						var $image = $(this).parent();
 						var index = $uploadedImages.children().index($image);
