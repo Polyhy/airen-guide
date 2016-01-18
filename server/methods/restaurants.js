@@ -38,7 +38,9 @@ Meteor.methods({
 			latlng: {
 				lat: Number,
 				lng: Number
-			}
+			},
+			closingDays: Array,
+			closingType: String
 		});
 
 		var restaurantInfo = _.extend(inputRestaurantInfo,{
@@ -54,13 +56,15 @@ Meteor.methods({
 				if(err){
 					console.log(err)
 				}else{
-					if (RestaurantImages.findOne({_id: file._id}).isUploaded()){
-						Restaurants.update({_id: restaurantId}, {$push: {images: file._id}});
-					}
-					var restaurant = Restaurants.findOne({_id: restaurantId});
-					RestaurantImages.remove({_id: {$in:restaurant.images}});
-					Restaurants.remove({_id: restaurant._id});
-					throw new Meteor.Error('invalid-input', "File upload failed");
+					Restaurants.update({_id: restaurantId}, {$push: {images: file._id}});
+					//if (RestaurantImages.findOne({_id: file._id}).isUploaded()){
+					//	Restaurants.update({_id: restaurantId}, {$push: {images: file._id}});
+					//}else{
+					//	var restaurant = Restaurants.findOne({_id: restaurantId});
+					//	RestaurantImages.remove({_id: {$in:restaurant.images}});
+					//	Restaurants.remove({_id: restaurant._id});
+					//	throw new Meteor.Error('invalid-input', "File upload failed");
+					//}
 				}
 			});
 		}
