@@ -186,7 +186,7 @@ AddRestaurant = React.createClass({
 			for (var i=0; i<$inputMenus.length; i++){
 				inputRestaurantInfo.menus.push({
 					menu: $inputMenus.eq(i).find('.name').text(),
-					price: $inputMenus.eq(i).find('.price').text()
+					price: parseInt($inputMenus.eq(i).find('.price').text())
 				})
 			}
 		}else{
@@ -195,7 +195,7 @@ AddRestaurant = React.createClass({
 		}
 		
 		if($addForm.find('[name=max-member]').val()){
-			inputRestaurantInfo.maxMember = $addForm.find('[name=max-member]').val();
+			inputRestaurantInfo.maxMember = parseInt($addForm.find('[name=max-member]').val());
 		} else{
 			$addForm.find('[for=max-member]').addClass('warn');
 			validFlag = false;
@@ -206,8 +206,8 @@ AddRestaurant = React.createClass({
 			var address = $addForm.find('[name=address]').val() + " " + $addForm.find('[name=address-detail]').val();
 			inputRestaurantInfo.address = address;
 			inputRestaurantInfo.latlng = {
-				lat: $addForm.find('[name=address-lat]').val(),
-				lng: $addForm.find('[name=address-lng]').val()
+				lat: Number($addForm.find('[name=address-lat]').val()),
+				lng: Number($addForm.find('[name=address-lng]').val())
 			}
 		} else{
 			$addForm.find('[for=address]').addClass('warn');
@@ -216,21 +216,23 @@ AddRestaurant = React.createClass({
 		
 		if($addForm.find('[name=time-start]').val() && $addForm.find('[name=time-end]').val()){
 			var $open = $addForm.find('[name=time-start]');
+			var openTime = parseInt($open.val());
 			if ($open.data('type')=="PM"){
-				if ($open.val() == 12) inputRestaurantInfo.openTime = $open.val();
-				else inputRestaurantInfo.openTime = $open.val()+12;
+				if (openTime == 12) inputRestaurantInfo.openTime = openTime;
+				else inputRestaurantInfo.openTime = openTime+12;
 			} else {
-				if ($open.val() == 12) inputRestaurantInfo.openTime = 0;
-				else inputRestaurantInfo.openTime = $open.val();
+				if (openTime == 12) inputRestaurantInfo.openTime = 0;
+				else inputRestaurantInfo.openTime = openTime;
 			}
 
 			var $close = $addForm.find('[name=time-end]');
+			var closeTime = parseInt($close.val());
 			if($close.data('type')=="PM"){
-				if ($close.val() == 12) inputRestaurantInfo.closeTime = $close.val();
-				else inputRestaurantInfo.closeTime = $close.val()+12;
+				if (closeTime == 12) inputRestaurantInfo.closeTime = closeTime;
+				else inputRestaurantInfo.closeTime = closeTime+12;
 			} else {
-				if ($close.val() == 12) inputRestaurantInfo.closeTime = 0;
-				else inputRestaurantInfo.closeTime = $close.val();
+				if (closeTime == 12) inputRestaurantInfo.closeTime = 0;
+				else inputRestaurantInfo.closeTime = closeTime;
 			}
 		} else{
 			$addForm.find('[for=time-start]').addClass('warn');
@@ -238,7 +240,7 @@ AddRestaurant = React.createClass({
 		}
 
 		if($addForm.find('[name=rating-star]').val()){
-			inputRestaurantInfo.rating = $addForm.find('[name=rating-star]').val();
+			inputRestaurantInfo.rating = Number($addForm.find('[name=rating-star]').val());
 		} else{
 			$addForm.find('[for=rating-star]').addClass('warn');
 			validFlag = false;
@@ -257,17 +259,17 @@ AddRestaurant = React.createClass({
 			if($addForm.find('[name=input-rest]').data('type')=="rest-week-day"){
 				var d = ["일", "월", "화", "수", "목", "금", "토"];
 				for (var i=0; i<$inputRest.length; i++){
-					var temp = {
-						week: $inputRest.eq(i).text().match(/\d(?=째)/ig)[0],
+					var inputClose = {
+						week: Number($inputRest.eq(i).text().match(/\d(?=째)/ig)[0]),
 						day: d.indexOf($inputRest.eq(i).text().match(/[일월화수목금토](?=요일)/ig)[0])
 					};
-					if(!closingDays.find((t)=>{if(_.isEqual(t, temp))return t; return null})){
-						closingDays.push(temp);
+					if(!closingDays.find((t)=>{if(_.isEqual(t, inputClose))return t; return null})){
+						closingDays.push(inputClose);
 					}
 				}
 			} else{
 				for (var i=0; i<$inputRest.length; i++){
-					var temp = $inputRest.eq(i).text().match(/[123]?\d(?=일)/ig)[0];
+					var temp = Number($inputRest.eq(i).text().match(/[123]?\d(?=일)/ig)[0]);
 					if(closingDays.indexOf(temp)<0)closingDays.push(temp)
 				}
 			}
@@ -294,8 +296,6 @@ AddRestaurant = React.createClass({
 	},
 	submitForm: function(inputRestaurantInfo, restaurantImages){
 		Meteor.call("inesrtRestaurnat", inputRestaurantInfo, restaurantImages, function(err, res){
-			//console.log(err);
-			//console.log(res);
 			if(!err){
 				FlowRouter.redirect('/restaurant/list');
 			}
