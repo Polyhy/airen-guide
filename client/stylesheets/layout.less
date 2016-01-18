@@ -73,11 +73,11 @@ textarea{
 
 .btn-ok{
   background-color: @brand-green;
-  border: solid 1px @brand-green - #222;
+  //border: solid 1px @brand-green - #222;
 }
 .btn-next{
   background-color: @brand-light-blue;
-  border: solid 1px @brand-light-blue - #222;
+  //border: solid 1px @brand-light-blue - #222;
 }
 
 .contents-block {
@@ -511,35 +511,70 @@ nav a:focus {
   box-shadow: 0px 5px 3px -3px #999999;
 }
 .restaurant-card{
-  img{
+  & img{
     width: 100%;
     height: 200px;
     border-radius: 2px;
   }
   
-  p.title{
+  & p.title{
     font-size: 18px;
     font-weight: 500;
     color: #333;
     margin-bottom: 8px;
   }
 
-  table.info{
+  & table.info{
     table-layout: fixed;
     width: 100%;
     margin: 4px 2px 0px;
-    td.key{
-      width: 35%;
+    & td{
+      padding-bottom: 4px;
+      vertical-align: top;
+      &.key{
+        width: 30%;
+      }
+      &.value{
+        width: 65%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
-    td.value{
-      width: 65%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+
+  }
+}
+
+.restaurant-card .restaurant-card--info{
+  height: 320px;
+  &:hover .flipper,
+  &.hover .flipper {
+    transform: rotateY(180deg);
   }
 
+  & .flipper{
+    transition: 0.8s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
 
+  & .page1,
+  & .page2 {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #FFF;
+    height: 320px;
+  }
+  .page1 {
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+  .page2 {
+    transform: rotateY(180deg);
+  }
 }
 
 //add restaurant form
@@ -622,40 +657,6 @@ nav a:focus {
 
 }
 
-//.add-paired-item .append-item-form,
-//.add-paired-item
-
-//.add-paired-item
-
-
-//.add-paired-item .input-item{
-//  margin-left: 5%;
-//  width: 55%;
-//  height: 126px;
-//  overflow-x: scroll;
-//  overflow-y: hidden;
-//}
-
-//.add-paired-item .append-item-form .input-group{
-//  margin-bottom: 12px;
-//}
-
-//.add-paired-item .input-item>p {
-//  display: block;
-//  padding: 1px 16px;
-//  font-size: 16px;
-//  font-weight: 300;
-//  border-radius: 16px;
-//  cursor: pointer;
-//  white-space: nowrap;
-//  width: 100%;
-//  overflow: hidden;
-//  text-overflow: ellipsis;
-//}
-
-//.add-paired-item .input-item>p:hover{
-//  text-decoration: underline;
-//}
 
 .btn-file-upload{
   width: 160px;

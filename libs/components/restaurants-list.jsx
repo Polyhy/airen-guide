@@ -24,14 +24,15 @@ RestaurantList = React.createClass({
 					["아이렝스타", restaurant.rating]
 			];
 			else if (page==2) return [
-
+					["주소", restaurant.address],
+					["소요시간", "x"]
 			];
 		};
 
 		return this.data.restaurants.map((restaurant)=>{
 			return (
-					<div className="col-xs-12 col-sm-4 col-lg-3" key={restaurant._id}>
-						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo}/>
+					<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
+						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo} vote={false}/>
 					</div>
 			)
 		});
