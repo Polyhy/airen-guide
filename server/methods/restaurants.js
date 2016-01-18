@@ -12,22 +12,34 @@ validateCheck= function(obj, images){
 	if (!obj.address) errors.address = "restaurant address can not be null";
 	if (!obj.latlng.lat || !obj.latlng.lat) errors.address = "invalid address";
 	if (obj.openTime == obj.closeTime) errors.openAndClose = "invalid value";
-	else if (!obj.openTime || !obj.closeTime) errors.openAndClose = "restaurant opening hour can not be null";
+	else if (typeof obj.openTime == "undefined" || typeof obj.closeTime == "undefined")
+		errors.openAndClose = "restaurant opening hour can not be null";
 	if (!obj.rating) errors.rating = "rating star can not be null";
 	if (!obj.comment) errors.comment = "comment about restaurant can not be null";
-	if (!images || !images.length) errors.images = "count of restaurant images must be over than 0";
 	return errors;
 };
 
 Meteor.methods({
 
 	inesrtRestaurnat: function(inputRestaurantInfo, restaurantImages){
-
 		var errors = validateCheck(inputRestaurantInfo, restaurantImages);
 		if (_.keys(errors).length > 0){
-			console.log(errors);
 			throw new Meteor.Error('invalid-input', JSON.stringify(errors));
 		}
+		check(inputRestaurantInfo, {
+			name: String,
+			menus: Array,
+			maxMember: Number,
+			address: String,
+			openTime: Number,
+			closeTime: Number,
+			rating: Number,
+			comment: String,
+			latlng: {
+				lat: Number,
+				lng: Number
+			}
+		});
 
 		var restaurantInfo = _.extend(inputRestaurantInfo,{
 			createdAt: new Date(),
@@ -39,14 +51,16 @@ Meteor.methods({
 
 		for(var i=0; i<restaurantImages.length; i++){
 			RestaurantImages.insert(restaurantImages[i], function(err, file){
-				//inputRestaurantInfo.images.push = file._id;
 				if(err){
-
+					console.log(err)
 				}else{
-					//console.log(file);
-					Restaurants.update({_id: restaurantId}, {$push: {images: file._id}});
-					console.log(file._id);
-					console.log(Restaurants.findOne({_id: restaurantId}));
+					if (RestaurantImages.findOne({_id: file._id}).isUploaded()){
+						Restaurants.update({_id: restaurantId}, {$push: {images: file._id}});
+					}
+					var restaurant = Restaurants.findOne({_id: restaurantId});
+					RestaurantImages.remove({_id: {$in:restaurant.images}});
+					Restaurants.remove({_id: restaurant._id});
+					throw new Meteor.Error('invalid-input', "File upload failed");
 				}
 			});
 		}
