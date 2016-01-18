@@ -30,7 +30,7 @@ RestaurantList = React.createClass({
 
 		return this.data.restaurants.map((restaurant)=>{
 			return (
-					<div className="col-xs-12 col-md-4 col-lg-3" key={restaurant._id}>
+					<div className="col-xs-12 col-sm-4 col-lg-3" key={restaurant._id}>
 						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo}/>
 					</div>
 			)

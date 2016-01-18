@@ -41,7 +41,7 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 					$(this.refs.warning).text("잘못된 주소입니다");
 				}
 			}
-		}).open();
+		}).open({ popupName: "postcodePopup"});
 	},
 	render:function(){
 		return (

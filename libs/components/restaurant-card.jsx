@@ -7,20 +7,21 @@ RestaurantElement = React.createClass({
 });
 
 RestaurantElement.Page1 = React.createClass({
-	propTypes: {
-		getRestaurantInfo: PropTypes.func.isRequired
-	},
 	getImageURL: function(){
 		var imageId = this.props.restaurant.images[0];
-		return RestaurantImages.findOne({_id: imageId}).url();
+		if(RestaurantImages.findOne({_id: imageId}))
+			return RestaurantImages.findOne({_id: imageId}).url();
+		else
+			return null;
 	},
 	renderTableRow: function() {
-		var restaurantInfo = this.props.getRestaurantInfo(1, this.props.restaurant);
+		var restaurantInfo = this.props.getRestaurantInfo;
+		var count = 0;
 		return restaurantInfo.map((i)=>{
 			return (
-					<tr>
-						<td>{i[0]}</td>
-						<td>{i[1]}</td>
+					<tr key={"menu-"+count++}>
+						<td className="key">{i[0]}</td>
+						<td className="value">{i[1]}</td>
 					</tr>
 			)
 		})
@@ -28,8 +29,10 @@ RestaurantElement.Page1 = React.createClass({
 	render: function(){
 		return (
 				<div>
-					<img src={this.getImageURL()} alt="" style={{width: "100%"}}/>
-					<table>
+					<div className="image-wrapper">
+						<img src={this.getImageURL()} />
+					</div>
+					<table className="info">
 						<tbody>
 							{this.renderTableRow()}
 						</tbody>
@@ -42,19 +45,53 @@ RestaurantElement.Page1 = React.createClass({
 
 RestaurantElement.Page2 = React.createClass({
 	render: function(){
-		return false;
+		return (
+			<div></div>
+		);
 	}
 });
 
 
 const {Page1, Page2} = RestaurantElement;
 RestaurantCard = React.createClass({
+	propTypes: {
+		getRestaurantInfo: PropTypes.func.isRequired
+	},
+	handleMouseIn: function(event){
+		//$(this.refs.page1).animate({
+		//	opacity: "0"
+		//}, 300, "swing");
+		//
+		//$(this.refs.page2).animate({
+		//	opacity: "1"
+		//}, 300, "swing");
+	},
+	handleMouseOut: function(event){
+		//$(this.refs.page1).animate({
+		//	opacity: "1"
+		//}, 300, "swing");
+		//
+		//$(this.refs.page2).animate({
+		//	opacity: "0"
+		//}, 300, "swing");
+	},
 	render: function(){
 		return (
 			<div className="restaurant-card" ref="card">
-				<p className="title restaurant-card--title">{this.props.restaurant.name}</p>
-				<div className="restaurant-card--info">
-					<Page1 restaurant={this.props.restaurant} getRestaurantInfo={this.props.getRestaurantInfo}/>
+				<p className="title">{this.props.restaurant.name}</p>
+				<div className="restaurant-card--info"
+						 style={{height: "300px"}}
+						 onMouseEnter={this.handleMouseIn} onMouseLeave={this.handleMouseOut}>
+					<div className="filpper">
+						<div ref="page1">
+							<Page1 restaurant={this.props.restaurant}
+										 getRestaurantInfo={this.props.getRestaurantInfo(1, this.props.restaurant)}/>
+						</div>
+						<div ref="page2">
+							<Page2 restaurant={this.props.restaurant}
+										 getRestaurantInfo={this.props.getRestaurantInfo(2, this.props.restaurant)}/>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
