@@ -41,6 +41,7 @@ RestaurantElement.Page1 = React.createClass({
 							{this.renderTableRow()}
 						</tbody>
 					</table>
+					{this.props.renderButton? this.props.renderButton(): false}
 				</div>
 		)
 	}
@@ -51,7 +52,7 @@ RestaurantElement.Page1 = React.createClass({
 //
 RestaurantElement.Page2 = React.createClass({
 	propTypes: {
-		vote: PropTypes.bool.isRequired
+		//vote: PropTypes.bool.isRequired
 	},
 	renderTableRow: function() {
 		var restaurantInfo = this.props.getRestaurantInfo;
@@ -65,16 +66,6 @@ RestaurantElement.Page2 = React.createClass({
 					</tr>
 			)
 		})
-	},
-	renderButton: function(){
-		if (this.props.vote){
-
-		}else return(
-				<a type="button" className="btn btn-next"
-					 href={"/restaurant/list/"+this.props.restaurant._id}
-					 style={{width: "100%", marginTop: "8px"}}>자세히 보기</a>
-		);
-
 	},
 	render: function(){
 		var restaurant = this.props.restaurant;
@@ -90,7 +81,7 @@ RestaurantElement.Page2 = React.createClass({
 							{this.renderTableRow()}
 							</tbody>
 						</table>
-						{this.renderButton()}
+						{this.props.renderButton? this.props.renderButton(): false}
 					</div>
 				</div>
 		);
@@ -98,26 +89,59 @@ RestaurantElement.Page2 = React.createClass({
 });
 
 
+//
+//	Card
+//
 const {Page1, Page2} = RestaurantElement;
 RestaurantCard = React.createClass({
 	propTypes: {
 		getRestaurantInfo: PropTypes.func.isRequired,
 		vote: PropTypes.bool.isRequired
 	},
+	handelMouseEnter: function(){
+		if(!isMobileDevice())$(this.refs.cardInfo).addClass('hover');
+	},
+	handelMouseLeave: function(){
+		if(!isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
+	},
+	handleTouchStart: function(){
+		if(isMobileDevice())$(this.refs.cardInfo).addClass('hover');
+		console.log("touch start")
+	},
+	handleTouchEnd: function(){
+		if(isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
+		console.log("touch end")
+	},
+	renderButton: function(){
+		if (this.props.vote){
+
+		}else return(
+				<a type="button" className="btn btn-next"
+					 href={"/restaurant/list/"+this.props.restaurant._id}
+					 style={{width: "100%", marginTop: "8px"}}>자세히 보기</a>
+		);
+
+	},
 	render: function(){
+		var cancelEvent = (e)=>{e.preventDefault(); return false;};
 		return (
 			<div className="restaurant-card" ref="card">
 				<p className="title">{this.props.restaurant.name}</p>
-				<div className="restaurant-card--info">
+				<div className="restaurant-card--info" ref="cardInfo"
+						 onMouseEnter={this.handelMouseEnter} onMouseLeave={this.handelMouseLeave}
+						 onTouchStart={this.handleTouchStart} onTouchEnd={this.handleTouchEnd}
+						 onContextMenu={cancelEvent}>
 					<div className="flipper">
-						<div ref="page1" className="page1">
+						<div className="page1">
 							<Page1 restaurant={this.props.restaurant}
-										 getRestaurantInfo={this.props.getRestaurantInfo(1, this.props.restaurant)}/>
+										 getRestaurantInfo={this.props.getRestaurantInfo(1, this.props.restaurant)}
+										 renderButton={isMobileDevice()? this.renderButton : null}/>
 						</div>
-						<div ref="page2" className="page2">
+						<div className="page2">
 							<Page2 restaurant={this.props.restaurant}
 										 getRestaurantInfo={this.props.getRestaurantInfo(2, this.props.restaurant)}
-										 vote={this.props.vote}/>
+										 vote={this.props.vote}
+										 renderButton={isMobileDevice()? null : this.renderButton}/>
 						</div>
 					</div>
 				</div>

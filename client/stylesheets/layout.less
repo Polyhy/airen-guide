@@ -532,7 +532,7 @@ nav a:focus {
       padding-bottom: 4px;
       vertical-align: top;
       &.key{
-        width: 30%;
+        width: 32%;
       }
       &.value{
         width: 65%;
@@ -544,18 +544,21 @@ nav a:focus {
 
   }
 }
-
+//hover or touch event
 .restaurant-card .restaurant-card--info{
   height: 320px;
-  &:hover .flipper,
-  &.hover .flipper {
-    transform: rotateY(180deg);
+  & .flipper{
+    position: relative;
   }
 
-  & .flipper{
-    transition: 0.8s;
+  & .flipper,
+  & .page1,
+  & .page2 {
     transform-style: preserve-3d;
-    position: relative;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+    transition: 0.8s;
   }
 
   & .page1,
@@ -568,12 +571,28 @@ nav a:focus {
     background-color: #FFF;
     height: 320px;
   }
-  .page1 {
+  & .page1 {
     z-index: 2;
+    opacity: 1;
     transform: rotateY(0deg);
   }
-  .page2 {
+  & .page2 {
+    z-index: 1;
+    opacity: 0;
     transform: rotateY(180deg);
+  }
+
+  //&:hover .flipper,
+  &.hover .flipper {
+    transform: rotateY(180deg);
+    & .page1 {
+      z-index: 1;
+      opacity: 0;
+    }
+    & .page2 {
+      z-index: 2;
+      opacity: 1;
+    }
   }
 }
 
@@ -773,6 +792,32 @@ nav a:focus {
 
   .rating-star{
     font-size: 64px;
+  }
+
+  .restaurant-card{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .restaurant-card .restaurant-card--info{
+    height: 360px;
+    & .page1,
+    & .page2 {
+      height: 360px;
+      background-color: #FFF;
+    }
+    //&.hover .flipper {
+    //  transform: rotateY(180deg);
+    //  & .page1 {
+    //    z-index: 1;
+    //    opacity: 0;
+    //  }
+    //  & .page2 {
+    //    z-index: 2;
+    //  }
+    //}
   }
 }
 
