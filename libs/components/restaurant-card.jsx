@@ -104,13 +104,17 @@ RestaurantCard = React.createClass({
 	handelMouseLeave: function(){
 		if(!isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
 	},
-	handleTouchStart: function(){
-		if(isMobileDevice())$(this.refs.cardInfo).addClass('hover');
-		console.log("touch start")
+	handleTouchStart: function(event){
+		if(event.target.tagName != "A"){
+			if(isMobileDevice())$(this.refs.cardInfo).addClass('hover');
+			console.log("touch start")
+		}
 	},
-	handleTouchEnd: function(){
-		if(isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
-		console.log("touch end")
+	handleTouchEnd: function(event){
+		if(event.target.tagName != "A") {
+			if (isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
+			console.log("touch end")
+		}
 	},
 	renderButton: function(){
 		if (this.props.vote){
