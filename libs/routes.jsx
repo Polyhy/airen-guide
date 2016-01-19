@@ -162,7 +162,7 @@ restaurantRoutes.route('/list/:restaurantId', {
 	action: function(params){
 		ReactLayout.render(AppLayout, {
 			components: function() {
-				return <div style={{width:"100px", height:"100px", background:"red"}}>{params.restaurantId}</div>;
+				return <RestaurantDetail restaurantId={params.restaurantId}/>;
 			}
 		});
 	}
