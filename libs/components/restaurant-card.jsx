@@ -34,7 +34,6 @@ RestaurantElement.Page1 = React.createClass({
 		return (
 				<div>
 					<div className="image-wrapper" style={{backgroundImage: "url("+this.getImageURL()+")"}}>
-						{/*<img src={this.getImageURL()} />*/}
 					</div>
 					<table className="info">
 						<tbody>
