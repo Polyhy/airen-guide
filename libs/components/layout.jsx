@@ -220,7 +220,7 @@ AccountNoti = React.createClass({
 
 LoginAccountLayout = React.createClass({
 	subItems: {},
-	componentWillMount: function(){
+	getInitialState: function(){
 		this.subItems.teamNames = Meteor.subscribe("teams");
 	},
 	componentDidMount: function(){

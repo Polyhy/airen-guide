@@ -37,3 +37,5 @@ kadira:react-layout
 check
 cfs:gridfs
 webapp
+http
+force-ssl

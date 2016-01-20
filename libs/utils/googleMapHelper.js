@@ -1,4 +1,4 @@
-var GoogleMapHelper = function (){
+GoogleMapHelper = function (){
 	this.map;
 	this.markers = [];
 	this.pointMarker = null;
@@ -31,6 +31,10 @@ GoogleMapHelper.prototype.getCenter = function(){
 		lat: this.map.getCenter().lat(),
 		lng: this.map.getCenter().lng()
 	}
+};
+
+GoogleMapHelper.prototype.getDirection = function(){
+
 };
 
 

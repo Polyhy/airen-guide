@@ -1,6 +1,5 @@
 Tracker.autorun(function(){
 	if (Accounts._verifyEmailToken) {
-		console.log("verify");
 		var token = Accounts._verifyEmailToken;
 		if (token.indexOf("???createteam")+13 == token.length){
 			token = token.split("???createteam")[0];
