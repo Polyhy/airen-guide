@@ -44,6 +44,18 @@ Layout.Sidebar = React.createClass({
 	propTypes:{
 		menuItems: PropTypes.arrayOf(PropTypes.object).isRequired
 	},
+	componentDidMount: function(){
+		var $sidebar = $((ReactDOM.findDOMNode(this.refs.sidebar)));
+		var that = this;
+		$(document.body).on('click', function(event){
+			$target = $(event.target);
+			if($target.parents(".sidebar").length)
+				$target = $sidebar;
+			if($target.hasClass("sidebar") ||  $target.hasClass("btn-show-sidebar"))return;
+			if (!$sidebar.hasClass('closed'))that.showMenu();
+		});
+
+	},
 	showMenu: function(event){
 		var moveTo = $((ReactDOM.findDOMNode(this.refs.sidebarMenu))).width();
 		var $sidebar = $((ReactDOM.findDOMNode(this.refs.sidebar)));
@@ -170,6 +182,10 @@ AppLayout = React.createClass({
 		if(Meteor.isClient && !this.state.user)FlowRouter.redirect('/user/login');
 		this.subItem.team = Meteor.subscribe('teams');
 	},
+	componentDidMount:function(){
+		$(".sidebar--menu-items>nav>a.active").removeClass("active");
+		$('.sidebar--menu-items>nav>a[href=\''+FlowRouter.current().path+'\']').addClass('active');
+	},
 	componentWillUnmount: function(){
 		for(k in this.subItem){
 			this.subItem[k].stop()
@@ -180,7 +196,7 @@ AppLayout = React.createClass({
 
 		var menuItems = [];
 		menuItems.push({label: "오늘의 밥집", link: "#"});
-		menuItems.push({label: "밥집 리스트", link: "#"});
+		menuItems.push({label: "밥집 리스트", link: "/restaurant/list"});
 		menuItems.push({label: "설정", link: "#"});
 		return(
 				<div id="root">

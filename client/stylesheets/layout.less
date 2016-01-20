@@ -106,6 +106,10 @@ nav a {
   margin: 8px 0;
   letter-spacing: .5px;
   word-spacing: 2px;
+
+  &.active{
+    color: @brand-green;
+  }
 }
 
 nav a,
@@ -539,6 +543,7 @@ nav a:focus {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-weight: 400;
       }
     }
 
@@ -593,7 +598,18 @@ nav a:focus {
       opacity: 1;
     }
   }
-}
+}//restaurant-card
+
+//restaurant-detail
+#restaurant-detail{
+
+  & .title>i{
+    color: lighten(@brand-red, 10%);
+    margin-right: 4px;
+    vertical-align: top;
+  }
+}//restaurant-detail
+
 
 //add restaurant form
 #add-restaurant{
