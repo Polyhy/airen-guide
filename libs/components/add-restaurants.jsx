@@ -153,6 +153,52 @@ var InputRestDate = React.createClass({
 	}
 });
 
+var InputTag = React.createClass({
+	componentDidMount: function(){
+		$(this.refs.tagBox).on('click', '.tags', function(){
+			$target = $(this);
+			if ($target.hasClass("danger"))$target.remove();
+			else $target.addClass("danger");
+		})
+	},
+	appendTag: function(event){
+		var $input = $(this.refs.inputTag);
+		var inputValue = $input.val().trim();
+		if(event.keyCode == 13 || event.keyCode == 32){
+			event.preventDefault();
+			if(inputValue) $input.before("<li class='tags'>"+inputValue+"</li>");
+			$input.val("");
+		}
+	},
+	checkInputLength: function(event){
+		var $input = $(this.refs.inputTag);
+		var inputValue = $input.val().trim();
+		if(event.keyCode == 8 && !inputValue) {
+			event.preventDefault();
+			var $target = $input.prev();
+			if ($target.hasClass("danger"))$target.remove();
+			else $target.addClass("danger");
+		}else if(event.keyCode != 8){
+			$(".tags").removeClass("danger");
+			if($input.val().length > 17)event.preventDefault();
+		}
+	},
+	moveFocus: function(){
+		$(this.refs.inputTag).focus();
+	},
+	render: function(){
+		return(
+				<div className="form-group" onClick={this.moveFocus}>
+					<label htmlFor="tag">태그 (선택)</label>
+					<ul className="form-control input-tag" ref="tagBox" name="tag-box" >
+						<input type="text" ref="inputTag"
+									 onKeyUp={this.appendTag} onKeyDown={this.checkInputLength}/>
+					</ul>
+				</div>
+		)
+	}
+});
+
 
 
 
@@ -277,6 +323,12 @@ AddRestaurant = React.createClass({
 			inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
 		}
 
+		if($addForm.find('[name=tag-box]').find('li').length){
+			var inputTag = $('[name=tag-box]').find('li');
+			var tags = inputTag.map(i=>$(inputTag[i]).text());
+			inputRestaurantInfo.tags = tags.toArray();
+		}
+
 		var restaurantImages = null;
 		if(this.state.restaurantImage.length){
 			restaurantImages = this.state.restaurantImage.slice();
@@ -343,7 +395,7 @@ AddRestaurant = React.createClass({
 
 						<TextArea name={"comment"} label={"아이레너 코멘트"}/>
 
-						{/*<InputText name={"tag"} label={"태그 (선택)"}/>*/}
+						<InputTag />
 
 						<button type="button" id="btn-submit" className="btn btn-ok"
 										onClick={this.validInput}>등록하기</button>

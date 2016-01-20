@@ -40,7 +40,8 @@ Meteor.methods({
 				lng: Number
 			},
 			closingDays: Array,
-			closingType: String
+			closingType: String,
+			tags: Array
 		});
 
 		var restaurantInfo = _.extend(inputRestaurantInfo,{

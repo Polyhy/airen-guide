@@ -536,6 +536,10 @@ nav a:focus {
     font-weight: 500;
     color: #333;
     margin-bottom: 8px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & table.info{
@@ -693,6 +697,48 @@ nav a:focus {
         text-decoration: underline;
       }
     }
+  }
+
+  & .input-tag{
+    display: inline-block;
+    margin: 0;
+    height: auto;
+    padding: 4px 8px;
+
+    &>li{
+      color: #fff;
+      background-color: #11bb75;
+      display: inline-block;
+      padding: 1px 8px;
+      margin: 2px 4px;
+      font-weight: 600;
+      vertical-align: middle;
+      letter-spacing: 1px;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &.danger{
+        background-color: @brand-red;
+        &::after{
+          content: "x";
+          margin-left: 8px;
+          font-weight: 300;
+        }
+      }
+    }
+    &>input{
+      border: none;
+      line-height: 18px;
+      height: 18px;
+      display: inline-block;
+      resize: horizontal;
+      min-width: 280px;
+      &:focus{
+        outline: none;
+
+      }
+    }
+
   }
 }
 

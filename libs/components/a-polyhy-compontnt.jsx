@@ -213,7 +213,7 @@ PolyhyComponent.UploadPhoto = React.createClass({
 					<label htmlFor={this.props.name}>{this.props.label}</label>
 					<input type="file" ref="inputTag" accept="image/*"
 								 className="" name={this.props.name}
-								 onChange={this.readImage}/>
+								 onChange={this.readImage} multiple="true"/>
 					<div className="btn-file-upload"
 							 onClick={(event)=>{$(this.refs.inputTag).trigger('click')}}>
 						<i className="fa fa-plus-circle"></i>
