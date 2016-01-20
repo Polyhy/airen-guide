@@ -19,7 +19,7 @@ RestaurantList = React.createClass({
 		var getRestaurantInfo= function(page, restaurant){
 			if (page==1) return[
 					["대표메뉴", restaurant.menus.map((i)=>{return i.menu}).join(", ")],
-					["가격", restaurant.menus.reduce((m1, m2)=>{return m1+parseInt(m2.price)}, 0)],
+					["가격", String.fromCharCode(8361)+" "+restaurant.menus.reduce((m1, m2)=>{return m1+parseInt(m2.price)}, 0)],
 					["오픈~마감", restaurant.openTime+"  ~  "+restaurant.closeTime],
 					["아이렝스타", _.range(3).map(i=><i className={i<restaurant.rating?"fa fa-star":"fa fa-star-o"} key={"star"+i}/>)]
 			];
