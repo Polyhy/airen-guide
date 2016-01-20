@@ -33,8 +33,8 @@ RestaurantElement.Page1 = React.createClass({
 	render: function(){
 		return (
 				<div>
-					<div className="image-wrapper">
-						<img src={this.getImageURL()} />
+					<div className="image-wrapper" style={{backgroundImage: "url("+this.getImageURL()+")"}}>
+						{/*<img src={this.getImageURL()} />*/}
 					</div>
 					<table className="info">
 						<tbody>
@@ -107,13 +107,11 @@ RestaurantCard = React.createClass({
 	handleTouchStart: function(event){
 		if(event.target.tagName != "A"){
 			if(isMobileDevice())$(this.refs.cardInfo).addClass('hover');
-			console.log("touch start")
 		}
 	},
 	handleTouchEnd: function(event){
 		if(event.target.tagName != "A") {
 			if (isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
-			console.log("touch end")
 		}
 	},
 	renderButton: function(){
