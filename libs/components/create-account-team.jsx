@@ -237,7 +237,7 @@ CreateTeam.CreateTeamPage2 = React.createClass({
 					console.error(err)
 				}else{
 					console.log(res);
-					Meteor.call("registerAtTeam", res.result.userId, res.result.teamId, function(error, result){
+					Meteor.call("registerAtTeam", res.result.userId, res.result.teamId, true, function(error, result){
 						if(!error) callback(token);
 					});
 				}
