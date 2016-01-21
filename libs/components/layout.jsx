@@ -161,7 +161,7 @@ Layout.Map = React.createClass({
 									</tr>
 									</tbody>
 								</table>
-								<a className="btn btn-default hide" id="btn-add-restaurant" href="/restaurant/add">밥집등록</a>
+								<a className="btn btn-default hide" id="btn-add-restaurant" href="/restaurant/add">밥집등록 <i className="fa fa-pencil"/></a>
 							</div>
 						</div>
 					</div>

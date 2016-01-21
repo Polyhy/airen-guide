@@ -49,7 +49,7 @@ RestaurantDetail = React.createClass({
 		return this.restaurant.menus.map(m=>(
 				<tr className="menu-itme" key={i++}>
 					<td className="menu">{m.menu}</td>
-					<td className="price">{m.price}</td>
+					<td className="price"><i className="fa fa-krw"></i>{m.price}</td>
 				</tr>
 		));
 	},
@@ -94,7 +94,7 @@ RestaurantDetail = React.createClass({
 					<div className="article article-1">
 						<p className="title">대표 메뉴</p>
 						<div className="contents">
-							<table>
+							<table style={{width:"50%"}}>
 								<tbody>{this.renderMenu()}</tbody>
 							</table>
 						</div>
@@ -119,7 +119,11 @@ RestaurantDetail = React.createClass({
 							{this.renderRestDay()}
 						</div>
 					</div>
-
+					<div className="gallery-wrapper">
+						<PolyhyComponent.ImageGallery
+								imageURLs={this.restaurant.images.map(i=>this.getImageURL(i))}
+								imageSize={100}/>
+					</div>
 				</div>
 		)
 	}

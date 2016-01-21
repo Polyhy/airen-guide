@@ -225,4 +225,27 @@ PolyhyComponent.UploadPhoto = React.createClass({
 	}
 });
 
+PolyhyComponent.ImageGallery = React.createClass({
+	propTypes: {
+		imageURLs: PropTypes.arrayOf(PropTypes.string).isRequired,
+		imageSize: PropTypes.number.isRequired
+	},
+	renderImages: function(imageURLs){
+		return imageURLs.map(
+				imageURL =>(
+						<div className="image-gallery" key={imageURL}
+								 style={{	backgroundImage: "url("+imageURL+")",
+								 					width: this.props.imageSize+"px", height: this.props.imageSize+"px",
+								 					display: "inline-block"}}/>
+				)
+		);
+	},
+	render: function(){
+		return (
+				<div className="image-gallery">
+					{this.renderImages(this.props.imageURLs)}
+				</div>
+		);
+	}
+});
 

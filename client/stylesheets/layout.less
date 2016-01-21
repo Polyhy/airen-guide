@@ -84,7 +84,6 @@ textarea{
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  border-radius: 2px;
 }
 
 .contents-block {
@@ -517,6 +516,19 @@ nav a:focus {
   }
 }
 
+.image-gallery{
+  width: 100%;
+  &>div{
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+  }
+  &>i{
+    position: absolute;
+    cursor: pointer;
+  }
+}
+
 //restaurant list
 .restaurant-card {
   padding: 22px 16px 16px;
@@ -675,26 +687,51 @@ nav a:focus {
       }
     }
   }
-  &>.map-wrapper{
+  &>.map-wrapper,
+  &>.gallery-wrapper{
     width: 60%;
-    height: 400px;
     margin: 0 auto;
+  }
+  &>.map-wrapper{
+    height: 400px;
+  }
+  &>.gallery-wrapper{
+    overflow: hidden;
+    & .image-gallery {
+      overflow: scroll;
+      white-space: nowrap;
+      position: relative;
+      &>div{
+        margin-right: 10px;
+      }
+    }
   }
   &>.article {
     width: 60%;
-    font-size: 20px;
     word-spacing: 1px;
     margin-top: 50px;
     margin-bottom: 70px;
-    padding: 6px 0px 6px 32px;
+    padding-left: 32px;
     border-left: solid 8px;
-
-
-    &.article-1{
-      border-left-color: @brand-green;
+    color: #333;
+    &.article-1{  border-left-color: @brand-green;  }
+    &.article-2{  border-left-color: @brand-light-blue;  }
+    & .title {
+      font-weight: 900;
+      margin-top: 12px;
+      font-size: 20px;
     }
-    &.article-2{
-      border-left-color: @brand-light-blue;
+    & .contents {
+      padding-left: 12px;
+      margin-bottom: 12px;
+      font-size: 18px;
+      
+      & .star{
+        font-size: 32px;
+        margin-right: 4px;
+        &.y{  color: @brand-yellow;  }
+        &.n{  color: @brand-yellow + #613;  }
+      }
     }
   }
 }//restaurant-detail
