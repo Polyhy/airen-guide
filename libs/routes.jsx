@@ -166,3 +166,27 @@ restaurantRoutes.route('/list/:restaurantId', {
 		});
 	}
 });
+
+
+
+
+
+settingRoutes = FlowRouter.group({
+	prefix: '/setting',
+	name: 'setting',
+	triggersEnter: [function(){
+		if (Meteor.isClient && !Meteor.user())FlowRouter.redirect('/user');
+	}]
+});
+
+settingRoutes.route('/user', {
+	action: function(){
+
+	}
+});
+
+settingRoutes.route('/team', {
+	action: function(){
+
+	}
+});
