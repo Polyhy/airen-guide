@@ -35,6 +35,8 @@ Layout.Profile = React.createClass({
 						<a className="profile--btn-logout" onClick={this.logout}>로그아웃</a>
 						<p className="profile--team-name">{this.props.user.profile.teamName}</p>
 					</div>
+					<button type="button" onClick={this.logout}
+									className="btn btn-ok profile--btn-logout-mobile" >로그아웃</button>
 				</div>
 		);
 	}
@@ -238,6 +240,7 @@ LoginAccountLayout = React.createClass({
 	subItems: {},
 	getInitialState: function(){
 		this.subItems.teamNames = Meteor.subscribe("teams");
+		return null;
 	},
 	componentDidMount: function(){
 		if ($(document).width() >= 768)

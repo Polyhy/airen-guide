@@ -249,7 +249,7 @@ nav a:focus {
 
 //profile
 .profile {
-  margin: 0px 0px 36px 40px;
+  margin: 0px 40px 36px
 }
 
 .profile--image {
@@ -291,6 +291,11 @@ nav a:focus {
   text-decoration: underline;
   cursor: pointer;
 }
+.profile--btn-logout-mobile{
+  display: none;
+  width: 100%;
+}
+
 
 .profile--team-name {
   color: @brand-light - #111;
@@ -618,16 +623,56 @@ nav a:focus {
 #restaurant-detail{
 
   & .title>i{
+    display: inline-block;
     color: lighten(@brand-red, 10%);
     margin-right: 4px;
     vertical-align: top;
   }
-  & .head-images-container{
+  & .title>span{
+    display: inline-block;
+    width: 80%;
+  }
+  &>.head-images-container{
     height: 360px;
-    & .head-images{
+    position: relative;
+    &>.head-images{
       display: inline-block;
       float: left;
       border: solid 2px #FFF;
+    }
+
+    &>.tag-list{
+      display: inline-block;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      border-left: solid 2px #FFF;
+      border-right: solid 2px #FFF;
+      border-bottom: solid 2px #FFF;
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      padding: 18px 6px;
+      &>div{
+        width: 80%;
+        display: inline-block;
+      }
+      & span{
+        margin-right: 8px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: text-top;
+        & i{
+          background-color: #FFF;
+          color: #333;
+          font-size: 14px;
+          padding: 2px;
+          border-radius: 2px;
+          margin-right: 4px;
+        }
+      }
     }
   }
 
@@ -836,9 +881,28 @@ nav a:focus {
   #team-view #team-view--map-box{
     display: none;
   }
-  .sidebar--menu{
-    width: 288px;
-    left: -288px;
+
+  .sidebar--menu {
+    width: 210px;
+    left: -210px;
+    & .logo-icon::after {
+      content: "";
+    }
+    & .profile--image {
+      vertical-align: top;
+    }
+    & .profile--user-name {
+      display: block;
+    }
+    & .profile--btn-logout{
+      display: none;
+    }
+    & .profile--btn-logout-mobile{
+      display: block;
+    }
+    & nav a, nav a:hover, nav a:visited, nav a:focus {
+      margin-top: 18px;
+    }
   }
 
   .login-account{
@@ -896,6 +960,19 @@ nav a:focus {
       background-color: #FFF;
     }
   }
+  #restaurant-detail > .head-images-container > .tag-list{
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0.8);
+    &>div {
+      width: 70%;
+    }
+    & span{
+      &>i{
+        font-size: 8px;
+      }
+    }
+  }
+
 }
 
 @media only screen and (min-width: 768px) {
