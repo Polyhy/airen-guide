@@ -35,7 +35,8 @@ var SignupMixin = {
 			var signupInfo={
 				profile:{
 					teamId: this.props.teamId,
-					team: team? team._id : -1,
+					team: team? team._id: -1,
+					teamName: team? team.name: null,
 					name: inputName
 				},
 				username: "",
