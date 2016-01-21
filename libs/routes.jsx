@@ -181,6 +181,10 @@ settingRoutes = FlowRouter.group({
 
 settingRoutes.route('/', {
 	action: function(){
-
+		ReactLayout.render(AppLayout, {
+			components: function() {
+				return <Settings />;
+			}
+		});
 	}
 });
