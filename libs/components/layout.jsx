@@ -199,7 +199,7 @@ AppLayout = React.createClass({
 		var menuItems = [];
 		menuItems.push({label: "오늘의 밥집", link: "#"});
 		menuItems.push({label: "밥집 리스트", link: "/restaurant/list"});
-		menuItems.push({label: "설정", link: "#"});
+		menuItems.push({label: "설정", link: "/setting"});
 		return(
 				<div id="root">
 					<Sidebar menuItems={menuItems} user={this.state.user}/>

@@ -179,13 +179,7 @@ settingRoutes = FlowRouter.group({
 	}]
 });
 
-settingRoutes.route('/user', {
-	action: function(){
-
-	}
-});
-
-settingRoutes.route('/team', {
+settingRoutes.route('/', {
 	action: function(){
 
 	}
