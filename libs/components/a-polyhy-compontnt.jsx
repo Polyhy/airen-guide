@@ -17,16 +17,19 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 	},
 	componentDidMount: function(){
 		var mapView = this.refs.mapView;
-		this.googleMap = GoogleMapBuilder(mapView, 37.5506241, 126.9192726, 18);
+		if(!this.props.lat || !this.props.lng)
+			this.googleMap = GoogleMapBuilder(mapView, 37.5506241, 126.9192726, 18);
+		else
+			this.googleMap = GoogleMapBuilder(mapView, this.props.lat, this.props.lng, 18, true);
 	},
 	findAddress: function(event){
+		event.target.blur();
 		var googleMap = this.googleMap;
 		var inputAddress = this.refs.inputAddress;
 		var inputLat = this.refs.inputLat;
 		var inputLng = this.refs.inputLng;
 		new daum.Postcode({
 			oncomplete: function(data) {
-				event.target.blur();
 				var tempAddress ={
 					address: data.address,
 					addressEnglish: data.addressEnglish,
@@ -50,14 +53,17 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 					<input type="text" className="form-control" ref="inputAddress"
 								 name={this.props.name}
 								 placeholder={this.props.placeholder}
-								 onFocus={this.findAddress}/>
+								 onFocus={this.findAddress}
+								 defaultValue={this.props.address}/>
 					<input type="text" className={"form-control"+(this.props.detail?"":" hide")}
 								 name={this.props.name+"-detail"}
 								 placeholder="상세주소" style={{marginTop: "6px"}}/>
 					<input type="text" className="form-control hide" ref="inputLat"
-								 name={this.props.name+"-lat"} disabled/>
+								 name={this.props.name+"-lat"} disabled
+								 defaultValue={this.props.lat}/>
 					<input type="text" className="form-control hide" ref="inputLng"
-								 name={this.props.name+"-lng"} disabled/>
+								 name={this.props.name+"-lng"} disabled
+								 defaultValue={this.props.lng}/>
 					<div ref="mapView" style={{width:"100%", height:this.props.height}}>
 					</div>
 					<p className="warn" ref="warning"></p>
