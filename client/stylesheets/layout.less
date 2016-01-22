@@ -90,19 +90,31 @@ textarea{
   margin-top: 42px;
 }
 
+& .btn-show-more{
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  display: inline-block;
+  float: right;
+  border-radius: 50%;
+  border: solid 3px;
+  cursor: pointer;
+  transition: .3s;
+}
+
 .polyhy-collapse{
-  -webkit-transition: height 0.6s;
-  -moz-transition: height 0.6s;
+  -webkit-transition: .6s;
+  -moz-transition: .6s;
   transition: .6s;
+  overflow: hidden;
 }
 .polyhy-collapse.show{
-  //height: auto;
-  max-height: 400px;
-  overflow: hidden;
+  max-height: 500px;
+  height: auto;
 }
 .polyhy-collapse.closed{
   max-height: 0;
-  overflow: hidden;
 }
 
 
@@ -951,6 +963,11 @@ nav a:focus {
     padding: 36px 24px 24px;
   }
 
+  & label{
+    font-weight: 200;
+    margin-right: 8px;
+  }
+
   & .accordian-container {
     padding-bottom: 24px;
 
@@ -964,8 +981,8 @@ nav a:focus {
       float: right;
     }
     &>.polyhy-collapse{
-      padding-left: 4px;
       padding-top: 8px;
+      width: 100%;
     }
     & .profile-image{
       width: 200px;
@@ -974,6 +991,29 @@ nav a:focus {
       -moz-border-radius: 2px;
       border-radius: 2px;
       border: solid 1px #ddd;
+    }
+  }
+
+  & #editTeamForm{
+    width: 50%;
+  }
+
+  & #voteForm{
+    width: 250px;
+    display: inline-block;
+    &>.form-group {
+      .time-h{  width: 30px;  }
+      .time-m{  width: 60px;  margin-left: 5px;  }
+      &>label{
+        width: 110px;
+      }
+      &>input{
+        display: inline-block;
+        width: 110px;
+      }
+    }
+    &>button{
+      float: right;
     }
   }
 }
@@ -1100,7 +1140,11 @@ nav a:focus {
       border-left: solid 8px;
     }
   }
-
+  #setting {
+    & #editTeamForm{
+      width: 100%;
+    }
+  }
 }
 
 @media only screen and (min-width: 768px) {
