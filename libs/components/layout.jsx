@@ -51,7 +51,7 @@ Layout.Sidebar = React.createClass({
 		var that = this;
 		$(document.body).on('click', function(event){
 			$target = $(event.target);
-			if($target.parents(".sidebar").length)
+			if(!$target.parents(".logo").length && $target.parents(".sidebar").length)
 				$target = $sidebar;
 			if($target.hasClass("sidebar") ||  $target.hasClass("btn-show-sidebar"))return;
 			if (!$sidebar.hasClass('closed'))that.showMenu();
@@ -79,7 +79,7 @@ Layout.Sidebar = React.createClass({
 	renderMenus: function () {
 		var i = 0;
 		return this.props.menuItems.map(
-				item => (<a href={item.link} key={"menu" + i++}>{item.label}</a>)
+				item => (<a href={item.link} key={"menu" + i++} onClick={this.showMenu}>{item.label}</a>)
 		);
 	},
 	render: function(){

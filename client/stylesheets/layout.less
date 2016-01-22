@@ -90,6 +90,20 @@ textarea{
   margin-top: 42px;
 }
 
+.polyhy-collapse{
+  -webkit-transition: height 0.6s;
+  -moz-transition: height 0.6s;
+  transition: .6s;
+}
+.polyhy-collapse.show{
+  //height: auto;
+  max-height: 400px;
+  overflow: hidden;
+}
+.polyhy-collapse.closed{
+  max-height: 0;
+  overflow: hidden;
+}
 
 
 //sidebar
@@ -927,6 +941,43 @@ nav a:focus {
   top: 34px;
   opacity: 0.9;
 }
+
+#setting{
+  & .setting-views {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0px 0px 4px 4px;
+    padding: 36px 24px 24px;
+  }
+
+  & .accordian-container {
+    padding-bottom: 24px;
+
+    &>.title{
+      font-size: 18px;
+      font-weight: 700;
+      width: 60%;
+      display: inline-block;
+    }
+    &>button{
+      float: right;
+    }
+    &>.polyhy-collapse{
+      padding-left: 4px;
+      padding-top: 8px;
+    }
+    & .profile-image{
+      width: 200px;
+      height: 200px;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      border: solid 1px #ddd;
+    }
+  }
+}
+
 
 @media only screen and (max-width: 767px) {
   .btn-show-sidebar{
