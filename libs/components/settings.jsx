@@ -55,15 +55,26 @@ Settings = React.createClass({
 					<input type="file" ref="inputTag" accept="image/*"
 								 className="" name="profile" />
 					<PolyhyComponent.InputText name="user-name" label="이름" value={this.state.user.profile.name}/>
-					<button type="button" style={{width:"100%"}} className="btn btn-ok">바꾸기</button>
+					<button type="button" style={{width:"100%"}} className="btn btn-ok">확인</button>
 				</form>
-
 			</div>
 		);
 	},
 	renderAlarm: function(){
 		return(
-				<div>알람설정<br/>알람설정<br/>알람설정<br/>알람설정<br/></div>
+				<div>
+					<form id="add-restaurant-form" ref="profileForm">
+						<div className="form-group">
+							<label htmlFor="recv-before">투표 <strong>시작시</strong> 이메일 알림 수신</label>
+							<input type="checkbox" name="recv-before" />
+						</div>
+						<div className="form-group">
+							<label htmlFor="recv-after">투표 <strong>종료시</strong> 이메일 알림 수신</label>
+							<input type="checkbox" name="recv-after" />
+						</div>
+						<button type="button" style={{float:"right"}} className="btn btn-ok">확인</button>
+					</form>
+				</div>
 		);
 	},
 	renderAccount: function(){
