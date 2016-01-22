@@ -144,7 +144,8 @@ PolyhyComponent.InputText = React.createClass({
 					<input type={this.props.pass ? "password" : "text"}
 								 className="form-control"
 								 name={this.props.name}
-								 placeholder={this.props.placeholder}/>
+								 placeholder={this.props.placeholder}
+								 defaultValue={this.props.value? this.props.value: ""}/>
 				</div>
 		)
 	}
@@ -177,33 +178,34 @@ PolyhyComponent.UploadPhoto = React.createClass({
 	},
 	readImage: function(event){
 		if (event.target.files && event.target.files[0]) {
-			if(this.props.count==-1 || this.props.images.length < this.props.count){
-				var reader = new FileReader();
-				var arrImages = this.props.images;
-				var $uploadedImages = $(this.refs.uploaded);
-				reader.onload = function(e) {
-					var tag = "" +
-							"<div class='appended-image'>" +
-							"<img src='#'/>" +
-							"<span><i class='fa fa-times'></i></span>" +
-							"</div>";
-					arrImages.push(e.target.result);
-					$uploadedImages.append(tag);
-					$uploadedImages.find('img').last().attr('src', e.target.result);
-					$uploadedImages.find('span').on('click', function(e){
-						var $image = $(this).parent();
-						var index = $uploadedImages.children().index($image);
-						if (index>-1){
-							$image.remove();
-							arrImages.splice(index, 1);
-							console.log(arrImages);
-						}
-					});
-				};
-				reader.readAsDataURL(event.target.files[0]);
-			}else{
-				$(this.refs.warning).text("사진은 "+this.props.count+"장 까지 업로드 할 수 있습니다");
-				console.log(this.props.images)
+			var arrImages = this.props.images;
+			var $uploadedImages = $(this.refs.uploaded);
+			var tempImageCount = arrImages.length;
+
+			for (var i=0; i<event.target.files.length; i++){
+				if(this.props.count==-1 || tempImageCount < this.props.count){
+					tempImageCount++;
+					$(this.refs.warning).text("");
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						var tag = "<div class='appended-image'><img src='#'/><span><i class='fa fa-times'></i></span></div>";
+						arrImages.push(e.target.result);
+						$uploadedImages.append(tag);
+						$uploadedImages.find('img').last().attr('src', e.target.result);
+						$uploadedImages.find('span').on('click', function(e){
+							var $image = $(this).parent();
+							var index = $uploadedImages.children().index($image);
+							if (index>-1){
+								$image.remove();
+								arrImages.splice(index, 1);
+							}
+						});
+					};
+					reader.readAsDataURL(event.target.files[i]);
+				} else{
+					$(this.refs.warning).text("사진은 "+this.props.count+"장 까지 업로드 할 수 있습니다");
+					break;
+				}
 			}
 		}
 	},
