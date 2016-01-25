@@ -100,7 +100,7 @@ userAccountRouter.route('/createteam', {
 			ReactLayout.render(LoginAccountLayout, {
 				title: "Create team",
 				components: function(){
-					if(Session.get('verifyEmailToken')){
+					if(Meteor.isClient && Session.get('verifyEmailToken')){
 						var verifyEmailToken = Session.get('verifyEmailToken');
 						Session.set('verifyEmailToken', null);
 						return <CreateTeamPage2 verifyEmailToken={verifyEmailToken}/>;
