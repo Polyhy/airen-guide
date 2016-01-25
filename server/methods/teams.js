@@ -44,6 +44,22 @@ Meteor.methods({
 				userId: user._id
 			}
 		}
+	},
+	editTeamAddress: function (newAddress, teamId){
+		if (newAddress.address && newAddress.latlng.lat && newAddress.latlng.lng && teamId){
+			check(teamId, String);
+			console.log(newAddress);
+			check(newAddress, {
+				address: String,
+				latlng: {
+					lat: Number,
+					lng: Number
+				}
+			});
+			var temp = Teams.update({_id: teamId}, {$set: {address: newAddress.address, latlng: newAddress.latlng}});
+			return temp;
+		} else throw new Meteor.Error("Invalid Input");
+
 	}
 });
 
