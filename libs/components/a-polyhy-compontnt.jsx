@@ -49,7 +49,7 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 	render:function(){
 		return (
 				<div className="form-group" style={{width:this.props.width}}>
-					<label htmlFor={this.props.name}>{this.props.label}</label>
+					<label htmlFor={this.props.name} className={this.props.label?"":"hide"}>{this.props.label}</label>
 					<input type="text" className="form-control" ref="inputAddress"
 								 name={this.props.name}
 								 placeholder={this.props.placeholder}
@@ -66,7 +66,7 @@ PolyhyComponent.InputAddressWithMap = React.createClass({
 								 defaultValue={this.props.lng}/>
 					<div ref="mapView" style={{width:"100%", height:this.props.height}}>
 					</div>
-					<p className="warn" ref="warning"></p>
+					<p className={this.props.hideWarn?"hide":"warn"} ref="warning"></p>
 				</div>
 		)
 	}
@@ -139,14 +139,13 @@ PolyhyComponent.RatingStar = React.createClass({
 PolyhyComponent.InputText = React.createClass({
 	propTypes: {
 		name: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
 		placeholder: PropTypes.string,
 		pass: PropTypes.bool
 	},
 	render:function(){
 		return(
 				<div className="form-group">
-					<label htmlFor={this.props.name}>{this.props.label}</label>
+					<label htmlFor={this.props.name} className={this.props.label?"":"hide"}>{this.props.label}</label>
 					<input type={this.props.pass ? "password" : "text"}
 								 className="form-control"
 								 name={this.props.name}
