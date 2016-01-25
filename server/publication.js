@@ -4,7 +4,18 @@ Meteor.publish('teams', function(){
 });
 
 Meteor.publish('team-members', function(teamId){
-	return Meteor.users.find({"profile.teamId" :teamId}, {fields: {_id:1, profile:1, emails:1}});
+	return Meteor.users.find(
+			{
+				"profile.teamId": teamId,
+				"emails.verified": true
+			},
+			{
+				fields: {
+					"_id": 1,
+					"profile": 1,
+					"emails": -1
+				}
+			});
 });
 
 Meteor.publish('restaurants', function(){
