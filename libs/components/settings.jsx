@@ -201,26 +201,47 @@ TeamSetting.Member = React.createClass({
 	componentWillUnmount: function(){
 		for (var i in this.subItem)this.subItem[i].stop();
 	},
+	updateUserType: function(event){
+		var $target = $(event.target);
+		var selected = Number(event.target.value);
+		var selectBox = event.target;
+		var targetUserId = $target.data('user');
+		var that = this;
+		Meteor.call("changeUserType", targetUserId, selected, function(err, res) {
+			if (err) {
+				if (err.error == 10002)$(that.refs.warn).text("권한이 없습니다");
+				if (err.error == 10003)$(that.refs.warn).text("팀에는 최소 한명의 관리자가 필요힙니다");
+				selectBox.value = Number(!selected);
+			} else if (targetUserId == this.props.user._id && selected == 0)FlowRouter.reload();
+		})
+	},
 	renderMember: function(){
 		var i = 0;
 		return this.state.members.map(
-						m =>(
-								<li key={i++}>
-									<p>{m.profile.name}</p>
-									<select className="form-control" defaultValue={m.profile.userType? "admin": "member"}>
-										<option value="admin">관리자</option>
-										<option value="member">멤버</option>
-									</select>
-								</li>
-						)
+				m =>(
+						<tr key={m._id}>
+							<td>{m.profile.name}</td>
+							<td>{m.emails[0].address}</td>
+							<td>
+								<select className="form-control" defaultValue={m.profile.userType? "1": "0"}
+												onChange={this.updateUserType} data-user={m._id}>
+									<option value="1">관리자</option>
+									<option value="0">멤버</option>
+								</select>
+							</td>
+						</tr>
+				)
 		);
 	},
 	render: function(){
 		return(
 				<div id="members">
-					<ul className="team-member">
-						{this.renderMember()}
-					</ul>
+					<p className="warn" ref="warn"></p>
+					<table className="team-member">
+						<tbody>
+							{this.renderMember()}
+						</tbody>
+					</table>
 				</div>
 		)
 	}
@@ -284,7 +305,7 @@ Settings = React.createClass({
 												 renderMenu={ <TeamSetting.EditAddress user={this.state.user} team={this.state.team}/> }/>
 							<Accordion title="투표 관리"
 												 renderMenu={ <TeamSetting.Vote user={this.state.user} team={this.state.team}/> }/>
-							<Accordion title="팀원 관리"
+							<Accordion title="팀원 관리" user={this.state.user}
 												 renderMenu={ <TeamSetting.Member user={this.state.user} team={this.state.team}/> }/>
 						</div>
 					</div>

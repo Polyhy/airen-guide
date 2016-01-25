@@ -60,6 +60,14 @@ Meteor.methods({
 			return temp;
 		} else throw new Meteor.Error("Invalid Input");
 
+	},
+	changeUserType: function(target, value) {
+		if (Meteor.user().profile.userType != 1)
+			throw new Meteor.Error(10002, "Access denied", "팀 관리자 권한이 필요힙니다");
+		else if (Meteor.users.find({"profile.userType": 1}).count() < 2 && value == 0)
+			throw new Meteor.Error(10003, "Error", "한 팀에는 최소한 한명 이상의 관리자가 필요합니다");
+
+		var res = Meteor.users.update({_id: target}, {$set: {"profile.userType": value}});
 	}
 });
 

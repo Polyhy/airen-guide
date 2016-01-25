@@ -1026,15 +1026,11 @@ nav a:focus {
       list-style-type: none;
       padding: 0;
 
-      &>li {
-        margin-bottom: 12px;
-        margin-left: 8px;
+      & td:nth-child(1) {
+        width: 70px;
       }
-      & p {
-        font-size: 18px;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 22px;
+      & td:nth-child(2) {
+        width: 250px;
       }
       & select {
         width: 100px;
@@ -1171,6 +1167,18 @@ nav a:focus {
   #setting {
     & #edit-team-address, & #members{
       width: 100%;
+    }
+
+    & #members{
+      & table, & tbody, & tr{
+        display: block;
+      }
+      & td{
+        display: inline-block;
+        &:nth-child(3){
+          margin-bottom: 16px;
+        }
+      }
     }
   }
 }
