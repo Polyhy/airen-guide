@@ -48,9 +48,13 @@ var SignupMixin = {
 	},
 	signup: function(userInfo){
 		Accounts.createUser(userInfo, (err)=>{
-			if(err) console.log(err);
+			if (err) {
+				if (err.error == 403) $('.warn').text("이미 존재하는 계정입니다.");
+				else if(err.error == 100002) this.signupCallBack();
+				else console.log(err);
+			}
 		});
-		this.signupCallBack();
+
 	}
 };
 
