@@ -112,15 +112,34 @@ TeamSetting.EditAddress = React.createClass({
 		var {user, team} = this.props;
 		return {user: user, team: team};
 	},
+	changeAddress: function(){
+		var $form = $(this.refs.addressForm);
+		$form.find("[for=address]").text("");
+		if (!$form.find("[name=address]").val() ||
+				!$form.find("[name=address-lat]").val() || !$form.find("[name=address-lng]").val())
+			$form.find("[for=address]").text("잘못된 주소입니다");
+		else {
+			var newAddress={latlng:{}};
+			newAddress.address = $form.find("[name=address]").val();
+			newAddress.latlng.lat = Number($form.find("[name=address-lat]").val());
+			newAddress.latlng.lng = Number($form.find("[name=address-lng]").val());
+			Meteor.call("editTeamAddress", newAddress, this.state.team._id, function(err, res){
+				if (!err){
+					console.log(res);
+				}
+			});
+		}
+	},
 	render: function(){
 		return(
-				<form id="editTeamForm">
+				<form id="edit-team-address" ref="addressForm">
 					<PolyhyComponent.InputAddressWithMap
 							label="" name={"address"} detail={false}
 							placeholder="" width={"100%"} height={"300px"}
 							address={this.state.team.address}
 							lat={this.state.team.latlng.lat} lng={this.state.team.latlng.lng}
 							/>
+					<button type="button" className="btn btn-ok" onClick={this.changeAddress}>확인</button>
 				</form>
 		)
 	}
@@ -173,21 +192,35 @@ TeamSetting.Vote = React.createClass({
 });
 
 TeamSetting.Member = React.createClass({
+	subItem: [],
 	getInitialState: function(){
 		var {user, team} = this.props;
-		Meteor.subscribe('team-members', team._id);
+		this.subItem.push(Meteor.subscribe('team-members', team._id));
 		return {user: user, team: team, members: Meteor.users.find().fetch()};
+	},
+	componentWillUnmount: function(){
+		for (var i in this.subItem)this.subItem[i].stop();
 	},
 	renderMember: function(){
 		var i = 0;
 		return this.state.members.map(
-						m => <p key={i++}>{m.profile.name}</p>
+						m =>(
+								<li key={i++}>
+									<p>{m.profile.name}</p>
+									<select className="form-control" defaultValue={m.profile.userType? "admin": "member"}>
+										<option value="admin">관리자</option>
+										<option value="member">멤버</option>
+									</select>
+								</li>
+						)
 		);
 	},
 	render: function(){
 		return(
-				<div>
-					{this.renderMember()}
+				<div id="members">
+					<ul className="team-member">
+						{this.renderMember()}
+					</ul>
 				</div>
 		)
 	}

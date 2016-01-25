@@ -129,12 +129,15 @@ textarea{
 
 nav{
   margin-left: 40px;
+  &>li{
+    list-style-type: none;
+  }
 }
 
 nav a {
   font-size: 18px;
   font-weight: 700;
-  display: block;
+  display: inline-block;
   margin: 8px 0;
   letter-spacing: .5px;
   word-spacing: 2px;
@@ -994,7 +997,7 @@ nav a:focus {
     }
   }
 
-  & #editTeamForm{
+  & #edit-team-address{
     width: 50%;
   }
 
@@ -1015,6 +1018,31 @@ nav a:focus {
     &>button{
       float: right;
     }
+  }
+
+  & #members {
+    width: 50%;
+    & .team-member {
+      list-style-type: none;
+      padding: 0;
+
+      &>li {
+        margin-bottom: 12px;
+        margin-left: 8px;
+      }
+      & p {
+        font-size: 18px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 22px;
+      }
+      & select {
+        width: 100px;
+        display: inline-block;
+        float: right;
+      }
+    }
+
   }
 }
 
@@ -1141,7 +1169,7 @@ nav a:focus {
     }
   }
   #setting {
-    & #editTeamForm{
+    & #edit-team-address, & #members{
       width: 100%;
     }
   }

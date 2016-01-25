@@ -79,7 +79,7 @@ Layout.Sidebar = React.createClass({
 	renderMenus: function () {
 		var i = 0;
 		return this.props.menuItems.map(
-				item => (<a href={item.link} key={"menu" + i++} onClick={this.showMenu}>{item.label}</a>)
+				item => <li key={i++}><a href={item.link} onClick={this.showMenu}>{item.label}</a></li>
 		);
 	},
 	render: function(){
@@ -110,10 +110,15 @@ Layout.Modal = React.createClass({
 });
 
 Layout.Map = React.createClass({
+	subItem: [],
 	getInitialState: function(){
+		this.subItem.push(Meteor.subscribe('team-members', this.props.user.profile.teamId));
 		return{
 			team: Teams.findOne({_id: this.props.user.profile.teamId})
 		}
+	},
+	componentWillUnmount: function(){
+		for (var i in this.subItem)this.subItem[i].stop();
 	},
 	componentDidMount: function(){
 		if(this.state.team.name == 'airensoft')
@@ -153,7 +158,7 @@ Layout.Map = React.createClass({
 									</tr>
 									<tr>
 										<td className="key">인원</td>
-										<td className="value">{Meteor.users.find({}).count()}</td>
+										<td className="value">{Meteor.users.find().count()} 명</td>
 									</tr>
 									<tr>
 										<td className="key">주소</td>
@@ -190,7 +195,7 @@ AppLayout = React.createClass({
 	},
 	componentWillUnmount: function(){
 		for(k in this.subItem){
-			this.subItem[k].stop()
+			this.subItem[k].stop();
 		}
 	},
 	render: function(){
