@@ -60,6 +60,9 @@ Login.LoginPage2 = React.createClass({
 		var team = Teams.findOne({_id: this.props.teamId});
 		return {team: team}
 	},
+	componentDidMount: function(){
+		$("#login-account--btn-back").removeClass('hide');
+	},
 	login: function(event){
 		var teamId = this.props.teamId;
 		var inputEmail = this.refs.loginEmail.value;
