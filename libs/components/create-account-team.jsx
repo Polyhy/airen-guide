@@ -198,38 +198,44 @@ CreateTeam.CreateTeamPage2 = React.createClass({
 	propTypes:{
 		verifyEmailToken: PropTypes.string.isRequired
 	},
-	findAddress: function(){
-		var googleMap = this.googleMap;
-		new daum.Postcode({
-			oncomplete: function(data) {
-				var teamAddress ={
-					address: data.address,
-					addressEnglish: data.addressEnglish,
-					latlng: getLatLng(data.addressEnglish)
-				};
-				if (teamAddress.latlng){
-					$('.warn').text("");
-					googleMap.drawMap(teamAddress.latlng.lat, teamAddress.latlng.lng, 18, true);
-					$('input[name=create-team-address]').val(data.address);
-				}
-				else $('.warn').text("잘못된 주소 입니다");
-			}
-		}).open();
-	},
-	createTeam: function(event){
-		var inputTeamName = this.refs.teamName.value;
-		var inputAddress = this.refs.address.value;
+	//findAddress: function(){
+	//	var googleMap = this.googleMap;
+	//	new daum.Postcode({
+	//		oncomplete: function(data) {
+	//			var teamAddress ={
+	//				address: data.address,
+	//				addressEnglish: data.addressEnglish,
+	//				latlng: getLatLng(data.addressEnglish)
+	//			};
+	//			if (teamAddress.latlng){
+	//				$('.warn').text("");
+	//				googleMap.drawMap(teamAddress.latlng.lat, teamAddress.latlng.lng, 18, true);
+	//				$('input[name=create-team-address]').val(data.address);
+	//			}
+	//			else $('.warn').text("잘못된 주소 입니다");
+	//		}
+	//	}).open();
+	//},
+	createTeam: function(){
+		var $form = $(this.refs.createTeamForm);
+		var inputTeamName = $form.find("[name='create-team-name']").val();
+		var inputAddress = $form.find("[name='address']").val();
+		var latlng = {
+			lat: Number($form.find("[name='address-lat']").val()),
+			lng: Number($form.find("[name='address-lng']").val())
+		};
 
 		if (!inputTeamName){
-			$('.warn').text("팀 이름을 입력해 주세요");
-		}else if (!inputAddress){
-			$('.warn').text("팀 주소를 입력해 주세요");
-		}
-		else {
+			$form.find(".warn").text("팀 이름을 입력해 주세요");
+		} else if (!inputAddress){
+			$form.find(".warn").text("팀 주소를 입력해 주세요");
+		} else if (!latlng.lat || !latlng.lng){
+			$form.find(".warn").text("잘못된 주소입니다");
+		} else {
 			var teamInfo = {
 				name: inputTeamName,
 				address: inputAddress,
-				latlng: this.googleMap.getCenter()
+				latlng: latlng
 			};
 			var token = this.props.verifyEmailToken;
 			var callback = this.verifyUser;
@@ -258,27 +264,21 @@ CreateTeam.CreateTeamPage2 = React.createClass({
 			}
 		});
 	},
-	componentDidMount: function(){
-		this.googleMap = GoogleMapBuilder(document.getElementById("create-team--map"), 37.5506241, 126.9192726, 18);
-	},
+	//componentDidMount: function(){
+	//	this.googleMap = GoogleMapBuilder(document.getElementById("create-team--map"), 37.5506241, 126.9192726, 18);
+	//},
 	render: function(){
 		return (
 				<div id="create-team--page-1">
 					<p className="tip">팀정보를 입력해 주세요</p>
-					<form>
+					<form ref="createTeamForm">
 						<p className="warn" ref="formError"></p>
-						<div className="form-group">
-							<input type="text" placeholder="team name"
-										 className="form-control" ref="teamName" name="create-team-name"/>
-						</div>
-						<div className="form-group">
-							<input type="text" placeholder="address"
-										 className="form-control" ref="address" name="create-team-address"
-										 onClick={this.findAddress}/>
-						</div>
+						<PolyhyComponent.InputText name="create-team-name" placeholder="teamname" />
+						<PolyhyComponent.InputAddressWithMap
+								label="" name={"address"} detail={false}
+								placeholder="address" width={"100%"} height={"300px"}
+								hideWarn={true}/>
 					</form>
-					<div id="create-team--map" style={{width:"100%", height:"300px", marginBottom:"15px"}}>
-					</div>
 					<button type="button" className="btn btn-ok" onClick={this.createTeam}>팀 만들기 ></button>
 				</div>
 		);
