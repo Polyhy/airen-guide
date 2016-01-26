@@ -109,8 +109,8 @@ var TeamSetting = React.createClass({
 
 TeamSetting.EditAddress = React.createClass({
 	getInitialState: function(){
-		var {user, team} = this.props;
-		return {user: user, team: team};
+		var {team} = this.props;
+		return {team: team};
 	},
 	changeAddress: function(){
 		var $form = $(this.refs.addressForm);
@@ -150,40 +150,112 @@ TeamSetting.Vote = React.createClass({
 		var {user, team} = this.props;
 		return {user: user, team: team};
 	},
+	componentWillReceiveProps(nextProps){
+		console.log(nextProps);
+		this.setState({team:nextProps.team})
+	},
+	appendVote: function(){
+		$(this.refs.warn).text("");
+		if (!this.refs['time-start-h'].value)
+			$(this.refs.warn).text("투표 시작 시간을 입력해 주세요");
+		else if (!this.refs['time-start-m'].value)
+			$(this.refs.warn).text("투표 시작 시간을 입력해 주세요");
+		else if (!this.refs['time-end-h'].value)
+			$(this.refs.warn).text("투표 종료 시간을 입력해 주세요");
+		else if (this.refs['time-end-h'].value < 0 || this.refs['time-end-h'].value > 23)
+			$(this.refs.warn).text("잘못된 값입니다");
+		else if (!this.refs['time-end-m'].value)
+			$(this.refs.warn).text("투표 종료 시간을 입력해 주세요");
+		else if (!this.refs["max-price"].value)
+			$(this.refs.warn).text("최대 가격을 입력해 주세요");
+		else if (!this.refs["min-member"].value)
+			$(this.refs.warn).text("최소 인원을 입력해 주세요");
+		else if (this.refs['time-start-m'].value < 0 || this.refs['time-start-m'].value > 59)
+			$(this.refs.warn).text("잘못된 값입니다");
+		else if (this.refs['time-end-m'].value < 0 || this.refs['time-end-m'].value > 59)
+			$(this.refs.warn).text("잘못된 값입니다");
+		else if (this.refs['time-start-h'].value < 0 || this.refs['time-start-h'].value > 23)
+			$(this.refs.warn).text("잘못된 값입니다");
+		else if (Number(this.refs['time-start-h'].value) > Number(this.refs['time-end-h'].value))
+			$(this.refs.warn).text("투표 종료시간이 시작시간보다 빠를 수 없습니다.");
+		else if ( Number(this.refs['time-start-h'].value) == Number(this.refs['time-end-h'].value) &&
+							Number(this.refs['time-start-m'].value) >= Number(this.refs['time-end-m'].value))
+			$(this.refs.warn).text("투표 종료시간이 시작시간보다 빠를 수 없습니다.");
+		else if ( this.refs['time-start-h'].value == this.refs['time-end-h'].value &&
+				this.refs['time-start-m'].value == this.refs['time-end-m'].value)
+			$(this.refs.warn).text("투표 시작 시간과 종료시간이 같을 수 없습니다.");
+		else{
+			var newVote = {
+				startAt: {
+					h: Number(this.refs['time-start-h'].value),
+					m: Number(this.refs['time-start-m'].value)
+				},
+				endAt: {
+					h: Number(this.refs['time-end-h'].value),
+					m: Number(this.refs['time-end-m'].value)
+				},
+				minMember: Number(this.refs["min-member"].value),
+				maxPrice: Number(this.refs["max-price"].value)
+			};
+			var that = this;
+			Meteor.call("addNewVote", newVote, function (err, res) {
+				if(err){
+					if(err.error==10004)$(that.refs.warn).text("시간이 중복되는 투표가 있습니다");
+					else console.log(err);
+
+				}else{
+					that.refs['time-start-h'].value = "";
+					that.refs['time-start-m'].value = "";
+					that.refs['time-end-h'].value = "";
+					that.refs['time-end-m'].value = "";
+					that.refs["min-member"].value = "";
+					that.refs["max-price"].value = "";
+				}
+			});
+		}
+	},
+	deleteVote: function(event){
+		var $target = $(event.target);
+		console.log($target.data("timestamp"))
+	},
+	renderVotes: function(){
+		return this.state.team.votes.map(
+				v=>(
+						<li key={v.startAt.h+v.startAt.m}>
+							{v.startAt.h+"시 "+v.startAt.m+"시 "+"분 ~ "+v.endAt.h+"시 "+v.endAt.m+"분"}
+							<span className="delete-tooltip" onClick={this.deleteVote} data-timestamp={v.timestamp}>이 투표 삭제</span>
+						</li>
+				)
+		)
+	},
 	render: function(){
 		return(
 				<div>
+					<p className="warn" ref="warn"></p>
 					<form id="voteForm">
 						<div className="form-group">
 							<label htmlFor="time-start">시작 시간</label>
-							<input type="text" className="form-control time-h" name="time-start-h"/>시
-							<input type="text" className="form-control time-m" name="time-start-m"/>분
+							<input type="text" className="form-control time-h" ref="time-start-h"/>시
+							<input type="text" className="form-control time-m" ref="time-start-m"/>분
 						</div>
 						<div className="form-group">
-							<label htmlFor="time-end">시작 시간</label>
-							<input type="text" className="form-control time-h" name="time-end-h"/>시
-							<input type="text" className="form-control time-m" name="time-end-m"/>분
+							<label htmlFor="time-end">종료 시간</label>
+							<input type="text" className="form-control time-h" ref="time-end-h"/>시
+							<input type="text" className="form-control time-m" ref="time-end-m"/>분
 						</div>
 						<div className="form-group">
 							<label htmlFor="max-price">1인당 최대 가격</label>
-							<input type="text" className="form-control" name="max-price"/>원
+							<input type="text" className="form-control" ref="max-price"/>원
 						</div>
 						<div className="form-group">
 							<label htmlFor="max-people">밥집당 최소 인원</label>
-							<input type="text" className="form-control" name="max-price"/>명
+							<input type="text" className="form-control" ref="min-member"/>명
 						</div>
-						<button type="button" className="btn btn-ok">추가하기</button>
+						<button type="button" className="btn btn-ok" onClick={this.appendVote}>추가하기</button>
 					</form>
 					<div id="vote-list">
 						<ul>
-							{this.state.team.votes.map(
-									v=>(
-											<li>
-												{v.startAt+" ~ "+v.endAt}
-												<button type="button" className="btn btn-sm btn-danger">삭제</button>
-											</li>
-									)
-							)}
+							{this.renderVotes()}
 						</ul>
 					</div>
 				</div>
@@ -193,10 +265,16 @@ TeamSetting.Vote = React.createClass({
 
 TeamSetting.Member = React.createClass({
 	subItem: [],
+	mixins: [ReactMeteorData],
+	getMeteorData: function(){
+		return{
+			members: Meteor.users.find().fetch()
+		}
+	},
 	getInitialState: function(){
 		var {user, team} = this.props;
 		this.subItem.push(Meteor.subscribe('team-members', team._id));
-		return {user: user, team: team, members: Meteor.users.find().fetch()};
+		return {user: user, team: team};
 	},
 	componentWillUnmount: function(){
 		for (var i in this.subItem)this.subItem[i].stop();
@@ -212,12 +290,12 @@ TeamSetting.Member = React.createClass({
 				if (err.error == 10002)$(that.refs.warn).text("권한이 없습니다");
 				if (err.error == 10003)$(that.refs.warn).text("팀에는 최소 한명의 관리자가 필요힙니다");
 				selectBox.value = Number(!selected);
-			} else if (targetUserId == this.props.user._id && selected == 0)FlowRouter.reload();
+			} //else if (targetUserId == that.props.user._id && selected == 0)FlowRouter.reload();
 		})
 	},
 	renderMember: function(){
 		var i = 0;
-		return this.state.members.map(
+		return this.data.members.map(
 				m =>(
 						<tr key={m._id}>
 							<td>{m.profile.name}</td>
@@ -252,20 +330,31 @@ TeamSetting.Member = React.createClass({
 
 
 Settings = React.createClass({
-	getInitialState: function(){
-		Meteor.subscribe('teams');
+	mixins: [ReactMeteorData],
+	getMeteorData: function(){
 		return {
 			user: Meteor.user(),
 			team: Teams.findOne({_id: Meteor.user().profile.teamId})
 		}
 	},
+	componentWillMount: function(){
+		Meteor.subscribe('teams');
+	},
 	componentDidMount: function () {
-		if(this.state.user.profile.userType){
+		if(this.data.user.profile.userType){
 			$(this.refs.btnTeam).addClass("active");
 			$(this.refs.setTeam).removeClass("hide");
 		}else{
 			$(this.refs.btnPerson).addClass("active");
 			$(this.refs.setPerson).removeClass("hide");
+		}
+		$(".sliding-switch").bootstrapSwitch();
+	},
+	componentDidUpdate: function(prevProps, prevState){
+		if(!this.data.user.profile.userType){
+			$(this.refs.btnPerson).addClass("active");
+			$(this.refs.setPerson).removeClass("hide");
+			$(this.refs.setTeam).addClass("hide");
 		}
 		$(".sliding-switch").bootstrapSwitch();
 	},
@@ -282,7 +371,7 @@ Settings = React.createClass({
 		return (
 				<div id="setting">
 					<ul className="nav nav-tabs">
-						{this.state.user.profile.userType?(
+						{this.data.user.profile.userType?(
 								<li ref="btnTeam" data-target="setTeam">
 									<a href="#" onClick={this.changeShow}>팀 설정</a>
 								</li>
@@ -294,19 +383,19 @@ Settings = React.createClass({
 					<div className="setting-views" ref="settingViews">
 						<div ref="setPerson" className="setting-view hide">
 							<Accordion title="프로필 수정"
-												 renderMenu={ <PersonSetting.Profile user={this.state.user}/> }/>
+												 renderMenu={ <PersonSetting.Profile user={this.data.user}/> }/>
 							<Accordion title="이메일 알림 설정"
-												 renderMenu={ <PersonSetting.EmailAlarm user={this.state.user}/> }/>
+												 renderMenu={ <PersonSetting.EmailAlarm user={this.data.user}/> }/>
 							<Accordion title="회원 탈퇴"
-												 renderMenu={ <PersonSetting.DeleteAccount user={this.state.user}/> }/>
+												 renderMenu={ <PersonSetting.DeleteAccount user={this.data.user}/> }/>
 						</div>
 						<div ref="setTeam" className="setting-view hide">
 							<Accordion title="주소 수정"
-												 renderMenu={ <TeamSetting.EditAddress user={this.state.user} team={this.state.team}/> }/>
+												 renderMenu={ <TeamSetting.EditAddress user={this.data.user} team={this.data.team}/> }/>
 							<Accordion title="투표 관리"
-												 renderMenu={ <TeamSetting.Vote user={this.state.user} team={this.state.team}/> }/>
-							<Accordion title="팀원 관리" user={this.state.user}
-												 renderMenu={ <TeamSetting.Member user={this.state.user} team={this.state.team}/> }/>
+												 renderMenu={ <TeamSetting.Vote user={this.data.user} team={this.data.team}/> }/>
+							<Accordion title="팀원 관리" user={this.data.user}
+												 renderMenu={ <TeamSetting.Member user={this.data.user} team={this.data.team}/> }/>
 						</div>
 					</div>
 				</div>

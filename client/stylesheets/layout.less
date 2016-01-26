@@ -1004,6 +1004,8 @@ nav a:focus {
   & #voteForm{
     width: 250px;
     display: inline-block;
+    vertical-align: top;
+
     &>.form-group {
       .time-h{  width: 30px;  }
       .time-m{  width: 60px;  margin-left: 5px;  }
@@ -1013,13 +1015,42 @@ nav a:focus {
       &>input{
         display: inline-block;
         width: 110px;
+        padding: 0 4px;
+        text-align: right;
       }
     }
     &>button{
       float: right;
     }
   }
-
+  & #vote-list{
+    display: inline-block;
+    &>ul{
+      list-style-type: none;
+      &>li{
+        padding-bottom: 6px;
+        &:hover{
+          text-decoration: underline;
+          & .delete-tooltip{
+            display: inline-block;
+          }
+        }
+        & .delete-tooltip{
+          color: #fff;
+          background-color: @brand-red;
+          font-size: 12px;
+          padding: 3px 12px;
+          text-decoration: none;
+          border-radius: 4px;
+          position: relative;
+          margin-left: 8px;
+          opacity: 0.9;
+          display: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
   & #members {
     width: 50%;
     & .team-member {
@@ -1173,11 +1204,12 @@ nav a:focus {
       & table, & tbody, & tr{
         display: block;
       }
+      & tr {
+        padding-bottom: 16px;
+      }
       & td{
         display: inline-block;
-        &:nth-child(3){
-          margin-bottom: 16px;
-        }
+        vertical-align: middle;
       }
     }
   }
