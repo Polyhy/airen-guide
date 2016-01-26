@@ -125,14 +125,18 @@ Layout.Map = React.createClass({
 			$("#btn-add-restaurant").removeClass('hide');
 	},
 	getVotes: function(){
-		var votes = this.state.team.votes;
-		if (votes.length > 0){
-			var votesStr = "";
-			for (var i in votes){
-				votesStr += votes[i].start+" ~ "+votes[i].end+"\n";
+		var time = new Date();
+		var now =  {h :time.getHours(), m: time.getMinutes()};
+		if (this.state.team.votes.length < 0) return "-";
+		for (var j in this.state.team.votes){
+			var i = this.state.team.votes[j];
+			if(i.startAt.h>now.h || (i.startAt.h==now.h && i.startAt.m > now.m)){
+				if(i.endAt.h>now.h || (i.endAt.h==now.h && i.endAt.m > now.m)){
+					return i.startAt.h+" : "+i.startAt.m+" ~ "+i.endAt.h+" : "+i.endAt.m;
+				}
 			}
-			return votesStr;
-		}else return "-";
+		}
+		return "-";
 	},
 	render: function(){
 		return (
@@ -150,22 +154,20 @@ Layout.Map = React.createClass({
 								<hr/>
 								<table>
 									<tbody>
-									<tr>
-										<td className="key">투표시간</td>
-										<td className="value">
-											{this.getVotes()}
-										</td>
-									</tr>
-									<tr>
-										<td className="key">인원</td>
-										<td className="value">{Meteor.users.find().count()} 명</td>
-									</tr>
-									<tr>
-										<td className="key">주소</td>
-										<td className="value">{this.state.team.address}</td>
-									</tr>
+										<tr>
+											<td className="key">주소</td>
+											<td className="value">{this.state.team.address}</td>
+										</tr>
+										<tr>
+											<td className="key">인원</td>
+											<td className="value">{Meteor.users.find().count()} 명</td>
+										</tr>
 									</tbody>
-								</table>
+								</table><br/>
+								<div style={{marginLeft: "5%"}}>
+									<span>진행 중인 투표</span><br/>
+									<strong>{this.getVotes()}</strong>
+								</div>
 								<a className="btn btn-default hide" id="btn-add-restaurant" href="/restaurant/add">밥집등록 <i className="fa fa-pencil"/></a>
 							</div>
 						</div>
