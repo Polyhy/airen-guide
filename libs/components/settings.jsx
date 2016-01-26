@@ -22,7 +22,6 @@ var Accordion = React.createClass({
 		return (
 				<div className="accordian-container">
 					<p className="title">{this.props.title}</p>
-					{/*<button type="button" className="btn btn-default" ref="btn" onClick={this.hideContext}>더보기</button>*/}
 					<span ref="btn" onClick={this.hideContext} className="btn-show-more"><i className="fa fa-chevron-down"></i></span>
 					<div className="polyhy-collapse closed" ref="context">
 						{this.props.renderMenu}
@@ -216,7 +215,7 @@ TeamSetting.Vote = React.createClass({
 	},
 	deleteVote: function(event){
 		var $target = $(event.target);
-		console.log($target.data("timestamp"))
+		Meteor.call("removeVote", $target.data("timestamp"))
 	},
 	renderVotes: function(){
 		return this.state.team.votes.map(

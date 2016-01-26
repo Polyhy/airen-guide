@@ -147,6 +147,20 @@ Meteor.methods({
 				}
 		);
 		return res;
+	},
+	removeVote: function(voteTimeStamp){
+		if (Meteor.user().profile.userType != 1)
+			throw new Meteor.Error(10002, "Access denied", "팀 관리자 권한이 필요힙니다");
+		Teams.update(
+				{_id: Meteor.user().profile.teamId},
+				{
+					$pull: {
+						votes: {
+							timestamp: voteTimeStamp
+						}
+					}
+				}
+		);
 	}
 });
 
