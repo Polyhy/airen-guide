@@ -83,7 +83,6 @@ Layout.Sidebar = React.createClass({
 		);
 	},
 	render: function(){
-		//if (!this.props.user)return false;
 		return (
 				<div className="sidebar closed" ref="sidebar">
 					<div className="sidebar--menu" ref="sidebarMenu">
@@ -110,31 +109,26 @@ Layout.Modal = React.createClass({
 });
 
 Layout.Map = React.createClass({
-	subItem: [],
-	mixins: [ReactMeteorData],
-	getMeteorData: function(){
-		return {  team: Teams.findOne({_id: Meteor.user().profile.teamId})  };
-	},
 	getInitialState: function(){
-		return{  time: new Date()  };
-	},
-	componentWillMount: function(){
-		this.subItem.push(Meteor.subscribe('team-members', this.props.user.profile.teamId));
+		var {team} = this.props;
+		return{  time: new Date(), team:team  };
 	},
 	componentDidMount: function(){
-		if(this.data.team.name == 'airensoft')
+		if(this.state.team.name == 'airensoft')
 			$("#btn-add-restaurant").removeClass('hide');
 		this.timer = setInterval(()=>this.setState({time: new Date()}), 100);
 	},
+	componentWillReceiveProps(nextProps){
+		this.setState({team:nextProps.team})
+	},
 	componentWillUnmount: function(){
-		for (var i in this.subItem)this.subItem[i].stop();
 		clearInterval(this.timer);
 	},
 	getVotes: function(){
 		var now =  {h :this.state.time.getHours(), m: this.state.time.getMinutes()};
-		if (this.data.team.votes.length < 0) return "-";
-		for (var j in this.data.team.votes){
-			var i = this.data.team.votes[j];
+		if (this.state.team.votes.length < 0) return "-";
+		for (var j in this.state.team.votes){
+			var i = this.state.team.votes[j];
 			if(i.startAt.h<now.h || (i.startAt.h==now.h && i.startAt.m < now.m)){
 				if(i.endAt.h>now.h || (i.endAt.h==now.h && i.endAt.m > now.m)){
 					return i.startAt.h+" : "+i.startAt.m+" ~ "+i.endAt.h+" : "+i.endAt.m;
@@ -150,18 +144,18 @@ Layout.Map = React.createClass({
 						<div className="col-xs-12">
 							<div id="team-view--map-box" >
 								<PolyhyComponent.Map width={"100%"} height={"100%"}
-																		 lat={this.data.team.latlng.lat}
-																		 lng={this.data.team.latlng.lng}
+																		 lat={this.state.team.latlng.lat}
+																		 lng={this.state.team.latlng.lng}
 																		 zoom={18} marker={true}/>
 							</div>
 							<div id="team-view--team-info">
-								<h4 className="title">{this.data.team.name}</h4>
+								<h4 className="title">{this.state.team.name}</h4>
 								<hr/>
 								<table>
 									<tbody>
 										<tr>
 											<td className="key">주소</td>
-											<td className="value">{this.data.team.address}</td>
+											<td className="value">{this.state.team.address}</td>
 										</tr>
 										<tr>
 											<td className="key">인원</td>
@@ -187,23 +181,26 @@ AppLayout = React.createClass({
 	propTypes:{
 		components: PropTypes.func.isRequired
 	},
-	subItem: {},
+	subItem: [],
+	mixins: [ReactMeteorData],
+	getMeteorData: function(){
+		return {  team: Teams.findOne({_id: Meteor.user().profile.teamId})  };
+	},
 	getInitialState: function() {
 		var user = Meteor.user();
 		return {user: user};
 	},
 	componentWillMount: function(){
 		if(Meteor.isClient && !this.state.user)FlowRouter.redirect('/user/login');
-		this.subItem.team = Meteor.subscribe('teams');
+		this.subItem.push(Meteor.subscribe('team-members', this.state.user.profile.teamId));
+		this.subItem.push(Meteor.subscribe('teams'));
 	},
 	componentDidMount:function(){
 		$(".sidebar--menu-items>nav>a.active").removeClass("active");
 		$('.sidebar--menu-items>nav>a[href=\''+FlowRouter.current().path+'\']').addClass('active');
 	},
 	componentWillUnmount: function(){
-		for(k in this.subItem){
-			this.subItem[k].stop();
-		}
+		for (var i in this.subItem)this.subItem[i].stop();
 	},
 	render: function(){
 		if (!this.state.user)return false;
@@ -215,7 +212,7 @@ AppLayout = React.createClass({
 		return(
 				<div id="root">
 					<Sidebar menuItems={menuItems} user={this.state.user}/>
-					<Map user={this.state.user}/>
+					<Map user={this.state.user} team={this.data.team}/>
 					<div className="container contents-block">
 						{this.props.components()}
 					</div>
