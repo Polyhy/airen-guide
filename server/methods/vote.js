@@ -23,8 +23,8 @@ Meteor.methods({
 		Crons.insert(makeVoteCron);
 		Crons.insert(closeVoteCron);
 
-		startVoteCron(makeVoteCron);
-		startVoteCron(closeVoteCron);
+		this.startVoteCron(makeVoteCron);
+		this.startVoteCron(closeVoteCron);
 	},
 
 	deleteVote: function(voteTimeStamp, teamId){
