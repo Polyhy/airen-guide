@@ -151,8 +151,16 @@ Meteor.methods({
 	removeVote: function(voteTimeStamp){
 		if (Meteor.user().profile.userType != 1)
 			throw new Meteor.Error(10002, "Access denied", "팀 관리자 권한이 필요힙니다");
+
+		var vote = Teams.findOne({
+			_id: Meteor.user().profile.teamId}).votes.find(i=>i.timestamp==voteTimeStamp);
+		var teamId = Meteor.user().profile.teamId
+		var jobName = teamId+"%"+vote.startAt.h+"%"+vote.startAt.m;
+		SyncedCron.remove(jobName+"%1");
+		SyncedCron.remove(jobName+"%0");
+
 		Teams.update(
-				{_id: Meteor.user().profile.teamId},
+				{_id: teamId},
 				{
 					$pull: {
 						votes: {
