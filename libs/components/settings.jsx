@@ -150,7 +150,6 @@ TeamSetting.Vote = React.createClass({
 		return {user: user, team: team};
 	},
 	componentWillReceiveProps(nextProps){
-		console.log(nextProps);
 		this.setState({team:nextProps.team})
 	},
 	appendVote: function(){
@@ -218,10 +217,13 @@ TeamSetting.Vote = React.createClass({
 		Meteor.call("removeVote", $target.data("timestamp"))
 	},
 	renderVotes: function(){
-		return this.state.team.votes.map(
+		var votes = this.state.team.votes.slice().sort(
+			(i, j)=>i.startAt.h==j.startAt.h? i.startAt.m-j.startAt.m: i.startAt.h-j.startAt.h
+		);
+		return votes.map(
 				v=>(
-						<li key={v.startAt.h+v.startAt.m}>
-							{v.startAt.h+"시 "+v.startAt.m+"시 "+"분 ~ "+v.endAt.h+"시 "+v.endAt.m+"분"}
+						<li key={v.timestamp}>
+							{v.startAt.h+"시 "+v.startAt.m+"분 ~ "+v.endAt.h+"시 "+v.endAt.m+"분"}
 							<span className="delete-tooltip" onClick={this.deleteVote} data-timestamp={v.timestamp}>이 투표 삭제</span>
 						</li>
 				)
