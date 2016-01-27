@@ -111,26 +111,31 @@ Layout.Modal = React.createClass({
 
 Layout.Map = React.createClass({
 	subItem: [],
+	mixins: [ReactMeteorData],
+	getMeteorData: function(){
+		return {  team: Teams.findOne({_id: Meteor.user().profile.teamId})  };
+	},
 	getInitialState: function(){
+		return{  time: new Date()  };
+	},
+	componentWillMount: function(){
 		this.subItem.push(Meteor.subscribe('team-members', this.props.user.profile.teamId));
-		return{
-			team: Teams.findOne({_id: this.props.user.profile.teamId})
-		}
+	},
+	componentDidMount: function(){
+		if(this.data.team.name == 'airensoft')
+			$("#btn-add-restaurant").removeClass('hide');
+		this.timer = setInterval(()=>this.setState({time: new Date()}), 100);
 	},
 	componentWillUnmount: function(){
 		for (var i in this.subItem)this.subItem[i].stop();
-	},
-	componentDidMount: function(){
-		if(this.state.team.name == 'airensoft')
-			$("#btn-add-restaurant").removeClass('hide');
+		clearInterval(this.timer);
 	},
 	getVotes: function(){
-		var time = new Date();
-		var now =  {h :time.getHours(), m: time.getMinutes()};
-		if (this.state.team.votes.length < 0) return "-";
-		for (var j in this.state.team.votes){
-			var i = this.state.team.votes[j];
-			if(i.startAt.h>now.h || (i.startAt.h==now.h && i.startAt.m > now.m)){
+		var now =  {h :this.state.time.getHours(), m: this.state.time.getMinutes()};
+		if (this.data.team.votes.length < 0) return "-";
+		for (var j in this.data.team.votes){
+			var i = this.data.team.votes[j];
+			if(i.startAt.h<now.h || (i.startAt.h==now.h && i.startAt.m < now.m)){
 				if(i.endAt.h>now.h || (i.endAt.h==now.h && i.endAt.m > now.m)){
 					return i.startAt.h+" : "+i.startAt.m+" ~ "+i.endAt.h+" : "+i.endAt.m;
 				}
@@ -145,18 +150,18 @@ Layout.Map = React.createClass({
 						<div className="col-xs-12">
 							<div id="team-view--map-box" >
 								<PolyhyComponent.Map width={"100%"} height={"100%"}
-																		 lat={this.state.team.latlng.lat}
-																		 lng={this.state.team.latlng.lng}
+																		 lat={this.data.team.latlng.lat}
+																		 lng={this.data.team.latlng.lng}
 																		 zoom={18} marker={true}/>
 							</div>
 							<div id="team-view--team-info">
-								<h4 className="title">{this.state.team.name}</h4>
+								<h4 className="title">{this.data.team.name}</h4>
 								<hr/>
 								<table>
 									<tbody>
 										<tr>
 											<td className="key">주소</td>
-											<td className="value">{this.state.team.address}</td>
+											<td className="value">{this.data.team.address}</td>
 										</tr>
 										<tr>
 											<td className="key">인원</td>
