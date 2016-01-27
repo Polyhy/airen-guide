@@ -147,6 +147,16 @@ restaurantRoutes.route('/add', {
 	}
 });
 
+restaurantRoutes.route('/vote', {
+	action: function(){
+		ReactLayout.render(AppLayout, {
+			components: function() {
+				return <TodaysVote />;
+			}
+		});
+	}
+});
+
 restaurantRoutes.route('/list', {
 	action: function(){
 		ReactLayout.render(AppLayout, {

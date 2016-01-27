@@ -206,7 +206,7 @@ AppLayout = React.createClass({
 		if (!this.state.user)return false;
 
 		var menuItems = [];
-		menuItems.push({label: "오늘의 밥집", link: "#"});
+		menuItems.push({label: "오늘의 밥집", link: "/restaurant/vote"});
 		menuItems.push({label: "밥집 리스트", link: "/restaurant/list"});
 		menuItems.push({label: "설정", link: "/setting"});
 		return(

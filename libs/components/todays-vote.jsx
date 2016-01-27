@@ -6,7 +6,7 @@ TodaysVote = React.createClass({
 	getMeteorData: function(){
 		var teamId = Meteor.user().profile.teamId;
 		var todaysVote = Todays.findOne({teamId:teamId, status:1});
-		var restaurantsIds = todaysVote.restaurants.map(i=>i.restaurantsId);
+		var restaurantsIds = todaysVote? todaysVote.restaurants.map(i=>i.restaurantsId): [];
 		return {
 			restaurants: Restaurants.find({_id:{$in:restaurantsIds}}).fetch(),
 			todaysVote: todaysVote
@@ -52,8 +52,10 @@ TodaysVote = React.createClass({
 		});
 	},
 	render: function(){
-		return (
+		return this.data.todaysVote?(
 				<div>{this.renderRestaurantItems()}</div>
+		): (
+				<div><h1>현재 진행 중인 투표가 없습니다</h1></div>
 		);
 	}
 });
