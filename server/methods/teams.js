@@ -42,8 +42,6 @@ var validateVote = function(voteOption){
 	if ( voteOption.startAt.h == voteOption.endAt.h && voteOption.startAt.m == voteOption.endAt.m)
 		error.push("투표 시작 시간과 종료시간이 같을 수 없습니다.");
 
-	console.log(voteOption.endAt);
-	console.log(error)
 	return error;
 };
 
@@ -130,13 +128,19 @@ Meteor.methods({
 						)
 				)
 		);
-		console.log(overlapVote.length);
 		if (overlapVote.length) throw new Meteor.Error(10004, "중복된 투표가 있습니다", error);
 
 		var newVote = _.extend(voteOption, {
 			createdAt: new Date(),
 			timestamp: new Date().getTime()
 		});
+
+		var timeToString = i=>i<10? "0"+i: ""+i;
+		newVote.startAt.h = timeToString(newVote.startAt.h);
+		newVote.startAt.m = timeToString(newVote.startAt.m);
+		newVote.endAt.h = timeToString(newVote.endAt.h);
+		newVote.endAt.m = timeToString(newVote.endAt.m);
+
 
 		var res = Teams.update(
 				{_id: Meteor.user().profile.teamId},
@@ -146,7 +150,7 @@ Meteor.methods({
 					}
 				}
 		);
-		Meteor.call(addNewVoteCron, newVote, Meteor.user().profile.teamId);
+		Meteor.call("addNewVoteCron", newVote, Meteor.user().profile.teamId);
 		return res;
 	},
 	removeVote: function(voteTimeStamp, teamId){
@@ -162,7 +166,7 @@ Meteor.methods({
 					}
 				}
 		);
-		deleteVote(voteTimeStamp, teamId);
+		Meteor.call("deleteVote", voteTimeStamp, teamId);
 	}
 });
 
