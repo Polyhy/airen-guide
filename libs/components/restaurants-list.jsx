@@ -6,10 +6,14 @@ RestaurantList = React.createClass({
 			restaurants: Restaurants.find({}).fetch()
 		}
 	},
-	componentWillMount: function(){
+	getInitialState: function() {
 		this.subItems.push(Meteor.subscribe('restaurants'));
 		this.subItems.push(Meteor.subscribe('restaurants-image'));
+		return {
+			restaurants: Restaurants.find({}).fetch()
+		}
 	},
+	componentWillMount: function(){},
 	componentWillUnmount: function(){
 		for(var i=0; i<this.subItems.length; i++){
 			this.subItems[i].stop();
@@ -28,8 +32,8 @@ RestaurantList = React.createClass({
 					["소요시간", "x"]
 			];
 		};
-
-		return this.data.restaurants.map((restaurant)=>{
+		var restaurants = this.data.restaurants? this.data.restaurants: this.status.restaurants;
+		return restaurants.map((restaurant)=>{
 			return (
 					<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
 						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo} vote={false}/>

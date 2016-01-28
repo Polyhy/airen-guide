@@ -13,7 +13,7 @@ RestaurantElement.Page1 = React.createClass({
 	getImageURL: function(){
 		var imageId = this.props.restaurant.images[0];
 		if(RestaurantImages.findOne({_id: imageId}))
-			return RestaurantImages.findOne({_id: imageId}).url();
+			return RestaurantImages.findOne({_id: imageId}).url().split("?")[0];
 		else
 			return null;
 	},
@@ -136,13 +136,13 @@ RestaurantCard = React.createClass({
 						<div className="page1">
 							<Page1 restaurant={this.props.restaurant}
 										 getRestaurantInfo={this.props.getRestaurantInfo(1, this.props.restaurant)}
-										 renderButton={isMobileDevice()? this.renderButton : null}/>
+										 renderButton={Meteor.isClient&&isMobileDevice()? this.renderButton: null}/>
 						</div>
 						<div className="page2">
 							<Page2 restaurant={this.props.restaurant}
 										 getRestaurantInfo={this.props.getRestaurantInfo(2, this.props.restaurant)}
 										 vote={this.props.vote}
-										 renderButton={isMobileDevice()? null : this.renderButton}/>
+										 renderButton={Meteor.isClient&&isMobileDevice()? null : this.renderButton}/>
 						</div>
 					</div>
 				</div>

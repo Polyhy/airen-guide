@@ -188,12 +188,15 @@ AppLayout = React.createClass({
 	},
 	getInitialState: function() {
 		var user = Meteor.user();
-		return {user: user};
+		this.subItem.push(Meteor.subscribe('teams'));
+		this.subItem.push(Meteor.subscribe('team-members', user.profile.teamId));
+		return {
+			user: user,
+			team: Teams.findOne({_id: Meteor.user().profile.teamId})
+		};
 	},
 	componentWillMount: function(){
 		if(Meteor.isClient && !this.state.user)FlowRouter.redirect('/user/login');
-		this.subItem.push(Meteor.subscribe('team-members', this.state.user.profile.teamId));
-		this.subItem.push(Meteor.subscribe('teams'));
 	},
 	componentDidMount:function(){
 		$(".sidebar--menu-items>nav>a.active").removeClass("active");
@@ -212,7 +215,7 @@ AppLayout = React.createClass({
 		return(
 				<div id="root">
 					<Sidebar menuItems={menuItems} user={this.state.user}/>
-					<Map user={this.state.user} team={this.data.team}/>
+					<Map user={this.state.user} team={this.data.team? this.data.team: this.state.team}/>
 					<div className="container contents-block">
 						{this.props.components()}
 					</div>
