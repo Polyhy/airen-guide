@@ -1,4 +1,4 @@
-var voteHelper = {
+voteHelper = {
 	startVoteCron: function(voteCron){
 		var that = this;
 		SyncedCron.pause();
