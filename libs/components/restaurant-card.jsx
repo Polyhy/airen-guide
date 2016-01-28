@@ -115,7 +115,15 @@ RestaurantCard = React.createClass({
 	},
 	renderButton: function(){
 		if (this.props.vote){
-
+			return (
+					<div>
+						<a type="button" className="btn btn-next"
+							 href={"/restaurant/list/"+this.props.restaurant._id}
+							 style={{width: "49%", marginTop: "8px", float:"left"}}>자세히 보기</a>
+						<a type="button" className="btn btn-ok"
+							 style={{width: "49%", marginTop: "8px", float:"right"}}>먹으러 가기</a>
+					</div>
+			)
 		}else return(
 				<a type="button" className="btn btn-next"
 					 href={"/restaurant/list/"+this.props.restaurant._id}

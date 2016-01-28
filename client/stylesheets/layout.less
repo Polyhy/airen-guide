@@ -1073,6 +1073,20 @@ nav a:focus {
   }
 }
 
+#today-vote-page{
+  &>.header{
+    & h1 {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 30px;
+    }
+    & button{
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
 
 @media only screen and (max-width: 767px) {
   .btn-show-sidebar{
@@ -1155,7 +1169,7 @@ nav a:focus {
   }
   .restaurant-card .restaurant-card--info{
     height: 360px;
-    & .btn.btn-next{
+    & .btn{
       font-size: 18px;
     }
     & .page1,
@@ -1210,6 +1224,13 @@ nav a:focus {
       & td{
         display: inline-block;
         vertical-align: middle;
+      }
+    }
+  }
+  #today-vote-page{
+    &>.header{
+      & button{
+        width: 100%;
       }
     }
   }

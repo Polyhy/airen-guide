@@ -20,46 +20,43 @@ var voteHelper = {
 
 	makeNewVote: function(voteCron){
 		console.log("=================================================");
-		console.log(voteCron);
-		console.log(Restaurants);
-		//console.log("[[[[[ Run make new vote cron ]]]]]");
-		//console.log("Team Id : "+voteCron.teamId);
-		//var ongoingVote = Todays.find({teamId: voteCron.teamId, status: 1}).fetch();
-		//if (ongoingVote.length){
-		//	console.log("해당 팀에 실행 중인 투표가 "+ongoingVote.length+"개 있습니다");
-		//	console.log(voteCron.teamId+"팀의 실행 중인 투표를 종료합니다");
-		//	ongoingVote.map(
-		//					i=>Todays.update({_id: i._id}, {$set: {status:0}})
-		//	);
-		//	console.log(voteCron.teamId+"팀의 실행 중인 투표가 모두 종료되었습니다");
-		//	//Todays.update({_id: ongoingVote._id}, {$set: {status:0}});
-		//}
-		//
-		//var todays = {
-		//	createdAt: new Date(),
-		//	teamId: voteCron.teamId,
-		//	restaurants: [],
-		//	status: 1
-		//};
-		//
-		//var memberCount = Meteor.user.find({"profile.teamId":voteCron.teamId}).count();
-		//var restaurants = Restaurants.find({"menus.price":{$lte:voteCron.option.maxPrice}}).fetch().slice();
-		//
-		//console.log(voteCron.teamId+"팀의 새로운 투표를 만드는 중입니다");
-		//while (memberCount>0){
-		//	var index = Math.floor(Math.random()*restaurants.length);
-		//	var tempRestaurant = restaurants.splice(index, 1);
-		//	todays.restaurants.push({
-		//		restaurantsId: tempRestaurant._id,
-		//		partyMember: [],
-		//		maxMember: tempRestaurant.maxMember
-		//	});
-		//	memberCount -= tempRestaurant.maxMember;
-		//}
-		////send email
-		//var res = Todays.insert(todays);
-		//console.log(voteCron.teamId+"팀의 새로운 투표를 성공적으로 만들었습니다");
-		//console.log("Vote Id : "+res);
+		console.log("[[[[[ Run make new vote cron ]]]]]");
+		console.log("Team Id : "+voteCron.teamId);
+		var ongoingVote = Todays.find({teamId: voteCron.teamId, status: 1}).fetch();
+		if (ongoingVote.length){
+			console.log("해당 팀에 실행 중인 투표가 "+ongoingVote.length+"개 있습니다");
+			console.log(voteCron.teamId+"팀의 실행 중인 투표를 종료합니다");
+			ongoingVote.map(
+							i=>Todays.update({_id: i._id}, {$set: {status:0}})
+			);
+			console.log(voteCron.teamId+"팀의 실행 중인 투표가 모두 종료되었습니다");
+		}
+
+		var todays = {
+			createdAt: new Date(),
+			teamId: voteCron.teamId,
+			restaurants: [],
+			status: 1
+		};
+
+		var memberCount = Meteor.users.find({"profile.teamId":voteCron.teamId}).count();
+		var restaurants = Restaurants.find({"menus.price":{$lte:voteCron.option.maxPrice}}).fetch().slice();
+
+		console.log(voteCron.teamId+"팀의 새로운 투표를 만드는 중입니다");
+		while (memberCount>=0){
+			var index = Math.floor(Math.random()*restaurants.length);
+			var tempRestaurant = restaurants.splice(index, 1)[0];
+			todays.restaurants.push({
+				restaurantsId: tempRestaurant._id,
+				partyMember: [],
+				maxMember: tempRestaurant.maxMember
+			});
+			memberCount -= tempRestaurant.maxMember;
+		}
+		//send email
+		var res = Todays.insert(todays);
+		console.log(voteCron.teamId+"팀의 새로운 투표를 성공적으로 만들었습니다");
+		console.log("Vote Id : "+res);
 	},
 
 	closeVote: function(voteCron){
