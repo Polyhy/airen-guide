@@ -184,19 +184,24 @@ AppLayout = React.createClass({
 	subItem: [],
 	mixins: [ReactMeteorData],
 	getMeteorData: function(){
-		return {  team: Teams.findOne({_id: Meteor.user().profile.teamId})  };
+		if(Meteor.user())
+			return {  team: Teams.findOne({_id: Meteor.user().profile.teamId})  };
+		else return {}
 	},
 	getInitialState: function() {
 		var user = Meteor.user();
-		this.subItem.push(Meteor.subscribe('teams'));
-		this.subItem.push(Meteor.subscribe('team-members', user.profile.teamId));
-		return {
-			user: user,
-			team: Teams.findOne({_id: Meteor.user().profile.teamId})
-		};
+		if (user){
+			this.subItem.push(Meteor.subscribe('teams'));
+			this.subItem.push(Meteor.subscribe('team-members', user.profile.teamId));
+			return {
+				user: user,
+				team: Teams.findOne({_id: Meteor.user().profile.teamId})
+			};
+		}
+		else return {};
 	},
 	componentWillMount: function(){
-		if(Meteor.isClient && !this.state.user)FlowRouter.redirect('/user/login');
+		if(Meteor.isClient && !Meteor.user())FlowRouter.redirect('/user/login');
 	},
 	componentDidMount:function(){
 		$(".sidebar--menu-items>nav>a.active").removeClass("active");
@@ -204,6 +209,10 @@ AppLayout = React.createClass({
 	},
 	componentWillUnmount: function(){
 		for (var i in this.subItem)this.subItem[i].stop();
+	},
+	shouldComponentUpdate: function(){
+		if(Meteor.isClient && !Meteor.user())FlowRouter.redirect('/user/login');
+		return true;
 	},
 	render: function(){
 		if (!this.state.user)return false;

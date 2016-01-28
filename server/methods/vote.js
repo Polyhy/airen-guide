@@ -60,6 +60,8 @@ voteHelper = {
 	},
 
 	closeVote: function(voteCron){
+		console.log("=================================================");
+		console.log("[[[[[          Run Close Vote Cron          ]]]]]");
 		var today = Todays.findOne({teamId: voteCron.teamId, status: 1});
 		if (today){
 			Todays.update({_id: today._id}, {$set: {status:0}});
@@ -135,5 +137,24 @@ Meteor.methods({
 		SyncedCron.remove(jobName+"%0");
 		console.log("job name : "+ jobName);
 		console.log(teamId+"팀의 투표를 성공적으로 삭제했습니다");
+	},
+
+	voteRestaurant: function(restaurantId, voteId){
+		var vote = Todays.findOne({_id: voteId});
+		if(!vote) throw new Meteor.Error(10003, "잘못된 투표 Id 입니다");
+		if (Meteor.user().profile.teamId != vote.teamId) throw new Meteor.Error(10002, "다른 팀의 투표에는 참여할 수 없습니다");
+		if (vote.status == 0) throw new Meteor.Error(10004, "이미 종료된 투표입니다");
+
+		var index = vote.restaurants.reduce((p, n, i)=>n.restaurantsId == restaurantId? i: p, -1);
+
+		if(index==-1) throw new Meteor.Error(10003, "잘못된 식당 Id 입니다");
+
+		var updateObject = {};
+		updateObject["restaurants."+index+".partyMember"] = Meteor.userId();
+		var res = Todays.update(
+				{_id: vote._id},
+				{$push: updateObject}
+		);
+		return res;
 	}
 });

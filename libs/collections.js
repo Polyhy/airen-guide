@@ -3,8 +3,28 @@ Restaurants = new Mongo.Collection("restaurants");
 Crons = new Mongo.Collection("crons");
 Todays = new Mongo.Collection("todays");
 
+//RestaurantImages = new FS.Collection("RestaurantImages", {
+//	stores: [new FS.Store.GridFS ("RestaurantImages")],
+//	filter: {
+//		allow: {
+//			contentTypes: ['image/*']
+//		},
+//		onInvalid: function (message) {
+//			if (Meteor.isClient){
+//				throwError(message);
+//			} else{
+//				console.log(message);
+//			}
+//		}
+//	}
+//});
+
+var RestaurantImageStore  = new FS.Store.GridFS("RestaurantImages", {
+	mongoUrl: '', // optional, defaults to Meteor's local MongoDB
+	mongoOptions: {}  // optional, see note below
+});
 RestaurantImages = new FS.Collection("RestaurantImages", {
-	stores: [new FS.Store.GridFS ("RestaurantImages")],
+	stores: [RestaurantImageStore],
 	filter: {
 		allow: {
 			contentTypes: ['image/*']
