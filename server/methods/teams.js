@@ -146,12 +146,12 @@ Meteor.methods({
 					}
 				}
 		);
+		Meteor.call(addNewVoteCron, newVote, Meteor.user().profile.teamId);
 		return res;
 	},
-	removeVote: function(voteTimeStamp){
+	removeVote: function(voteTimeStamp, teamId){
 		if (Meteor.user().profile.userType != 1)
 			throw new Meteor.Error(10002, "Access denied", "팀 관리자 권한이 필요힙니다");
-
 		Teams.update(
 				{_id: teamId},
 				{
@@ -162,6 +162,7 @@ Meteor.methods({
 					}
 				}
 		);
+		deleteVote(voteTimeStamp, teamId);
 	}
 });
 

@@ -214,7 +214,7 @@ TeamSetting.Vote = React.createClass({
 	},
 	deleteVote: function(event){
 		var $target = $(event.target);
-		Meteor.call("removeVote", $target.data("timestamp"))
+		Meteor.call("removeVote", $target.data("timestamp"), this.state.team._id)
 	},
 	renderVotes: function(){
 		var votes = this.state.team.votes.slice().sort(
