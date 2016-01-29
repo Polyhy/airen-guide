@@ -124,30 +124,48 @@ RestaurantCard = React.createClass({
 			console.log(res);
 		});
 	},
+	getInitialState: function(){
+		var {restaurant, vote, voteLog, getRestaurantInfo} = this.props;
+		return {
+			restaurant: restaurant,
+			vote:vote,
+			voteLog: voteLog,
+			getRestaurantInfo:getRestaurantInfo
+		}
+	},
+	componentWillReceiveProps: function(nextProps){
+		var {restaurant, vote, voteLog, getRestaurantInfo} = nextProps;
+		return {
+			restaurant: restaurant,
+			vote:vote,
+			voteLog: voteLog,
+			getRestaurantInfo:getRestaurantInfo
+		}
+	},
 	renderButton: function(){
-		if (this.props.vote){
+		if (this.state.vote){
 			var className = "btn btn-ok";
-			className += this.props.voteLog? " disabled": "";
+			className += this.state.voteLog? " disabled": "";
 			return (
 					<div>
 						<a type="button" className="btn btn-next"
-							 href={"/restaurant/list/"+this.props.restaurant._id}
+							 href={"/restaurant/list/"+this.state.restaurant._id}
 							 style={{width: "49%", marginTop: "8px", float:"left"}}>자세히 보기</a>
 						<a type="button" className={className}
-							 data-restaurant={this.props.restaurant._id}
-							 data-vote={this.props.vote}
+							 data-restaurant={this.state.restaurant._id}
+							 data-vote={this.state.vote}
 							 onClick={this.voteRestaurant}
 							 style={{width: "49%", marginTop: "8px", float:"right"}}>먹으러 가기</a>
 					</div>
 			)
 		}else return(
 				<a type="button" className="btn btn-next"
-					 href={"/restaurant/list/"+this.props.restaurant._id}
+					 href={"/restaurant/list/"+this.state.restaurant._id}
 					 style={{width: "100%", marginTop: "8px"}}>자세히 보기</a>
 		);
 	},
 	renderVotedMark: function(){
-		var {voteLog, restaurant} = this.props;
+		var {voteLog, restaurant} = this.state;
 		if (voteLog && restaurant._id == voteLog.restaurantId)
 			return (<span className="voted-mark"/>);
 		else return false;
@@ -157,21 +175,21 @@ RestaurantCard = React.createClass({
 		return (
 			<div className="restaurant-card" ref="card">
 				{this.renderVotedMark()}
-				<p className="title">{this.props.restaurant.name}</p>
+				<p className="title">{this.state.restaurant.name}</p>
 				<div className="restaurant-card--info" ref="cardInfo"
 						 onMouseEnter={this.handelMouseEnter} onMouseLeave={this.handelMouseLeave}
 						 onTouchStart={this.handleTouchStart} onTouchEnd={this.handleTouchEnd}
 						 onContextMenu={cancelEvent}>
 					<div className="flipper">
 						<div className="page1">
-							<Page1 restaurant={this.props.restaurant}
-										 getRestaurantInfo={this.props.getRestaurantInfo(1, this.props.restaurant)}
+							<Page1 restaurant={this.state.restaurant}
+										 getRestaurantInfo={this.state.getRestaurantInfo(1, this.state.restaurant)}
 										 renderButton={Meteor.isClient&&isMobileDevice()? this.renderButton: null}/>
 						</div>
 						<div className="page2">
-							<Page2 restaurant={this.props.restaurant}
-										 getRestaurantInfo={this.props.getRestaurantInfo(2, this.props.restaurant)}
-										 vote={this.props.vote}
+							<Page2 restaurant={this.state.restaurant}
+										 getRestaurantInfo={this.state.getRestaurantInfo(2, this.state.restaurant)}
+										 vote={this.state.vote}
 										 renderButton={Meteor.isClient&&isMobileDevice()? null : this.renderButton}/>
 						</div>
 					</div>
