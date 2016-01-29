@@ -37,7 +37,8 @@ var SignupMixin = {
 					teamId: this.props.teamId,
 					team: team? team._id: -1,
 					teamName: team? team.name: null,
-					name: inputName
+					name: inputName,
+					notiSetting: {  recvStart: 1, recvResult: 1  }
 				},
 				username: "",
 				email: inputEmail,

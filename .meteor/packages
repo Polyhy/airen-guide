@@ -39,3 +39,4 @@ cfs:gridfs
 webapp
 http
 force-ssl
+email

@@ -58,6 +58,21 @@ voteHelper = {
 			memberCount -= tempRestaurant.maxMember;
 		}
 		//send email
+		console.log(voteCron.teamId+"팀의 유저들에게 이메일을 보냅니다");
+		var userRecvEmail = Meteor.users.find({
+			"profile.teamId":voteCron.teamId,
+			"profile.notiSetting.recvStart": 1
+		}).fetch();
+		userRecvEmail.map( user=> {
+			var emailForm = {
+				url: Meteor.absoluteUrl()+"restaurant/vote",
+				userName: user.profile.name,
+				teamName: user.profile.teamName,
+				hostUrl: Meteor.absoluteUrl()
+			};
+			return sendEmail(MakeVoteAlarm, emailForm, user);
+		});
+
 		var res = Todays.insert(todays);
 		console.log(voteCron.teamId+"팀의 새로운 투표를 성공적으로 만들었습니다");
 		console.log("Vote Id : "+res);
