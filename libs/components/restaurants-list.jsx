@@ -28,8 +28,8 @@ RestaurantList = React.createClass({
 					["아이렝스타", _.range(3).map(i=><i className={i<restaurant.rating?"fa fa-star":"fa fa-star-o"} key={"star"+i}/>)]
 			];
 			else if (page==2) return [
-					["주소", restaurant.address],
-					["소요시간", "x"]
+					["주소", restaurant.address]
+					//["소요시간", "x"]
 			];
 		};
 		var restaurants = this.data.restaurants? this.data.restaurants: this.status.restaurants;
