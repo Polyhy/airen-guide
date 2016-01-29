@@ -210,6 +210,9 @@ CreateTeam.CreateTeamPage1 = React.createClass({
 		Session.set("create-team--tip", tip);
 		FlowRouter.setQueryParams({verify:""});
 	},
+	componentDidMount: function(){
+		$("#login-account--btn-back").removeClass('hide');
+	},
 	render: function(){
 		return (
 				<div id="create-team--page-1">
