@@ -14,7 +14,7 @@ Accounts.emailTemplates.verifyEmail.html = function(user, url){
 		url: user.profile.team != -1? url : url + "???createteam",
 		teamId: user.profile.team
 	};
-	var emailTemplate = React.createElement(Emails.VerifyUser, {emailForm: emailForm});
+	var emailTemplate = React.createElement(VerifyUser, {emailForm: emailForm});
 	return ReactDOMServer.renderToStaticMarkup(emailTemplate);
 };
 

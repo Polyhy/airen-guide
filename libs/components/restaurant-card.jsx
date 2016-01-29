@@ -177,7 +177,8 @@ RestaurantCard = React.createClass({
 		return (
 			<div className="restaurant-card" ref="card">
 				{this.renderVotedMark()}
-				<p className="title">{this.state.restaurant.name}</p>
+				<p className="title"><i className="fa fa-map-marker"/> {this.state.restaurant.name}</p>
+				{/*<hr/>*/}
 				<div className="restaurant-card--info" ref="cardInfo"
 						 onMouseEnter={this.handelMouseEnter} onMouseLeave={this.handelMouseLeave}
 						 onTouchStart={this.handleTouchStart} onTouchEnd={this.handleTouchEnd}

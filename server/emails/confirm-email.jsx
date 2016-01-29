@@ -1,12 +1,6 @@
 const {PropTypes} = React;
 
-Emails = React.createClass({
-	render: function(){
-		return false;
-	}
-});
-
-Emails.VerifyUser = React.createClass({
+VerifyUser = React.createClass({
 	propTypes: {
 		emailForm: PropTypes.shape({
 			url: PropTypes.string.isRequired,

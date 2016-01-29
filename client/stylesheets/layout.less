@@ -579,13 +579,21 @@ nav a:focus {
   
   & p.title{
     font-size: 18px;
-    font-weight: 500;
-    color: #333;
+    color: #666;
     margin-bottom: 8px;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 700;
+    &>i{
+      color: @brand-red;
+    }
+  }
+
+  & hr {
+    margin: 0px 0 10px 0;
+    border-top: 2px solid #ddd;
   }
 
   & table.info{
