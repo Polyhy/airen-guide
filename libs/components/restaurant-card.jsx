@@ -95,7 +95,10 @@ const {Page1, Page2} = RestaurantElement;
 RestaurantCard = React.createClass({
 	propTypes: {
 		getRestaurantInfo: PropTypes.func.isRequired,
-		vote: PropTypes.bool.isRequired
+		vote: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.bool
+		]).isRequired
 	},
 	handelMouseEnter: function(){
 		if(!isMobileDevice())$(this.refs.cardInfo).addClass('hover');
@@ -113,6 +116,15 @@ RestaurantCard = React.createClass({
 			if (isMobileDevice())$(this.refs.cardInfo).removeClass('hover');
 		}
 	},
+	voteRestaurant: function(event){
+		$target = $(event.target);
+		var voteId = $target.data("vote");
+		var restaurantId = $target.data("restaurant");
+		Meteor.call("voteRestaurant", restaurantId, voteId, function(err, res){
+			console.log(err);
+			console.log(res);
+		});
+	},
 	renderButton: function(){
 		if (this.props.vote){
 			return (
@@ -121,6 +133,9 @@ RestaurantCard = React.createClass({
 							 href={"/restaurant/list/"+this.props.restaurant._id}
 							 style={{width: "49%", marginTop: "8px", float:"left"}}>자세히 보기</a>
 						<a type="button" className="btn btn-ok"
+							 data-restaurant={this.props.restaurant._id}
+							 data-vote={this.props.vote}
+							 onClick={this.voteRestaurant}
 							 style={{width: "49%", marginTop: "8px", float:"right"}}>먹으러 가기</a>
 					</div>
 			)

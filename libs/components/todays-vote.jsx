@@ -5,10 +5,13 @@ TodaysVote = React.createClass({
 	getDatas: function(){
 		var teamId = Meteor.user().profile.teamId;
 		var todaysVote = Todays.findOne({teamId:teamId, status:1});
+		if (!todaysVote) return {};
+
 		var restaurantsIds = todaysVote? todaysVote.restaurants.map(i=>i.restaurantsId): [];
 		return {
 			restaurants: Restaurants.find({_id:{$in:restaurantsIds}}).fetch(),
-			todaysVote: todaysVote
+			todaysVote: todaysVote,
+			voteLog: VoteLog.findOne({voteId: todaysVote._id, userId: Meteor.userId()})
 		}
 	},
 	mixins: [ReactMeteorData],
@@ -49,11 +52,11 @@ TodaysVote = React.createClass({
 			];
 		};
 
-		var restaurants = this.data.restaurants? this.data.restaurants: this.state.restaurants;
-		return restaurants.map((restaurant)=>{
+		var data = this.data.restaurants? this.data: this.state;
+		return data.restaurants.map((restaurant)=>{
 			return (
 					<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
-						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo} vote={true}/>
+						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo} vote={data.todaysVote._id}/>
 					</div>
 			)
 		});
@@ -62,7 +65,7 @@ TodaysVote = React.createClass({
 		return this.data.todaysVote?(
 				<div id="today-vote-page">
 					<div className="header">
-						<h1><i className="fa fa-cutlery"></i>오늘의 밥집</h1>
+						<h1><i className="fa fa-cutlery"></i> 오늘의 밥집</h1>
 						<button type="button" className="btn btn-danger">안먹어요</button>
 					</div>
 					<div className="article">

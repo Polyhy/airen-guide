@@ -43,7 +43,7 @@ voteHelper = {
 		var restaurants = Restaurants.find({"menus.price":{$lte:voteCron.option.maxPrice}}).fetch().slice();
 
 		console.log(voteCron.teamId+"팀의 새로운 투표를 만드는 중입니다");
-		while (memberCount>=0){
+		while (memberCount>0){
 			var index = Math.floor(Math.random()*restaurants.length);
 			var tempRestaurant = restaurants.splice(index, 1)[0];
 			todays.restaurants.push({
@@ -141,20 +141,31 @@ Meteor.methods({
 
 	voteRestaurant: function(restaurantId, voteId){
 		var vote = Todays.findOne({_id: voteId});
-		if(!vote) throw new Meteor.Error(10003, "잘못된 투표 Id 입니다");
+		if(!vote) throw new Meteor.Error(10003, "잘못된 값입니다", "잘못된 투표 Id 입니다");
 		if (Meteor.user().profile.teamId != vote.teamId) throw new Meteor.Error(10002, "다른 팀의 투표에는 참여할 수 없습니다");
-		if (vote.status == 0) throw new Meteor.Error(10004, "이미 종료된 투표입니다");
+		if (vote.status == 0) throw new Meteor.Error(10004, "투표에 실패했습니다", "이미 종료된 투표입니다");
 
 		var index = vote.restaurants.reduce((p, n, i)=>n.restaurantsId == restaurantId? i: p, -1);
+		if(index == -1) throw new Meteor.Error(10003, "잘못된 값입니다", "잘못된 식당 Id 입니다");
 
-		if(index==-1) throw new Meteor.Error(10003, "잘못된 식당 Id 입니다");
+		if (vote.restaurants[index].partyMember.length >= vote.restaurants[index].maxMember)
+			throw new Meteor.Error(10004, "투표에 실패했습니다", "해당 밥집은 모집 인원이 다 찼습니다");
+
+		var temp = vote.restaurants.find(i=>i.partyMember.indexOf(Meteor.userId())>=0);
+		if(temp) throw new Meteor.Error(10004, "투표에 실패했습니다", "이미 투표하셨습니다");
 
 		var updateObject = {};
 		updateObject["restaurants."+index+".partyMember"] = Meteor.userId();
-		var res = Todays.update(
+		Todays.update(
 				{_id: vote._id},
 				{$push: updateObject}
 		);
+		var res = VoteLog.insert({
+			createdAt: new Date(),
+			userId: Meteor.userId(),
+			restaurantId: restaurantId,
+			voteId: vote._id
+		});
 		return res;
 	}
 });

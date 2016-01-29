@@ -2,6 +2,7 @@ Teams = new Mongo.Collection("teams");
 Restaurants = new Mongo.Collection("restaurants");
 Crons = new Mongo.Collection("crons");
 Todays = new Mongo.Collection("todays");
+VoteLog = new Mongo.Collection("voteLog");
 
 //RestaurantImages = new FS.Collection("RestaurantImages", {
 //	stores: [new FS.Store.GridFS ("RestaurantImages")],
