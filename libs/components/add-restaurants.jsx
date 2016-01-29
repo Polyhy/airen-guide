@@ -169,6 +169,11 @@ var InputTag = React.createClass({
 			if(inputValue) $input.before("<li class='tags'>"+inputValue+"</li>");
 			$input.val("");
 		}
+		if(event.type == "blur" && inputValue){
+			event.preventDefault();
+			if(inputValue) $input.before("<li class='tags'>"+inputValue+"</li>");
+			$input.val("");
+		}
 	},
 	checkInputLength: function(event){
 		var $input = $(this.refs.inputTag);
@@ -192,7 +197,8 @@ var InputTag = React.createClass({
 					<label htmlFor="tag">태그 (선택)</label>
 					<ul className="form-control input-tag" ref="tagBox" name="tag-box" >
 						<input type="text" ref="inputTag"
-									 onKeyUp={this.appendTag} onKeyDown={this.checkInputLength}/>
+									 onKeyUp={this.appendTag} onBlur={this.appendTag}
+									 onKeyDown={this.checkInputLength}/>
 					</ul>
 				</div>
 		)
