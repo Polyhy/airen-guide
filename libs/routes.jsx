@@ -15,7 +15,7 @@ Tracker.autorun(function(){
 
 FlowRouter.route('/', {
 	action: function() {
-		FlowRouter.redirect("/restaurant/vote");
+		if(Meteor.isClient)FlowRouter.redirect("/restaurant/vote");
 		ReactLayout.render(AppLayout, {
 			components: function() {
 				return null;
