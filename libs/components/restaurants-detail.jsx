@@ -24,7 +24,7 @@ RestaurantDetail = React.createClass({
 	},
 	getImageURL: function(imageId){
 		var image = RestaurantImages.findOne({_id: imageId});
-		return image? image.url(): "";
+		return image? image.url().split("?")[0]: "";
 	},
 	renderHeaderImage: function(restaurnatImages){
 		var index = 0, tempW = 1, tempH = 1;
@@ -32,7 +32,7 @@ RestaurantDetail = React.createClass({
 			index += 1;
 			if(index<restaurnatImages.length)index%2==0? tempH *= 2: tempW *= 2;
 			return (
-				<div className="responsive-image head-images" key={"img-"+image}
+				<div className="responsive-image head-images" key={"img-"+index}
 						 style={{	backgroundImage: "url("+this.getImageURL(image)+")",
 						 				 	width: (100/tempW)+"%",
 						 				 	height: (100/tempH)+"%"}}></div>
