@@ -40,7 +40,11 @@ voteHelper = {
 		};
 
 		var memberCount = Meteor.users.find({"profile.teamId":voteCron.teamId}).count();
-		var restaurants = Restaurants.find({"menus.price":{$lte:voteCron.option.maxPrice}}).fetch().slice();
+		var teamLatLng = Teams.findOne({_id: voteCron.teamId}).latlng;
+		var restaurants = Restaurants.find({
+			"menus.price":{$lte: voteCron.option.maxPrice},
+			"latlng": {$near: [teamLatLng.lat, teamLatLng.lng], $maxDistance: 100/111.12}
+		}).fetch().slice();
 
 		console.log(voteCron.teamId+"팀의 새로운 투표를 만드는 중입니다");
 		while (memberCount>0){
