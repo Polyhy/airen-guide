@@ -183,12 +183,7 @@ AppLayout = React.createClass({
 	},
 	subItem: [],
 	mixins: [ReactMeteorData],
-	getMeteorData: function(){
-		if(Meteor.user())
-			return {  team: Teams.findOne({_id: Meteor.user().profile.teamId})  };
-		else return {}
-	},
-	getInitialState: function() {
+	getData: function(){
 		var user = Meteor.user();
 		if (user){
 			this.subItem.push(Meteor.subscribe('teams'));
@@ -199,6 +194,12 @@ AppLayout = React.createClass({
 			};
 		}
 		else return {};
+	},
+	getMeteorData: function(){
+		return this.getData();
+	},
+	getInitialState: function() {
+		return this.getData();
 	},
 	componentWillMount: function(){
 		if(Meteor.isClient && !Meteor.user())FlowRouter.redirect('/user/login');

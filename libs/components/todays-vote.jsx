@@ -22,6 +22,7 @@ TodaysVote = React.createClass({
 		this.subItems.push(Meteor.subscribe('restaurants'));
 		this.subItems.push(Meteor.subscribe('restaurants-image'));
 		this.subItems.push(Meteor.subscribe('today', Meteor.user().profile.teamId));
+		this.subItems.push(Meteor.subscribe('voteLog', Meteor.userId()));
 		return this.getDatas();
 	},
 	componentWillMount: function(){},
@@ -56,17 +57,21 @@ TodaysVote = React.createClass({
 		return data.restaurants.map((restaurant)=>{
 			return (
 					<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
-						<RestaurantCard restaurant={restaurant} getRestaurantInfo={getRestaurantInfo} vote={data.todaysVote._id}/>
+						<RestaurantCard restaurant={restaurant} vote={data.todaysVote._id}
+														voteLog = {data.voteLog}
+														getRestaurantInfo={getRestaurantInfo}/>
 					</div>
 			)
 		});
 	},
 	render: function(){
+		var data = this.data.restaurants? this.data: this.state;
 		return this.data.todaysVote?(
 				<div id="today-vote-page">
 					<div className="header">
 						<h1><i className="fa fa-cutlery"></i> 오늘의 밥집</h1>
-						<button type="button" className="btn btn-danger">안먹어요</button>
+						<h3 className={data.voteLog?"":"hide"}>이번 투표를 완료하셨습니다</h3>
+						<button type="button" className={"btn btn-danger"+(data.voteLog?" hide":"")}>안먹어요</button>
 					</div>
 					<div className="article">
 						{this.renderRestaurantItems()}

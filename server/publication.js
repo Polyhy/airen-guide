@@ -27,4 +27,7 @@ Meteor.publish('restaurants-image', function(){
 Meteor.publish('today', function(teamId){
 	return Todays.find({teamId:teamId, status:1})
 });
+Meteor.publish('voteLog', function(userId){
+	return VoteLog.find({userId:userId}, {sort: {createdAt: -1}})
+});
 

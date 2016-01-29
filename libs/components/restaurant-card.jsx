@@ -33,8 +33,7 @@ RestaurantElement.Page1 = React.createClass({
 	render: function(){
 		return (
 				<div>
-					<div className="image-wrapper" style={{backgroundImage: "url("+this.getImageURL()+")"}}>
-					</div>
+					<div className="image-wrapper" style={{backgroundImage: "url("+this.getImageURL()+")"}}/>
 					<table className="info">
 						<tbody>
 							{this.renderTableRow()}
@@ -127,12 +126,14 @@ RestaurantCard = React.createClass({
 	},
 	renderButton: function(){
 		if (this.props.vote){
+			var className = "btn btn-ok";
+			className += this.props.voteLog? " disabled": "";
 			return (
 					<div>
 						<a type="button" className="btn btn-next"
 							 href={"/restaurant/list/"+this.props.restaurant._id}
 							 style={{width: "49%", marginTop: "8px", float:"left"}}>자세히 보기</a>
-						<a type="button" className="btn btn-ok"
+						<a type="button" className={className}
 							 data-restaurant={this.props.restaurant._id}
 							 data-vote={this.props.vote}
 							 onClick={this.voteRestaurant}
@@ -144,12 +145,18 @@ RestaurantCard = React.createClass({
 					 href={"/restaurant/list/"+this.props.restaurant._id}
 					 style={{width: "100%", marginTop: "8px"}}>자세히 보기</a>
 		);
-
+	},
+	renderVotedMark: function(){
+		var {voteLog, restaurant} = this.props;
+		if (voteLog && restaurant._id == voteLog.restaurantId)
+			return (<span className="voted-mark"/>);
+		else return false;
 	},
 	render: function(){
 		var cancelEvent = (e)=>{e.preventDefault(); return false;};
 		return (
 			<div className="restaurant-card" ref="card">
+				{this.renderVotedMark()}
 				<p className="title">{this.props.restaurant.name}</p>
 				<div className="restaurant-card--info" ref="cardInfo"
 						 onMouseEnter={this.handelMouseEnter} onMouseLeave={this.handelMouseLeave}

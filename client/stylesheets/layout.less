@@ -606,7 +606,36 @@ nav a:focus {
         font-weight: 400;
       }
     }
-
+  }
+  & .voted-mark {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background-color:darken(@brand-red, 25%);
+    text-align: center;
+    display: inline-block;
+    z-index: 2;
+    top: -2px;
+    right: 32px;
+    border-radius: 3px 3px 0 0;
+    //background: linear-gradient(90deg, darken(@brand-red, 20%) 50%, darken(@brand-red, 25%) 50%);
+    &::before {
+      content: "Vote Here";
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 0.5em;
+    }
+    &::after {
+      content: "";
+      border-left: 24px solid darken(@brand-red, 25%);
+      border-right: 24px solid darken(@brand-red, 25%);
+      border-bottom: 12px solid transparent;
+      position: absolute;
+      left: 0;
+      bottom: -12px;
+      border-radius: 0 0px 4px 4px;
+    }
   }
 }
 //hover or touch event
@@ -1075,6 +1104,7 @@ nav a:focus {
 
 #today-vote-page{
   &>.header{
+    margin-bottom: 40px;
     & h1 {
       display: inline-block;
       vertical-align: middle;
