@@ -256,3 +256,29 @@ PolyhyComponent.ImageGallery = React.createClass({
 	}
 });
 
+PolyhyComponent.OnProgress = React.createClass({
+	componentDidMount:function(){
+		var $spiner = $(this.refs.spinner);
+		this.count = 1;
+		$spiner.css("transform", "rotate("+(360*this.count++)+"deg)");
+		this.spinAinmation = setInterval(()=>$spiner.css("transform", "rotate("+(360*this.count++)+"deg)"), 2500);
+	},
+	componentWillUnmount: function(){
+		clearInterval(this.spinAinmation);
+	},
+	render: function(){
+		return (
+				<div style={{width:"100%", height:"100%", backgroundColor:"#fff", display:"table", opacity: "0.8"}}>
+					<span className="fa fa-5x fa-cog" ref="spinner"
+								style={{
+													color:"#333",
+													display:"table-cell",
+													verticalAlign:"middle",
+													textAlign:"center",
+													transition:"2.5s",
+													transitionTimingFunction: "ease-in-out"
+								}}/>
+				</div>
+		)
+	}
+});

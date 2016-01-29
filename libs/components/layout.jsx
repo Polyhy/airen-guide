@@ -176,6 +176,12 @@ Layout.Map = React.createClass({
 	}
 });
 
+
+
+
+
+
+
 const {Sidebar, Map, ...other} = Layout;
 AppLayout = React.createClass({
 	propTypes:{

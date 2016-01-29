@@ -47,14 +47,40 @@ var SignupMixin = {
 		}
 	},
 	signup: function(userInfo){
+		var $onprogress = $(this.refs.progress);
+		$onprogress.removeClass("hide");
 		Accounts.createUser(userInfo, (err)=>{
 			if (err) {
+				$onprogress.addClass("hide");
 				if (err.error == 403) $('.warn').text("이미 존재하는 계정입니다.");
 				else if(err.error == 100002) this.signupCallBack();
 				else console.log(err);
 			}
 		});
-
+	},
+	renderForm: function(){
+		return(
+				<div>
+					<form>
+						<p className="warn" ref="formError"></p>
+						<div className="form-group">
+							<input type="text" placeholder="name"
+										 className="form-control" ref="signupName" name="signup-name" />
+						</div>
+						<div className="form-group">
+							<input type="text" placeholder="you@domain.com"
+										 className="form-control" ref="signupEmail" name="signup-email"/>
+						</div>
+						<div className="form-group">
+							<input type="password" placeholder="password"
+										 className="form-control" ref="signupPass" name="signup-pass" />
+						</div>
+					</form>
+					<div ref="progress" className="hide" style={{position:"fixed", left:"0", top:"0", width:"100%", height:"100%"}}>
+						<PolyhyComponent.OnProgress />
+					</div>
+				</div>
+		)
 	}
 };
 
@@ -66,21 +92,26 @@ var SignupMixin = {
 Signup.SignupForm = React.createClass({
 	render: function(){
 		return(
-				<form>
-					<p className="warn" ref="formError"></p>
-					<div className="form-group">
-						<input type="text" placeholder="name"
-									 className="form-control" ref="signupName" name="signup-name" />
+				<div>
+					<form>
+						<p className="warn" ref="formError"></p>
+						<div className="form-group">
+							<input type="text" placeholder="name"
+										 className="form-control" ref="signupName" name="signup-name" />
+						</div>
+						<div className="form-group">
+							<input type="text" placeholder="you@domain.com"
+										 className="form-control" ref="signupEmail" name="signup-email"/>
+						</div>
+						<div className="form-group">
+							<input type="password" placeholder="password"
+										 className="form-control" ref="signupPass" name="signup-pass" />
+						</div>
+					</form>
+					<div id="progress" className="hide" style={{position:"fixed", left:"0", top:"0", width:"100%", height:"100%"}}>
+						<PolyhyComponent.OnProgress />
 					</div>
-					<div className="form-group">
-						<input type="text" placeholder="you@domain.com"
-									 className="form-control" ref="signupEmail" name="signup-email"/>
-					</div>
-					<div className="form-group">
-						<input type="password" placeholder="password"
-									 className="form-control" ref="signupPass" name="signup-pass" />
-					</div>
-				</form>
+				</div>
 		)
 	}
 });
@@ -113,7 +144,8 @@ Signup.SignPage1 = React.createClass({
 		return (
 				<div id="signup--page-1">
 					<p className="tip">사용할 이메일과 비밀번호, 이름을 입력해 주세요.</p>
-					<SignupForm />
+					{/*<SignupForm />*/}
+					{this.renderForm()}
 					<button type="button" className="btn btn-ok" onClick={this.checkInputValue}>계정 만들기</button>
 				</div>
 		)
@@ -185,7 +217,7 @@ CreateTeam.CreateTeamPage1 = React.createClass({
 						이메일과 비밀번호, 이름을 입력해 주세요.<br/>
 						입력하신 이메일과 비밀번호는 로그인시 사용합니다
 					</p>
-					<SignupForm teamId={-1} key="signup-step-2"/>
+					{this.renderForm(-1)}
 					<button type="button" className="btn btn-next" onClick={this.checkInputValue}>계속하기</button>
 				</div>
 		);
@@ -288,3 +320,5 @@ CreateTeam.CreateTeamPage2 = React.createClass({
 		);
 	}
 });
+
+
