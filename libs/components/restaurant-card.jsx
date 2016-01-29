@@ -147,21 +147,23 @@ RestaurantCard = React.createClass({
 			var className = "btn btn-ok";
 			className += this.state.voteLog? " disabled": "";
 			return (
-					<div>
+					<div style={{position: "absolute", bottom:"4px", width: "100%"}}>
 						<a type="button" className="btn btn-next"
 							 href={"/restaurant/list/"+this.state.restaurant._id}
-							 style={{width: "49%", marginTop: "8px", float:"left"}}>자세히 보기</a>
+							 style={{width: "49%", float:"left"}}>자세히 보기</a>
 						<a type="button" className={className}
 							 data-restaurant={this.state.restaurant._id}
 							 data-vote={this.state.vote}
 							 onClick={this.voteRestaurant}
-							 style={{width: "49%", marginTop: "8px", float:"right"}}>먹으러 가기</a>
+							 style={{width: "49%", float:"right"}}>먹으러 가기</a>
 					</div>
 			)
 		}else return(
-				<a type="button" className="btn btn-next"
-					 href={"/restaurant/list/"+this.state.restaurant._id}
-					 style={{width: "100%", marginTop: "8px"}}>자세히 보기</a>
+				<div style={{position: "absolute", bottom:"4px", width: "100%"}}>
+					<a type="button" className="btn btn-next"
+						 href={"/restaurant/list/"+this.state.restaurant._id}
+						 style={{width: "100%"}}>자세히 보기</a>
+				</div>
 		);
 	},
 	renderVotedMark: function(){
