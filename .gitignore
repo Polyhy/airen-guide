@@ -2,3 +2,5 @@
 *.DS_Store
 .idea/*
 run.sh
+debug.sh
+
