@@ -369,6 +369,7 @@ Settings = React.createClass({
 		}
 	},
 	render: function(){
+		if(!this.data.user.profile.userType) return <h1>준비 중 입니다</h1>;
 		return (
 				<div id="setting">
 					<ul className="nav nav-tabs">
@@ -377,19 +378,19 @@ Settings = React.createClass({
 									<a href="#" onClick={this.changeShow}>팀 설정</a>
 								</li>
 						):""}
-						<li ref="btnPerson" data-target="setPerson">
-							<a href="#" onClick={this.changeShow} >개인설정</a>
-						</li>
+						{/*<li ref="btnPerson" data-target="setPerson">*/}
+						{/*	<a href="#" onClick={this.changeShow} >개인설정</a>*/}
+						{/*</li>*/}
 					</ul>
 					<div className="setting-views" ref="settingViews">
-						<div ref="setPerson" className="setting-view hide">
-							<Accordion title="프로필 수정"
-												 renderMenu={ <PersonSetting.Profile user={this.data.user}/> }/>
-							<Accordion title="이메일 알림 설정"
-												 renderMenu={ <PersonSetting.EmailAlarm user={this.data.user}/> }/>
-							<Accordion title="회원 탈퇴"
-												 renderMenu={ <PersonSetting.DeleteAccount user={this.data.user}/> }/>
-						</div>
+						{/*<div ref="setPerson" className="setting-view hide">*/}
+						{/*	<Accordion title="프로필 수정"*/}
+						{/*						 renderMenu={ <PersonSetting.Profile user={this.data.user}/> }/>*/}
+						{/*	<Accordion title="이메일 알림 설정"*/}
+						{/*						 renderMenu={ <PersonSetting.EmailAlarm user={this.data.user}/> }/>*/}
+						{/*	<Accordion title="회원 탈퇴"*/}
+						{/*						 renderMenu={ <PersonSetting.DeleteAccount user={this.data.user}/> }/>*/}
+						{/*</div>*/}
 						<div ref="setTeam" className="setting-view hide">
 							<Accordion title="주소 수정"
 												 renderMenu={ <TeamSetting.EditAddress user={this.data.user} team={this.data.team}/> }/>
