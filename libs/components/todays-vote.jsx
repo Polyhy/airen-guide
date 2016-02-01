@@ -59,6 +59,13 @@ TodaysVote = React.createClass({
 			)
 		});
 	},
+	notEat: function(){
+		Meteor.call("voteRestaurant", -1, this.data.todaysVote._id, function(err, res){
+			console.log(err);
+			console.log(res);
+		});
+
+	},
 	render: function(){
 		//var data = this.data.restaurants? this.data: this.state;
 		return this.data.todaysVote?(
@@ -66,7 +73,9 @@ TodaysVote = React.createClass({
 					<div className="header">
 						<h1><i className="fa fa-cutlery"></i> 오늘의 밥집</h1>
 						<h3 className={this.data.voteLog?"":"hide"}>이번 투표를 완료하셨습니다</h3>
-						<button type="button" className={"btn btn-danger"+(this.data.voteLog?" hide":"")}>안먹어요</button>
+						<button type="button"
+										className={"btn btn-danger"+(this.data.voteLog?" hide":"")}
+										onClick={this.notEat}>안먹어요</button>
 					</div>
 					<div className="article">
 						{this.renderRestaurantItems(this.data.restaurants)}
