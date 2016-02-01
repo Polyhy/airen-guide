@@ -13,7 +13,7 @@ RestaurantElement.Page1 = React.createClass({
 	getImageURL: function(){
 		var imageId = this.props.restaurant.images[0];
 		if(RestaurantImages.findOne({_id: imageId}))
-			return RestaurantImages.findOne({_id: imageId}).url().split("?")[0];
+			return RestaurantImages.findOne({_id: imageId}).url();
 		else
 			return null;
 	},

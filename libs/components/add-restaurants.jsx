@@ -325,13 +325,11 @@ AddRestaurant = React.createClass({
 					if(closingDays.indexOf(temp)<0)closingDays.push(temp)
 				}
 			}
-			if(closingDays.length){
-				inputRestaurantInfo.closingDays = closingDays;
-				inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
-			} else {
-				inputRestaurantInfo.closingDays = [];
-				inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
-			}
+			inputRestaurantInfo.closingDays = closingDays;
+			inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
+		}else {
+			inputRestaurantInfo.closingDays = [];
+			inputRestaurantInfo.closingType = $addForm.find('[name=input-rest]').data('type');
 		}
 
 		if($addForm.find('[name=tag-box]').find('li').length){

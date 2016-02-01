@@ -26,6 +26,7 @@ Meteor.methods({
 		if (_.keys(errors).length > 0){
 			throw new Meteor.Error('invalid-input', JSON.stringify(errors));
 		}
+		console.log(inputRestaurantInfo)
 		check(inputRestaurantInfo, {
 			name: String,
 			menus: Array,
