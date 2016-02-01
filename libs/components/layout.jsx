@@ -231,7 +231,7 @@ AppLayout = React.createClass({
 		return(
 				<div id="root">
 					<Sidebar menuItems={menuItems} user={this.state.user}/>
-					<Map user={this.state.user} team={this.data.team? this.data.team: this.state.team}/>
+					<Map user={this.state.user} team={this.data.team}/>
 					<div className="container contents-block">
 						{this.props.components()}
 					</div>
