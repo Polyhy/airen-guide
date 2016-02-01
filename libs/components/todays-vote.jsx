@@ -53,8 +53,8 @@ TodaysVote = React.createClass({
 			];
 		};
 
-		var data = this.data.restaurants? this.data: this.state;
-		return data.restaurants.map((restaurant)=>{
+		//var data = this.data.restaurants? this.data: this.state;
+		return this.data.restaurants.map((restaurant)=>{
 			return (
 					<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
 						<RestaurantCard restaurant={restaurant} vote={data.todaysVote._id}
