@@ -13,7 +13,7 @@ Meteor.publish('team-members', function(teamId){
 				fields: {
 					"_id": 1,
 					"profile": 1,
-					"emails": -1
+					"emails": 1
 				}
 			});
 });

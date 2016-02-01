@@ -23,10 +23,10 @@ var validateVote = function(voteOption){
 		error.push("투표 종료 시간을 입력해 주세요");
 	if (voteOption.endAt.m==="")
 		error.push("투표 종료 시간을 입력해 주세요");
-	if (!voteOption.maxPrice)
-		error.push("최대 가격을 입력해 주세요");
-	if (!voteOption.minMember)
-		error.push("최소 인원을 입력해 주세요");
+	//if (!voteOption.maxPrice)
+	//	error.push("최대 가격을 입력해 주세요");
+	//if (!voteOption.minMember)
+	//	error.push("최소 인원을 입력해 주세요");
 	if (voteOption.startAt.m < 0 || voteOption.startAt.m > 59)
 		error.push("잘못된 값입니다");
 	if (voteOption.endAt.m < 0 || voteOption.endAt.m > 59)
@@ -108,9 +108,9 @@ Meteor.methods({
 			endAt: {
 				h: Number,
 				m: Number
-			},
-			minMember: Number,
-			maxPrice: Number
+			}
+			//minMember: Number,
+			//maxPrice: Number
 		});
 
 		if (Meteor.user().profile.userType != 1)

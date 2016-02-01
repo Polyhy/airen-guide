@@ -10,8 +10,9 @@ CloseVoteAlarm = React.createClass({
 		}).isRequired
 	},
 	renderResult: function(){
-		return this.props.result.map(
-						res=><p>{res.restaurantsName} : {res.partyMember.map(m=>m.userName+"님, ")}</p>
+		console.log(this.props.result);
+		return this.props.emailForm.result.map(
+						res=><p>{res.name} : {res.member.map(m=>m+"님, ")}</p>
 		)
 	},
 	render: function(){

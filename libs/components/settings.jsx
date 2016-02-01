@@ -160,20 +160,20 @@ TeamSetting.Vote = React.createClass({
 			$(this.refs.warn).text("투표 시작 시간을 입력해 주세요");
 		else if (!this.refs['time-end-h'].value)
 			$(this.refs.warn).text("투표 종료 시간을 입력해 주세요");
-		else if (this.refs['time-end-h'].value < 0 || this.refs['time-end-h'].value > 23)
-			$(this.refs.warn).text("잘못된 값입니다");
 		else if (!this.refs['time-end-m'].value)
 			$(this.refs.warn).text("투표 종료 시간을 입력해 주세요");
-		else if (!this.refs["max-price"].value)
-			$(this.refs.warn).text("최대 가격을 입력해 주세요");
-		else if (!this.refs["min-member"].value)
-			$(this.refs.warn).text("최소 인원을 입력해 주세요");
+		//else if (!this.refs["max-price"].value)
+		//	$(this.refs.warn).text("최대 가격을 입력해 주세요");
+		//else if (!this.refs["min-member"].value)
+		//	$(this.refs.warn).text("최소 인원을 입력해 주세요");
 		else if (this.refs['time-start-m'].value < 0 || this.refs['time-start-m'].value > 59)
-			$(this.refs.warn).text("잘못된 값입니다");
+			$(this.refs.warn).text("잘못된 값입니다 (투표 시작 시간 : 분)");
 		else if (this.refs['time-end-m'].value < 0 || this.refs['time-end-m'].value > 59)
-			$(this.refs.warn).text("잘못된 값입니다");
+			$(this.refs.warn).text("잘못된 값입니다 (투표 종료 시간 : 분)");
 		else if (this.refs['time-start-h'].value < 0 || this.refs['time-start-h'].value > 23)
-			$(this.refs.warn).text("잘못된 값입니다");
+			$(this.refs.warn).text("잘못된 값입니다 (투표 시작 시간 : 시)");
+		else if (this.refs['time-end-h'].value < 0 || this.refs['time-end-h'].value > 23)
+			$(this.refs.warn).text("잘못된 값입니다 (투표 종료 시간 : 시)");
 		else if (Number(this.refs['time-start-h'].value) > Number(this.refs['time-end-h'].value))
 			$(this.refs.warn).text("투표 종료시간이 시작시간보다 빠를 수 없습니다.");
 		else if ( Number(this.refs['time-start-h'].value) == Number(this.refs['time-end-h'].value) &&
@@ -191,9 +191,9 @@ TeamSetting.Vote = React.createClass({
 				endAt: {
 					h: Number(this.refs['time-end-h'].value),
 					m: Number(this.refs['time-end-m'].value)
-				},
-				minMember: Number(this.refs["min-member"].value),
-				maxPrice: Number(this.refs["max-price"].value)
+				}
+				//minMember: Number(this.refs["min-member"].value),
+				//maxPrice: Number(this.refs["max-price"].value)
 			};
 			var that = this;
 			Meteor.call("addNewVote", newVote, function (err, res) {
@@ -206,8 +206,8 @@ TeamSetting.Vote = React.createClass({
 					that.refs['time-start-m'].value = "";
 					that.refs['time-end-h'].value = "";
 					that.refs['time-end-m'].value = "";
-					that.refs["min-member"].value = "";
-					that.refs["max-price"].value = "";
+					//that.refs["min-member"].value = "";
+					//that.refs["max-price"].value = "";
 				}
 			});
 		}
@@ -244,14 +244,14 @@ TeamSetting.Vote = React.createClass({
 							<input type="text" className="form-control time-h" ref="time-end-h"/>시
 							<input type="text" className="form-control time-m" ref="time-end-m"/>분
 						</div>
-						<div className="form-group">
-							<label htmlFor="max-price">1인당 최대 가격</label>
-							<input type="text" className="form-control" ref="max-price"/>원
-						</div>
-						<div className="form-group">
-							<label htmlFor="max-people">밥집당 최소 인원</label>
-							<input type="text" className="form-control" ref="min-member"/>명
-						</div>
+						{/*<div className="form-group">*/}
+						{/*	<label htmlFor="max-price">1인당 최대 가격</label>*/}
+						{/*	<input type="text" className="form-control" ref="max-price"/>원*/}
+						{/*</div>*/}
+						{/*<div className="form-group">*/}
+						{/*	<label htmlFor="max-people">밥집당 최소 인원</label>*/}
+						{/*	<input type="text" className="form-control" ref="min-member"/>명*/}
+						{/*</div>*/}
 						<button type="button" className="btn btn-ok" onClick={this.appendVote}>추가하기</button>
 					</form>
 					<div id="vote-list">
