@@ -129,8 +129,8 @@ Layout.Map = React.createClass({
 		if (this.state.team.votes.length < 0) return "-";
 		for (var j in this.state.team.votes){
 			var i = this.state.team.votes[j];
-			if(i.startAt.h<now.h || (i.startAt.h==now.h && i.startAt.m < now.m)){
-				if(i.endAt.h>now.h || (i.endAt.h==now.h && i.endAt.m > now.m)){
+			if(i.startAt.h<now.h || (i.startAt.h==now.h && i.startAt.m <= now.m)){
+				if(i.endAt.h>now.h || (i.endAt.h==now.h && i.endAt.m >= now.m)){
 					return i.startAt.h+" : "+i.startAt.m+" ~ "+i.endAt.h+" : "+i.endAt.m;
 				}
 			}

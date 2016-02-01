@@ -134,12 +134,12 @@ RestaurantCard = React.createClass({
 		}
 	},
 	componentWillReceiveProps: function(nextProps){
-		return {
+		this.setState({
 			restaurant: nextProps.restaurant,
 			vote: nextProps.vote,
 			voteLog: nextProps.voteLog,
 			getRestaurantInfo: nextProps.getRestaurantInfo
-		}
+		});
 	},
 	renderButton: function(){
 		if (this.state.vote){
