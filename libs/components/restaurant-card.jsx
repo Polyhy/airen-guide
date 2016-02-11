@@ -17,26 +17,37 @@ RestaurantElement.Page1 = React.createClass({
 		else
 			return null;
 	},
-	renderTableRow: function() {
-		var restaurantInfo = this.props.getRestaurantInfo;
-		var count = 0;
-		return restaurantInfo.map((i)=>{
-			return (
-					<tr key={"menu-"+count++}>
-						<td className="key">{i[0]}</td>
-						<td >:</td>
-						<td className="value">{i[1]}</td>
-					</tr>
-			)
-		})
-	},
 	render: function(){
+		var restaurant = this.props.restaurant;
+		var avgPrice = restaurant.menus.reduce((p1, p2)=> p1+parseInt(p2.price), 0);
+		avgPrice /= restaurant.menus.length;
 		return (
 				<div>
 					<div className="image-wrapper" style={{backgroundImage: "url("+this.getImageURL()+")"}}/>
 					<table className="info">
 						<tbody>
-							{this.renderTableRow()}
+							<tr>
+								<td className="key">대표메뉴</td>
+								<td >:</td>
+								<td className="value">{restaurant.menus.map((i)=> {return i.menu}).join(", ")}</td>
+							</tr>
+							<tr>
+								<td className="key">가격</td>
+								<td >:</td>
+								<td className="value">{String.fromCharCode(8361)+" "+avgPrice}</td>
+							</tr>
+							<tr>
+								<td className="key">오픈~마감</td>
+								<td >:</td>
+								<td className="value">{restaurant.openTime + "시  ~  " + restaurant.closeTime+"시"}</td>
+							</tr>
+							<tr>
+								<td className="key">아이렝스타</td>
+								<td >:</td>
+								<td className="value">{
+									_.range(3).map(i=><i className={i<restaurant.rating?"fa fa-star":"fa fa-star-o"} key={"star"+i}/>)
+								}</td>
+							</tr>
 						</tbody>
 					</table>
 					{this.props.renderButton? this.props.renderButton(): false}
@@ -52,19 +63,6 @@ RestaurantElement.Page2 = React.createClass({
 	propTypes: {
 		//vote: PropTypes.bool.isRequired
 	},
-	renderTableRow: function() {
-		var restaurantInfo = this.props.getRestaurantInfo;
-		var count = 0;
-		return restaurantInfo.map((i)=>{
-			return (
-					<tr key={"menu-"+count++}>
-						<td className="key">{i[0]}</td>
-						<td >:</td>
-						<td className="value" style={{whiteSpace: "normal"}}>{i[1]}</td>
-					</tr>
-			)
-		})
-	},
 	render: function(){
 		var restaurant = this.props.restaurant;
 		return (
@@ -76,7 +74,11 @@ RestaurantElement.Page2 = React.createClass({
 																 zoom={18} marker={true}/>
 						<table className="info">
 							<tbody>
-							{this.renderTableRow()}
+							<tr>
+								<td className="key">주소</td>
+								<td >:</td>
+								<td className="value">{restaurant.address}</td>
+							</tr>
 							</tbody>
 						</table>
 						{this.props.renderButton? this.props.renderButton(): false}
@@ -93,7 +95,6 @@ RestaurantElement.Page2 = React.createClass({
 const {Page1, Page2} = RestaurantElement;
 RestaurantCard = React.createClass({
 	propTypes: {
-		getRestaurantInfo: PropTypes.func.isRequired,
 		vote: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.bool
@@ -125,20 +126,18 @@ RestaurantCard = React.createClass({
 		});
 	},
 	getInitialState: function(){
-		var {restaurant, vote, voteLog, getRestaurantInfo} = this.props;
+		var {restaurant, vote, voteLog} = this.props;
 		return {
 			restaurant: restaurant,
 			vote:vote,
-			voteLog: voteLog,
-			getRestaurantInfo:getRestaurantInfo
+			voteLog: voteLog
 		}
 	},
 	componentWillReceiveProps: function(nextProps){
 		this.setState({
 			restaurant: nextProps.restaurant,
 			vote: nextProps.vote,
-			voteLog: nextProps.voteLog,
-			getRestaurantInfo: nextProps.getRestaurantInfo
+			voteLog: nextProps.voteLog
 		});
 	},
 	renderButton: function(){
@@ -177,7 +176,6 @@ RestaurantCard = React.createClass({
 			<div className="restaurant-card" ref="card">
 				{this.renderVotedMark()}
 				<p className="title"><i className="fa fa-map-marker"/> {this.state.restaurant.name}</p>
-				{/*<hr/>*/}
 				<div className="restaurant-card--info" ref="cardInfo"
 						 onMouseEnter={this.handelMouseEnter} onMouseLeave={this.handelMouseLeave}
 						 onTouchStart={this.handleTouchStart} onTouchEnd={this.handleTouchEnd}
@@ -185,12 +183,12 @@ RestaurantCard = React.createClass({
 					<div className="flipper">
 						<div className="page1">
 							<Page1 restaurant={this.state.restaurant}
-										 getRestaurantInfo={this.state.getRestaurantInfo(1, this.state.restaurant)}
 										 renderButton={Meteor.isClient&&isMobileDevice()? this.renderButton: null}/>
 						</div>
 						<div className="page2">
+						</div>
+						<div className="page2">
 							<Page2 restaurant={this.state.restaurant}
-										 getRestaurantInfo={this.state.getRestaurantInfo(2, this.state.restaurant)}
 										 vote={this.state.vote}
 										 renderButton={Meteor.isClient&&isMobileDevice()? null : this.renderButton}/>
 						</div>

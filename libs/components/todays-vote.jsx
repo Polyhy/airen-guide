@@ -26,39 +26,11 @@ TodaysVote = React.createClass({
 			this.subItems[i].stop();
 		}
 	},
-	renderRestaurantItems: function(restaurants) {
-		var that = this;
-		var getRestaurantInfo = function (page, restaurant) {
-			var voteRestaurant = that.data.todaysVote.restaurants.find(i=>i.restaurantsId==restaurant._id);
-			if (page == 1) return [
-				["대표메뉴", restaurant.menus.map((i)=> {
-					return i.menu
-				}).join(", ")],
-				["가격", String.fromCharCode(8361) + " " + restaurant.menus.reduce((m1, m2)=> {
-					return m1 + parseInt(m2.price)
-				}, 0) / restaurant.menus.length],
-				["오픈~마감", restaurant.openTime + "  ~  " + restaurant.closeTime],
-				["아이렝스타", _.range(3).map(i=><i
-						className={i<restaurant.rating?"fa fa-star":"fa fa-star-o"}
-						key={"star"+i}/>)]
-			];
-			else if (page == 2) return [
-				["주소", restaurant.address],
-				["인원", (voteRestaurant.partyMember.length)+"/"+voteRestaurant.maxMember]
-			];
-		};
-
-		//var data = this.data.restaurants? this.data: this.state;
-		return restaurants.map((restaurant)=>{
-			return (
-					<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
-						<RestaurantCard restaurant={restaurant} vote={this.data.todaysVote._id}
-														voteLog = {this.data.voteLog}
-														getRestaurantInfo={getRestaurantInfo}/>
-					</div>
-			)
-		});
-	},
+	//		else if (page == 2) return [
+	//			["주소", restaurant.address],
+	//			["인원", (voteRestaurant.partyMember.length)+"/"+voteRestaurant.maxMember]
+	//		];
+	//	};
 	notEat: function(){
 		Meteor.call("voteRestaurant", -1, this.data.todaysVote._id, function(err, res){
 			console.log(err);
@@ -78,7 +50,11 @@ TodaysVote = React.createClass({
 										onClick={this.notEat}>안먹어요</button>
 					</div>
 					<div className="article">
-						{this.renderRestaurantItems(this.data.restaurants)}
+						{this.data.restaurants.map(restaurant=>(
+								<div className="col-xs-12 col-sm-6 col-md-4 col-lg-3" key={restaurant._id}>
+									<RestaurantCard restaurant={restaurant} vote={this.data.todaysVote._id} voteLog = {this.data.voteLog}/>
+								</div>
+						))}
 					</div>
 				</div>
 		): (
