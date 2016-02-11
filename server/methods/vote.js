@@ -65,7 +65,8 @@ voteHelper = {
 		console.log(voteCron.teamId+"팀의 유저들에게 이메일을 보냅니다");
 		var userRecvEmail = Meteor.users.find({
 			"profile.teamId":voteCron.teamId,
-			"profile.notiSetting.recvStart": 1
+			"profile.notiSetting.recvStart": 1,
+			"emails.verified": true
 		}).fetch();
 		userRecvEmail.map( user=> {
 			var emailForm = {

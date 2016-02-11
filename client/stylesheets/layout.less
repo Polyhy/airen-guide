@@ -125,6 +125,7 @@ textarea{
   position: fixed;
   background: #586064;
   z-index: 10;
+  overflow: auto;
 }
 
 nav{
@@ -1047,7 +1048,7 @@ nav a:focus {
       .time-h{  width: 30px;  }
       .time-m{  width: 60px;  margin-left: 5px;  }
       &>label{
-        width: 110px;
+        width: 100px;
       }
       &>input{
         display: inline-block;
@@ -1066,12 +1067,12 @@ nav a:focus {
       list-style-type: none;
       &>li{
         padding-bottom: 6px;
-        &:hover{
-          text-decoration: underline;
-          & .delete-tooltip{
-            display: inline-block;
-          }
-        }
+        //&:hover{
+        //  text-decoration: underline;
+        //  & .delete-tooltip{
+        //    display: inline-block;
+        //  }
+        //}
         & .delete-tooltip{
           color: #fff;
           background-color: @brand-red;
@@ -1082,7 +1083,7 @@ nav a:focus {
           position: relative;
           margin-left: 8px;
           opacity: 0.9;
-          display: none;
+          display: inline-block;
           cursor: pointer;
         }
       }
@@ -1248,8 +1249,30 @@ nav a:focus {
     }
   }
   #setting {
+    & .setting-views{
+      padding: 36px 12px 24px;
+    }
     & #edit-team-address, & #members{
       width: 100%;
+    }
+
+    & #voteForm{
+      width: 100%;
+      &>button{
+        width: 100%;
+      }
+    }
+
+    & #vote-list {
+      width: 100%;
+      &> ul{
+        padding: 0;
+        padding-top: 12px;
+        & .delete-tooltip{
+          margin-left: 0;
+          float: right;
+        }
+      }
     }
 
     & #members{
