@@ -402,7 +402,7 @@ AddRestaurant = React.createClass({
 
 						<RatingStar name={"rating-star"} label={"별점"} starCount={3}/>
 
-						<TextArea name={"comment"} label={"아이레너 코멘트"}/>
+						<TextArea name={"comment"} label={"코멘트"}/>
 
 						<InputTag />
 
