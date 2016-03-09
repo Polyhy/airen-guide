@@ -69,4 +69,4 @@ run.sh 파일을 열어 MONGO_URL의 값을 수정 후, 아래와 같이 실행�
 - `account.js` : Meteor의 user를 커스텀 하는 파일로 이메일 인증 여부와 관련 템플릿을 설정
 - `publication.js` : 서버가 발행하는 데이터를 선언하는 파일
 - `startup.js` : 서버가 실행되면 가장 먼저 로드되는 파일
-- `methods` : 서버 메소드가 선언되어있는 js파일이 있는 디렉토리
+- `methods` : 서버 메소드가 선언되어있는 js파일이 있는 디렉토리 Meteor Client에서 Meteor.call('func name', **args) 와 같이 호출
