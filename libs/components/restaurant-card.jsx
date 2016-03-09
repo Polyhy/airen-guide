@@ -20,7 +20,8 @@ RestaurantElement.Page1 = React.createClass({
 	render: function(){
 		var restaurant = this.props.restaurant;
 		var avgPrice = restaurant.menus.reduce((p1, p2)=> p1+parseInt(p2.price), 0);
-		avgPrice /= restaurant.menus.length;
+		avgPrice = Math.floor(avgPrice / restaurant.menus.length)
+		avgPrice -= avgPrice %10
 		return (
 				<div>
 					<div className="image-wrapper" style={{backgroundImage: "url("+this.getImageURL()+")"}}/>
