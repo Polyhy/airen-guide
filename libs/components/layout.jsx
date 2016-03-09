@@ -114,8 +114,6 @@ Layout.Map = React.createClass({
 		return{  time: new Date(), team:team  };
 	},
 	componentDidMount: function(){
-		if(this.state.team.name == 'airensoft')
-			$("#btn-add-restaurant").removeClass('hide');
 		this.timer = setInterval(()=>this.setState({time: new Date()}), 100);
 	},
 	componentWillReceiveProps(nextProps){
@@ -167,7 +165,7 @@ Layout.Map = React.createClass({
 									<span>진행 중인 투표</span><br/>
 									<strong>{this.getVotes()}</strong>
 								</div>
-								<a className="btn btn-default hide" id="btn-add-restaurant" href="/restaurant/add">밥집등록 <i className="fa fa-pencil"/></a>
+								<a className="btn btn-default" id="btn-add-restaurant" href="/restaurant/add">밥집등록 <i className="fa fa-pencil"/></a>
 							</div>
 						</div>
 					</div>
