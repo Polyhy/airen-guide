@@ -7,8 +7,3 @@ Meteor.startup(function (){
 	SyncedCron.start();
 
 });
-
-WebApp.connectHandlers.use("/restaurant/list", function(req, res, next) {
-	//res.setHeader("access-control-allow-origin", "*");
-	return next();
-});
