@@ -1,4 +1,4 @@
-GoogleMapHelper = function (){
+var GoogleMapHelper = function (){
 	this.map;
 	this.markers = [];
 	this.pointMarker = null;
